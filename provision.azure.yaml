@@ -1,0 +1,6 @@
+resources:
+  queues:
+    - name: eligibilityRequest
+      enableSessions: true
+    - name: eligibilityResponse
+      enableSessions: true

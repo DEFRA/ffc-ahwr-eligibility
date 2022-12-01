@@ -7,6 +7,8 @@ services:
       target: production
     image: ffc-ahwr-eligibility
     container_name: ffc-ahwr-eligibility
+    depends_on:
+      - ffc-ahwr-eligibility-postgres
     environment:
       APPINSIGHTS_CLOUDROLE: ffc-ahwr-eligibility-local
       APPINSIGHTS_INSTRUMENTATIONKEY: ${APPINSIGHTS_INSTRUMENTATIONKEY}
@@ -15,3 +17,20 @@ services:
       MESSAGE_QUEUE_USER: ${MESSAGE_QUEUE_USER:-notset}
       ELIGIBILITYRESPONSE_QUEUE_ADDRESS: ${ELIGIBILITYRESPONSE_QUEUE_ADDRESS:-ffc-ahwr-eligibility-response}${MESSAGE_QUEUE_SUFFIX}
       ELIGIBILITYREQUEST_QUEUE_ADDRESS: ${ELIGIBILITYREQUEST_QUEUE_ADDRESS:-ffc-ahwr-eligibility-request}${MESSAGE_QUEUE_SUFFIX}
+      POSTGRES_DB: ffc_ahwr_eligibility
+      POSTGRES_HOST: ${POSTGRES_HOST:-ffc-ahwr-eligibility-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_SCHEMA_PASSWORD:-ppp}
+      POSTGRES_PORT: 5432
+      POSTGRES_SCHEMA_NAME: ${POSTGRES_SCHEMA_NAME:-public}
+      POSTGRES_USERNAME: ${POSTGRES_SCHEMA_USERNAME:-postgres}
+  ffc-ahwr-eligibility-postgres:
+    image: postgres:11.4-alpine
+    environment:
+      POSTGRES_DB: ffc_ahwr_eligibility
+      POSTGRES_PASSWORD: ppp
+      POSTGRES_USERNAME: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data: {}

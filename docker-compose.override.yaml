@@ -10,8 +10,16 @@ services:
     image: ffc-ahwr-eligibility-development
     container_name: ffc-ahwr-eligibility-development
     ports:
-      - "3000:3000"
-      - "9229:9229"
+      - "3010:3000"
+      - "9240:9229"
     volumes:
       - ./app:/home/node/app
       - ./package.json:/home/node/package.json
+  ffc-ahwr-eligibility-postgres:
+    ports:
+      - "5440:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

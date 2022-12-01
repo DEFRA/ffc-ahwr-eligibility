@@ -41,10 +41,11 @@ docker-compose build
 
 ### Start
 
-Use Docker Compose to run service locally.
+For local development run the start script to execute the
+Liquibase database migrations (creating tables, columns, seed data etc) and start the application
 
 ```sh
-docker-compose up
+./scripts/start
 ```
 
 ## Test structure

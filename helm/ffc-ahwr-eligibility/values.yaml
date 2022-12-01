@@ -43,6 +43,13 @@ container:
   requestCpu: 10m
   requestMemory: 10Mi
 
+postgresService:
+  postgresDb: ffc_ahwr_eligibility
+  postgresExternalName: namespace.postgres.database.azure.com
+  postgresPort: 5432
+  postgresSchema: public
+  postgresUser: postgres
+
 livenessProbe:
   path: /healthz
   port: 3000

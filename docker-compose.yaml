@@ -7,6 +7,8 @@ services:
       target: production
     image: ffc-ahwr-eligibility
     container_name: ffc-ahwr-eligibility
+    depends_on:
+      - ffc-ahwr-eligibility-postgres
     environment:
       APPINSIGHTS_CLOUDROLE: ffc-ahwr-eligibility-local
       APPINSIGHTS_INSTRUMENTATIONKEY: ${APPINSIGHTS_INSTRUMENTATIONKEY}

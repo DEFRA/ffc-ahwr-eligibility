@@ -17,7 +17,7 @@ services:
       - ./package.json:/home/node/package.json
   ffc-ahwr-eligibility-postgres:
     ports:
-      - "5440:5432"
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
 

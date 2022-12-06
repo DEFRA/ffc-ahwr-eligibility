@@ -32,7 +32,7 @@
         <column name="sbi" value="108394323"/>
         <column name="crn" value="1100378804"/>
         <column name="customerName" value="Mrs XXX"/>
-        <column name="businessName" value="T & E A Hollis"/>
+        <column name="businessName" value="T &amp; E A Hollis"/>
         <column name="businessEmail" value="XXX@mypostoffice.co.uk"/>
         <column name="businessAddress" value="Eastcombe Farm;Eastcombe Lane;Batcombe;Shepton Mallet;BA4 6AL;United Kingdom"/>
     </insert>

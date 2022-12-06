@@ -1,0 +1,48 @@
+<?xml version="1.1" encoding="utf-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.9.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+  <changeSet author="Marcin Mogiela" id="1">
+    <tagDatabase tag="v1.1.1" />
+  </changeSet>
+  <changeSet author="Marcin Mogiela" id="2">
+    <insert tableName="Eligibility">
+        <column name="sbi" value="112888351"/>
+        <column name="crn" value="1100378693"/>
+        <column name="customerName" value="Mr ABC"/>
+        <column name="businessName" value="Russell Jeanes"/>
+        <column name="businessEmail" value="ABC@rpa.gov.uk"/>
+        <column name="businessAddress" value="Evergreens;Main Road;Covenham St. Bartholomew;Louth;LN11 0PF;United Kingdom"/>
+    </insert>
+    <insert tableName="Eligibility">
+        <column name="sbi" value="107317555"/>
+        <column name="crn" value="1100378952"/>
+        <column name="customerName" value="Mr XYZ"/>
+        <column name="businessName" value="MR B E BRAZIER"/>
+        <column name="businessEmail" value="XYZ@btconnect.com"/>
+        <column name="businessAddress" value="C/O Roy Lambourne;West Edge;Marsh Gibbon;Bicester;OX27 0HA;United Kingdom"/>
+    </insert>
+    <insert tableName="Eligibility">
+        <column name="sbi" value="107702288"/>
+        <column name="crn" value="1100378642"/>
+        <column name="customerName" value="Mr EGF"/>
+        <column name="businessName" value="P GARDNER"/>
+        <column name="businessEmail" value="EGF@petard.myzen.co.uk"/>
+        <column name="businessAddress" value="Hollybank;Dilwyn;Hereford;HR4 8JG;United Kingdom"/>
+    </insert>
+    <insert tableName="Eligibility">
+        <column name="sbi" value="108394323"/>
+        <column name="crn" value="1100378804"/>
+        <column name="customerName" value="Mrs XXX"/>
+        <column name="businessName" value="T & E A Hollis"/>
+        <column name="businessEmail" value="XXX@mypostoffice.co.uk"/>
+        <column name="businessAddress" value="Eastcombe Farm;Eastcombe Lane;Batcombe;Shepton Mallet;BA4 6AL;United Kingdom"/>
+    </insert>
+    <insert tableName="Eligibility">
+        <column name="sbi" value="107170582"/>
+        <column name="crn" value="1100378685"/>
+        <column name="customerName" value="Mr YYY"/>
+        <column name="businessName" value="MAYCOCK, B J"/>
+        <column name="businessEmail" value="YYY@yahoo.co.uk"/>
+        <column name="businessAddress" value="Millways;Watergate Farm;Rosenannon;Bodmin;PL30 5PJ;United Kingdom"/>
+    </insert>
+  </changeSet>
+</databaseChangeLog>

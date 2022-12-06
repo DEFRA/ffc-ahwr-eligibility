@@ -4,7 +4,7 @@
     <tagDatabase tag="v1.1.0" />
   </changeSet>
   <changeSet author="Marcin Mogiela" id="2">
-    <createTable tableName="Eligibility">
+    <createTable tableName="eligibility">
       <column name="sbi" type="NUMBER(9)">
         <constraints nullable="true" unique="true" uniqueConstraintName="elg_sbi_ukey" />
       </column>

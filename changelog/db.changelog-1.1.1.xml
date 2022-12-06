@@ -4,7 +4,7 @@
     <tagDatabase tag="v1.1.1" />
   </changeSet>
   <changeSet author="Marcin Mogiela" id="2">
-    <insert tableName="Eligibility">
+    <insert tableName="eligibility">
         <column name="sbi" value="112888351"/>
         <column name="crn" value="1100378693"/>
         <column name="customer_name" value="Mr ABC"/>
@@ -12,7 +12,7 @@
         <column name="business_email" value="ABC@rpa.gov.uk"/>
         <column name="business_address" value="Evergreens;Main Road;Covenham St. Bartholomew;Louth;LN11 0PF;United Kingdom"/>
     </insert>
-    <insert tableName="Eligibility">
+    <insert tableName="eligibility">
         <column name="sbi" value="107317555"/>
         <column name="crn" value="1100378952"/>
         <column name="customer_name" value="Mr XYZ"/>
@@ -20,7 +20,7 @@
         <column name="business_email" value="XYZ@btconnect.com"/>
         <column name="business_address" value="C/O Roy Lambourne;West Edge;Marsh Gibbon;Bicester;OX27 0HA;United Kingdom"/>
     </insert>
-    <insert tableName="Eligibility">
+    <insert tableName="eligibility">
         <column name="sbi" value="107702288"/>
         <column name="crn" value="1100378642"/>
         <column name="customer_name" value="Mr EGF"/>
@@ -28,7 +28,7 @@
         <column name="business_email" value="EGF@petard.myzen.co.uk"/>
         <column name="business_address" value="Hollybank;Dilwyn;Hereford;HR4 8JG;United Kingdom"/>
     </insert>
-    <insert tableName="Eligibility">
+    <insert tableName="eligibility">
         <column name="sbi" value="108394323"/>
         <column name="crn" value="1100378804"/>
         <column name="customer_name" value="Mrs XXX"/>
@@ -36,7 +36,7 @@
         <column name="business_email" value="XXX@mypostoffice.co.uk"/>
         <column name="business_address" value="Eastcombe Farm;Eastcombe Lane;Batcombe;Shepton Mallet;BA4 6AL;United Kingdom"/>
     </insert>
-    <insert tableName="Eligibility">
+    <insert tableName="eligibility">
         <column name="sbi" value="107170582"/>
         <column name="crn" value="1100378685"/>
         <column name="customer_name" value="Mr YYY"/>

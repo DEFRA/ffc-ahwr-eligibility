@@ -5,25 +5,22 @@
   </changeSet>
   <changeSet author="Marcin Mogiela" id="2">
     <createTable tableName="Eligibility">
-      <column name="id" type="UUID" defaultValueComputed="public.uuid_generate_v4()">
-        <constraints nullable="false" primaryKey="true" primaryKeyName="eligibilityId_pkey" />
-      </column>
       <column name="sbi" type="NUMBER(9)">
-        <constraints nullable="true" />
+        <constraints nullable="true" unique="true" uniqueConstraintName="elg_sbi_ukey" />
       </column>
       <column name="crn" type="NUMBER(10)">
+        <constraints nullable="true" unique="true" uniqueConstraintName="elg_crn_ukey" />
+      </column>
+      <column name="customer_name" type="VARCHAR2(1283)">
         <constraints nullable="true" />
       </column>
-      <column name="customerName" type="VARCHAR2(1283)">
+      <column name="business_name" type="VARCHAR2(160)">
         <constraints nullable="true" />
       </column>
-      <column name="businessName" type="VARCHAR2(160)">
-        <constraints nullable="true" />
+      <column name="business_email" type="VARCHAR2(254)">
+        <constraints nullable="true" unique="true" uniqueConstraintName="elg_business_email_ukey" />
       </column>
-      <column name="businessEmail" type="VARCHAR2(254)">
-        <constraints nullable="true" />
-      </column>
-      <column name="businessAddress" type="VARCHAR2(4000)">
+      <column name="business_address" type="VARCHAR2(4000)">
         <constraints nullable="true" />
       </column>
     </createTable>

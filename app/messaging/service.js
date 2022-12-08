@@ -1,14 +1,17 @@
 const { MessageReceiver } = require('ffc-messaging')
-const config = require('../config')
+const registerYourInterestConfig = require('../config').registerYourInterestConfig
 const processRegisterYourInterestMessage = require('../register-your-interest/messaging/process-message')
 
 let registerYourInterestReceiver
 
 const start = async () => {
-  const registerYourInterestMessageHandler = message => processRegisterYourInterestMessage(message, registerYourInterestReceiver)
-  registerYourInterestReceiver = new MessageReceiver(config.registerYourInterestRequestQueue, registerYourInterestMessageHandler)
-  await registerYourInterestReceiver.subscribe()
+  const registerYourInterestMessageHandler = message => {
+    processRegisterYourInterestMessage(message)
+    registerYourInterestReceiver.completeMessage(message)
+  }
 
+  registerYourInterestReceiver = new MessageReceiver(registerYourInterestConfig.registerYourInterestRequestQueue, registerYourInterestMessageHandler)
+  await registerYourInterestReceiver.subscribe()
   console.info('Ready to receive messages')
 }
 

@@ -6,6 +6,7 @@ x-common-migration: &common-migration
   SCHEMA_USERNAME: ${POSTGRES_SCHEMA_USERNAME:-postgres}
   SCHEMA_PASSWORD: ${POSTGRES_SCHEMA_PASSWORD:-ppp}
   SCHEMA_NAME: ${POSTGRES_SCHEMA_NAME:-public}
+  LIQUIBASE_CONTEXTS: ${LIQUIBASE_CONTEXTS:-test}
 
 x-common-postgres: &common-postgres
   POSTGRES_PORT: 5432

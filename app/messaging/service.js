@@ -1,6 +1,6 @@
 const { MessageReceiver } = require('ffc-messaging')
 const config = require('../config')
-const processRegisterYourInterestMessage = require('./process-message')
+const processRegisterYourInterestMessage = require('../register-your-interest/messaging/process-message')
 
 let registerYourInterestReceiver
 

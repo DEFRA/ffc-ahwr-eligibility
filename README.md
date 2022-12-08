@@ -2,6 +2,15 @@
 
 > Eligibility checking microservice for Animal Health and Welfare Review
 
+## Folder Structure
+
+The folder structure follows an approach of seperating functionality into use cases and keeping this 
+seperate from generic boilerplate code.
+
+`app/register-your-interest` contains all the functionality for the register your interest journey.
+`app/auto-elgibility` contains all the business logic for checking a farmers elgibility to gain access to Vet Vists.
+
+
 ## Prerequisites
 
 - Docker

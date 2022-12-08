@@ -1,3 +1,5 @@
+const jestConfig = require('../../jest.config')
+
 describe('Index test', () => {
 
   let messageService

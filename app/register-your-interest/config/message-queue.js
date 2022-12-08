@@ -1,13 +1,4 @@
 const Joi = require('joi')
-const msgTypePrefix = 'uk.gov.ffc.ahwr'
-
-const sharedConfigSchema = {
-  appInsights: Joi.object(),
-  host: Joi.string().default('localhost'),
-  password: Joi.string(),
-  username: Joi.string(),
-  useCredentialChain: Joi.bool().default(false)
-}
 
 const schema = Joi.object({
   registerYourInterestRequestQueue: {

@@ -25,7 +25,12 @@ services:
       POSTGRES_USERNAME: ${POSTGRES_SCHEMA_USERNAME:-postgres}
       REGISTER_YOUR_INTEREST_REQUEST_QUEUE_ADDRESS: ${REGISTER_YOUR_INTEREST_REQUEST_QUEUE_ADDRESS:-ffc-ahwr-register-your-interest-request}${MESSAGE_QUEUE_SUFFIX}
       LIQUIBASE_CONTEXTS: ${LIQUIBASE_CONTEXTS:-test}
+<<<<<<< HEAD
   
+=======
+      REGISTER_YOUR_INTEREST_REQUEST_QUEUE_ADDRESS: ${REGISTER_YOUR_INTEREST_REQUEST_QUEUE_ADDRESS:-ffc-ahwr-register-your-interest-request}${MESSAGE_QUEUE_SUFFIX}
+
+>>>>>>> 18ed9dc (Rebased with main)
   ffc-ahwr-eligibility-postgres:
     image: postgres:11.4-alpine
     environment:

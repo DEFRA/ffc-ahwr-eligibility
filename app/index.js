@@ -1,5 +1,5 @@
-const startServer = require('./server/init-server')
-const unhandledRejection = require('./exception/unhandledRejection')
+const startServer = require('./server/start-server')
+const unhandledRejection = require('./exception/unhandled-rejection')
 const { start: startMessageService, stop: stopMessageService } = require('./messaging/service')
 
 startServer()

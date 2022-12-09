@@ -1,4 +1,4 @@
-const processRegisterYourInterestMessage = require('../../../../app/register-your-interest/messaging/process-message')
+const processRegisterYourInterestMessage = require('../../../../../app/register-your-interest/messaging/process-message')
 
 describe(('Consume register your interest message tests'), () => {
   test('successfully fetched register your interest message', async () => {

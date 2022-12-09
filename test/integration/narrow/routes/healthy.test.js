@@ -1,5 +1,5 @@
 describe('Healthy test', () => {
-  const server = require('../../../../app/server')
+  const server = require('../../../../app/server/server')
 
   beforeEach(async () => {
     await server.start()

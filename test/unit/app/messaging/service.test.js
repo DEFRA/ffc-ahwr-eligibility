@@ -1,6 +1,6 @@
 
 const { MessageReceiver } = require('ffc-messaging')
-const service = require('../../../app/messaging/service')
+const service = require('../../../../app/messaging/service')
 
 jest.mock('ffc-messaging')
 

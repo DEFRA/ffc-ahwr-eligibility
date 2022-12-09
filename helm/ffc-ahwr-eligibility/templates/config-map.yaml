@@ -2,8 +2,7 @@
 {{- define "ffc-ahwr-eligibility.config-map" -}}
 data:
   APPINSIGHTS_CLOUDROLE: {{ quote .Values.name }}
-  ELIGIBILITYREQUEST_QUEUE_ADDRESS: {{ quote .Values.container.eligibilityRequestQueueAddress }}
-  ELIGIBILITYRESPONSE_QUEUE_ADDRESS: {{ quote .Values.container.eligibilityResponseQueueAddress }}
+  REGISTER_YOUR_INTEREST_REQUEST_QUEUE_ADDRESS: {{ quote .Values.container.registerYourInterestRequestQueueAddress }}
   MESSAGE_QUEUE_HOST: {{ quote .Values.container.messageQueueHost }}
   NODE_ENV: {{ quote .Values.environment }}
   PORT: {{ quote .Values.container.port }}

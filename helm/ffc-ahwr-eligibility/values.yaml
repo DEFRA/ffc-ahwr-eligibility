@@ -33,8 +33,7 @@ deployment:
   restartPolicy: Always
 
 container:
-  eligibilityRequestQueueAddress: ffc-ahwr-eligibility-request
-  eligibilityResponseQueueAddress: ffc-ahwr-eligibility-response
+  registerYourInterestRequestQueueAddress: ffc-ahwr-register-your-interest-request
   imagePullPolicy: IfNotPresent
   messageQueueHost: namespace.servicebus.windows.net
   limitMemory: 40Mi

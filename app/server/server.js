@@ -1,4 +1,4 @@
-require('./insights').setup()
+require('../insights').setup()
 const Hapi = require('@hapi/hapi')
 
 const server = Hapi.server({
@@ -6,8 +6,8 @@ const server = Hapi.server({
 })
 
 const routes = [].concat(
-  require('./routes/healthy'),
-  require('./routes/healthz')
+  require('../routes/healthy'),
+  require('../routes/healthz')
 )
 
 server.route(routes)

@@ -20,6 +20,8 @@ services:
     environment:
       << : *common-migration
       << : *common-postgres
+    ports:
+      - "5433:5432"       
     entrypoint: >
       sh -c "/scripts/migration/database-up"
     depends_on:

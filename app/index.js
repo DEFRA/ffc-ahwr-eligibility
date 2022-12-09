@@ -1,13 +1,13 @@
-const server = require('./server')
+const startServer = require('./server/start-server')
+const unhandledRejection = require('./exception/unhandled-rejection')
+const { start: startMessageService, stop: stopMessageService } = require('./messaging/service')
 
-const init = async () => {
-  await server.start()
-  console.log('Server running on %s', server.info.uri)
-}
-
-process.on('unhandledRejection', (err) => {
-  console.error(err)
-  process.exit(1)
+process.on('unhandledRejection', async (err) => {
+  await stopMessageService()
+  unhandledRejection(err)
 })
 
-init()
+module.exports = (async () => {
+  await startServer()
+  await startMessageService()
+})()

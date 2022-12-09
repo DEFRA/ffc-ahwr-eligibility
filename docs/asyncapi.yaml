@@ -1,0 +1,27 @@
+asyncapi: '2.5.0'
+info:
+  title: Eligibility Service
+  version: 0.5.0
+  description: This service is responsible for evaluating the eligibility of a farmer to access the Annual Health and Welfare Review scheme. Initially farmers will complete a register of interest form and the data captured will be picked up by this service to evaulate whether the farmer is eligble. 
+channels:
+  ffc-ahwr-register-your-interest-request:
+    subscribe:
+      message:
+        $ref: '#/components/messages/RegisterYourInterestRequest'
+components:
+  messages:
+    RegisterYourInterestRequest:
+      payload:
+        type: object
+        properties:
+          sbi:
+            type: string
+            description: Single Business Indentifier
+            
+          crn:
+            type: string
+            description: Customer reference number
+          email:
+            type: string
+            format: email
+            description: Business email of the farmer

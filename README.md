@@ -22,10 +22,13 @@ seperate from generic boilerplate code.
 
 ## Message Queue Examples
 
+See `docs/asyncapi.yaml` for more information.
+
 ### Queue Name
 ffc-ahwr-register-your-interest-request   
 
 ### Message Body
+
 
 ```
 {

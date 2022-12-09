@@ -1,5 +1,6 @@
 const processRegisterYourInterestMessage = async (message) => {
   console.log(`Reading message from queue with body ${JSON.stringify(message.body)}`)
+  // message validation
   // todo https://dev.azure.com/defragovuk/DEFRA-FFC/_workitems/edit/135602
 }
 

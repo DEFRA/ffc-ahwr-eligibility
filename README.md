@@ -20,6 +20,24 @@ seperate from generic boilerplate code.
 `app/register-your-interest` contains all the functionality for the register your interest journey.
 `app/auto-elgibility` contains all the business logic for checking a farmers elgibility to gain access to Vet Vists.
 
+## Message Queue Examples
+
+### Queue Name
+ffc-ahwr-register-your-interest-request   
+
+### Message Body
+
+```
+{
+  "sbi": "123456789",
+  "crn": "1234567890",
+  "email": 'email@email.com'
+}
+```
+
+
+
+
 ### Environment variables
 
 The following environment variables are required by the application.

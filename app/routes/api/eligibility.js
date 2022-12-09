@@ -1,8 +1,5 @@
 const Joi = require('joi')
-
-const ERROR_MESSAGE = {
-  invalidEmailAddress: 'A valid email address must be specified.'
-}
+const Boom = require('@hapi/boom');
 
 module.exports = {
   method: 'GET',
@@ -11,22 +8,15 @@ module.exports = {
     validate: {
       query: Joi.object({
         emailAddress: Joi
-        .string()
-        .trim()
-        .required()
-        .email()
-        .messages({
-          'any.required': ERROR_MESSAGE.invalidEmailAddress,
-          'string.base': ERROR_MESSAGE.invalidEmailAddress,
-          'string.empty': ERROR_MESSAGE.invalidEmailAddress,
-          'string.email': ERROR_MESSAGE.invalidEmailAddress
-        })
+          .string()
+          .trim()
+          .required()
+          .email()
       }).options({
         stripUnknown: true
       }),
       failAction(request, h, err) {
-        request.log('error', err);
-        throw err;
+        throw Boom.badRequest('A valid email address must be specified.');
       },
     },
   },

@@ -1,5 +1,3 @@
-const { query } = require('@hapi/hapi/lib/validation')
-
 describe('Eligibility Api - /api/eligibility', () => {
   const server = require('../../../../../app/server')
 

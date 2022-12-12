@@ -45,6 +45,7 @@ container:
 postgresService:
   postgresDb: ffc_ahwr_eligibility
   postgresExternalName: namespace.postgres.database.azure.com
+  postgresqlHost: ffc-ahwr-eligibility-postgres
   postgresPort: 5432
   postgresSchema: public
   postgresUser: postgres

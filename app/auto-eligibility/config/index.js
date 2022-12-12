@@ -20,7 +20,7 @@ const { error, value } = schema.validate(config, { abortEarly: false })
 
 if (error) {
   console.log(error)
-  throw new Error(`The message queue config is invalid. ${error.message}`)
+  throw new Error(`The auto eligibility configuration config is invalid. ${error.message}`)
 }
 
 module.exports = { ...value }

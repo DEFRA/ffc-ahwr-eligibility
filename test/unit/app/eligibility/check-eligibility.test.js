@@ -31,7 +31,7 @@ describe('process check Eligibility', () => {
     await db.sequelize.close()
   })
 
-  test('should return null when no record in database', async () => {
+  test('should return null when no record is in database', async () => {
     const result = await checkEligibility(23, 28)
     expect(result).toBeNull()
   })

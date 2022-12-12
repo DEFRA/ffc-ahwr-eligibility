@@ -11,4 +11,7 @@ data:
   POSTGRES_PORT: {{ quote .Values.postgresService.postgresPort }}
   POSTGRES_SCHEMA_NAME: {{ quote .Values.postgresService.postgresSchema }}
   LIQUIBASE_CONTEXTS: {{ quote .Values.liquibase.contexts }}
+  NOTIFY_TEMPLATE_ID_WAITING_LIST: {{ quote .Values.container.notifyTemplateIdWaitingList }}
+  NOTIFY_TEMPLATE_ID_INELIGIBLE_GENERIC: {{ quote .Values.container.notifyTemplateIdGenericIneligible }}
+  NOTIFY_TEMPLATE_ID_APPLY_INVITE: {{ quote .Values.container.notifyTemplateIdFarmerApplyInvite }}
 {{- end -}}

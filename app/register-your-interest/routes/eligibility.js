@@ -1,5 +1,5 @@
 const Joi = require('joi')
-const Boom = require('@hapi/boom');
+const Boom = require('@hapi/boom')
 
 module.exports = {
   method: 'GET',
@@ -15,10 +15,10 @@ module.exports = {
       }).options({
         stripUnknown: true
       }),
-      failAction(request, h, err) {
-        throw Boom.badRequest('A valid email address must be specified.');
-      },
-    },
+      failAction (request, h, err) {
+        throw Boom.badRequest('A valid email address must be specified.')
+      }
+    }
   },
   handler: (request, h) => {
     const response = {

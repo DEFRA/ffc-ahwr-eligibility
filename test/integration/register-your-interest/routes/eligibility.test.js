@@ -1,7 +1,7 @@
 describe('Eligibility Api - /api/eligibility', () => {
-  const server = require('../../../../../app/server')
+  const server = require('../../../../app/server/server')
 
-  const URL = `/api/eligibility`
+  const URL = '/api/eligibility'
 
   beforeAll(async () => {
     jest.resetAllMocks()
@@ -20,7 +20,7 @@ describe('Eligibility Api - /api/eligibility', () => {
     ])('Returns whether a given farmer\'s email address has been flagged as eligible', async (testCase) => {
       const options = {
         method: 'GET',
-        url: `${URL}?emailAddress=${testCase.emailAddress}`,
+        url: `${URL}?emailAddress=${testCase.emailAddress}`
       }
 
       const response = await server.inject(options)
@@ -45,7 +45,7 @@ describe('Eligibility Api - /api/eligibility', () => {
     ])('Bad request. A valid email address must be specified. ($queryString)', async (testCase) => {
       const options = {
         method: 'GET',
-        url: `${URL}${testCase.queryString}`,
+        url: `${URL}${testCase.queryString}`
       }
 
       const response = await server.inject(options)

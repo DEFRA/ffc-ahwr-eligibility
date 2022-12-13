@@ -1,5 +1,5 @@
 describe('Eligibility Api - /api/eligibility', () => {
-  const server = require('../../../../app/server/server')
+  const server = require('../../../../../app/server/server')
 
   const URL = '/api/eligibility'
 

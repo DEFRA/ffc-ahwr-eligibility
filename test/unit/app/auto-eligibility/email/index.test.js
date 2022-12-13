@@ -2,7 +2,7 @@ describe('Send email test', () => {
   let mockSendEmail
   let autoEligibilityEmail
   const mockNotifyConfig = { apiKey: 'someKey' }
-  const mockAutoEligibilityConfig = { emailTemplates: { waitingList: 'waitingListTemplateId', genericIneligible: 'ineligbleTemplateId', applyServiceInvite: 'applyServiceInviteTemplateId' } }
+  const mockAutoEligibilityConfig = { emailTemplateIds: { waitingList: 'waitingListTemplateId', genericIneligible: 'ineligbleTemplateId', applyServiceInvite: 'applyServiceInviteTemplateId' } }
 
   beforeAll(() => {
     mockSendEmail = require('../../../../../app/lib/send-email')

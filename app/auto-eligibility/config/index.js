@@ -1,7 +1,7 @@
 const Joi = require('joi')
 
 const schema = Joi.object({
-  emailTemplates: {
+  emailTemplateIds: {
     waitingList: Joi.string().uuid(),
     genericIneligible: Joi.string().uuid(),
     applyServiceInvite: Joi.string().uuid()
@@ -9,10 +9,10 @@ const schema = Joi.object({
 })
 
 const config = {
-  emailTemplates: {
-    waitingList: process.env.NOTIFY_TEMPLATE_ID_WAITING_LIST,
-    genericIneligible: process.env.NOTIFY_TEMPLATE_ID_INELIGIBLE_GENERIC,
-    applyServiceInvite: process.env.NOTIFY_TEMPLATE_ID_APPLY_INVITE
+  emailTemplateIds: {
+    waitingList: process.env.WAITING_LIST_TEMPLATE_ID_,
+    genericIneligible: process.env.INELIGIBLE_GENERIC_TEMPLATE_ID,
+    applyServiceInvite: process.env.APPLY_INVITE_TEMPLATE_ID
   }
 }
 

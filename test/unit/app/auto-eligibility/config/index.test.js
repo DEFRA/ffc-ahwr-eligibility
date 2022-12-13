@@ -18,12 +18,12 @@ describe('autoEligiblityConfig Config Test', () => {
 
   test('Invalid env var throws error', () => {
     try {
-      process.env.NOTIFY_TEMPLATE_ID_WAITING_LIST = null
-      process.env.NOTIFY_TEMPLATE_ID_INELIGIBLE_GENERIC = 'someId'
-      process.env.NOTIFY_TEMPLATE_ID_APPLY_INVITE = 'someId'
+      process.env.WAITING_LIST_TEMPLATE_ID_ = null
+      process.env.INELIGIBLE_GENERIC_TEMPLATE_ID = 'someId'
+      process.env.APPLY_INVITE_TEMPLATE_ID = 'someId'
       require('../../../../../app/config')
     } catch (err) {
-      expect(err.message).toBe('The auto eligibility configuration config is invalid. "emailTemplates.waitingList" must be a string. "emailTemplates.genericIneligible" must be a valid GUID. "emailTemplates.applyServiceInvite" must be a valid GUID')
+      expect(err.message).toBe('The auto eligibility configuration config is invalid. "emailTemplateIds.waitingList" must be a string. "emailTemplateIds.genericIneligible" must be a valid GUID. "emailTemplateIds.applyServiceInvite" must be a valid GUID')
     }
   })
 })

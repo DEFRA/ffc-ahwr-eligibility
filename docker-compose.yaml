@@ -10,6 +10,7 @@ services:
     depends_on:
       - ffc-ahwr-eligibility-postgres
     environment:
+      DEBUG: "*"
       APPINSIGHTS_CLOUDROLE: ffc-ahwr-eligibility-local
       APPINSIGHTS_INSTRUMENTATIONKEY: ${APPINSIGHTS_INSTRUMENTATIONKEY}
       MESSAGE_QUEUE_HOST: ${MESSAGE_QUEUE_HOST:-notset}

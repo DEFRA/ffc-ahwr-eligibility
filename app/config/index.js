@@ -1,7 +1,7 @@
 const Joi = require('joi')
 const dbConfig = require('./database')
 const registerYourInterestConfig = require('../register-your-interest/config')
-const autoEligiblityConfig = require('../auto-eligiblity/config')
+const autoEligiblityConfig = require('../auto-eligibility/config')
 const notifyConfig = require('./notify')
 
 const schema = Joi.object({

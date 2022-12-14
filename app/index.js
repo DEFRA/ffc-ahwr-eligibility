@@ -8,6 +8,10 @@ process.on('unhandledRejection', async (err) => {
 })
 
 module.exports = (async () => {
-  await startServer()
-  await startMessageService()
+  try {
+    await startServer()
+    await startMessageService()
+  } catch (ex) {
+    console.log(ex, 'server start')
+  }
 })()

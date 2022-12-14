@@ -9,4 +9,3 @@ const processRegisterYourInterestMessage = async (message) => {
 }
 
 module.exports = processRegisterYourInterestMessage
-

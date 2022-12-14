@@ -6,12 +6,19 @@ const dbConfig = config.dbConfig[config.env]
 const modelPath = path.join(__dirname, 'models')
 const db = {}
 
-console.log('db config')
-console.log(dbConfig)
+console.log(dbConfig.database)
+console.log(dbConfig.username)
+console.log(dbConfig.password)
+
 const sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, dbConfig)
 
-console.log('sequalise')
-console.log(sequelize)
+try {
+  await sequelize.authenticate();
+  console.log('Connection has been established successfully.');
+} catch (error) {
+  console.error('Unable to connect to the database:', error);
+}
+
 
 fs.readdirSync(modelPath)
   .filter(file => {

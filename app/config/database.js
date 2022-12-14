@@ -43,7 +43,6 @@ const dbConfig = {
   },
   hooks,
   host: process.env.POSTGRES_HOST,
-  logging: process.env.POSTGRES_LOGGING || false,
   password: process.env.POSTGRES_PASSWORD,
   port: process.env.POSTGRES_PORT,
   retry,

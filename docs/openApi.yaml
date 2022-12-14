@@ -25,22 +25,37 @@ paths:
             format: email
       responses:
         '200':
-          description: successful operation
+          description: Successful operation.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Eligibility'
+                $ref: '#/components/schemas/User'
         '400':
           description: Bad request. A valid email address must be specified.
         '404':
-          description: The specified email address was not found.
+          description: The farmer with the specified email address was not found.
         '5XX':
           description: Unexpected error.
 components:
   schemas:
-    Eligibility:
+    User:
       type: object
       properties:
-        eligible:
-          type: boolean
-          example: true
+        farmerName:
+          type: string
+          example: "Marcin Mogiela"
+        name:
+          type: string
+          example: "Marcin's Farm"
+        sbi:
+          type: string
+          example: "772222224"
+        cph:
+          type: string
+          example: "88/222/2224"
+        address:
+          type: string
+          example: "Some Road, London, MK45 9ES"
+        email:
+          type: string
+          example: "marcinmo@kainos.com"

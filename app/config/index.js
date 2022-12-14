@@ -1,5 +1,5 @@
 const Joi = require('joi')
-// const dbConfig = require('./database')
+const dbConfig = require('./database')
 const registerYourInterestConfig = require('../register-your-interest/config')
 const autoEligibilityConfig = require('../auto-eligibility/config')
 const notifyConfig = require('./notify')
@@ -26,8 +26,8 @@ value.isDev = value.env === 'development'
 value.isTest = value.env === 'test'
 value.isProd = value.env === 'production'
 
-// value.dbConfig = dbConfig
 value.registerYourInterestConfig = registerYourInterestConfig
 value.autoEligibilityConfig = autoEligibilityConfig
 value.notifyConfig = notifyConfig
+value.dbConfig = dbConfig
 module.exports = value

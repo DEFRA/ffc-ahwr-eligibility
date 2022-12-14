@@ -52,7 +52,14 @@ Please ask a developer for an example `.env` file that you can include in the ro
 
 | Name                                  | Description                                                                                      |
 | ----                                  | -----------                                                                                      |
-| LIQUIBASE_CONTEXTS      | Expressions that control whether commands like update run certain changesets                                          |
+| LIQUIBASE_CONTEXTS      | Expressions that control whether commands like update run certain changesets |
+| WAITING_LIST_SCHEDULE      | Cron expression for frequency of waiting list job                 |
+| WAITING_LIST_SCHEDULER_ENABLED      | Feature switch to control running of waiting list cron job        |
+| WAITING_LIST_THRESHOLD_UPPER_LIMIT      | Upper limit for how many farmers from the waiting list can be provided access to the service in one cron job process      |
+| WAITING_LIST_TEMPLATE_ID_      | Notify template ID for the waiting list email
+| INELIGIBLE_GENERIC_TEMPLATE_ID      | Notify template ID for the generic exception email        |
+| APPLY_INVITE_TEMPLATE_ID      | Notify template ID for the apply guidance invite       |
+
 
 ## Running the application
 

@@ -1,5 +1,5 @@
 const Joi = require('joi')
-const dbConfig = require('./database')
+// const dbConfig = require('./database')
 const registerYourInterestConfig = require('../register-your-interest/config')
 const schema = Joi.object({
   env: Joi.string().valid('development', 'test', 'production').default('development')

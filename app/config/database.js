@@ -23,19 +23,24 @@ const retry = {
   timeout: 60000
 }
 
+
 const dbConfig = {
-  database: process.env.POSTGRES_DB || 'ffc_ahwr_eligibility',
+  database: process.env.POSTGRES_DB,
+  define: {
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  },
   dialect: 'postgres',
   dialectOptions: {
     ssl: isProd()
   },
   hooks,
-  host: process.env.POSTGRES_HOST || 'ffc-ahwr-eligibility-postgres',
-  password: process.env.POSTGRES_PASSWORD,
-  port: process.env.POSTGRES_PORT || 5432,
+  host: process.env.POSTGRES_HOST,
   logging: process.env.POSTGRES_LOGGING || false,
+  password: process.env.POSTGRES_PASSWORD,
+  port: process.env.POSTGRES_PORT,
   retry,
-  schema: process.env.POSTGRES_SCHEMA_NAME || 'public',
+  schema: process.env.POSTGRES_SCHEMA_NAME,
   username: process.env.POSTGRES_USERNAME
 }
 

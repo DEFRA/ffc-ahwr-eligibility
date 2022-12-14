@@ -12,13 +12,16 @@ console.log(dbConfig.password)
 
 const sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, dbConfig)
 
-try {
-  await sequelize.authenticate();
-  console.log('Connection has been established successfully.');
-} catch (error) {
-  console.error('Unable to connect to the database:', error);
+const sequaliseCheck = async () => {
+  try {
+    await sequelize.authenticate()
+    console.log('Connection has been established successfully.')
+  } catch (error) {
+    console.error('Unable to connect to the database:', error)
+  }
 }
 
+sequaliseCheck()
 
 fs.readdirSync(modelPath)
   .filter(file => {

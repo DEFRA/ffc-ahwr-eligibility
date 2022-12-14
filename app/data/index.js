@@ -6,11 +6,11 @@ const dbConfig = config.dbConfig[config.env]
 const modelPath = path.join(__dirname, 'models')
 const db = {}
 
-console.log(`db config`)
+console.log('db config')
 console.log(dbConfig)
 const sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, dbConfig)
 
-console.log(`sequalise`)
+console.log('sequalise')
 console.log(sequelize)
 
 fs.readdirSync(modelPath)

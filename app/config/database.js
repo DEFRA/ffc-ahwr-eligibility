@@ -4,6 +4,13 @@ function isProd () {
   return process.env.NODE_ENV === 'production'
 }
 
+console.log(process.env.POSTGRES_HOST)
+console.log(process.env.POSTGRES_LOGGING)
+console.log(process.env.POSTGRES_PASSWORD)
+console.log(process.env.POSTGRES_PORT)
+console.log(process.env.POSTGRES_SCHEMA_NAME)
+console.log(process.env.POSTGRES_USERNAME)
+
 const hooks = {
   beforeConnect: async (cfg) => {
     if (isProd()) {

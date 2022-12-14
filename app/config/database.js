@@ -23,7 +23,6 @@ const retry = {
   timeout: 60000
 }
 
-
 const dbConfig = {
   database: process.env.POSTGRES_DB,
   define: {

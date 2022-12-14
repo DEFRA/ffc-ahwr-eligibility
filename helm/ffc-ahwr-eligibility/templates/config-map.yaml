@@ -10,4 +10,5 @@ data:
   POSTGRES_HOST: {{ quote .Values.postgresService.postgresExternalName }}
   POSTGRES_PORT: {{ quote .Values.postgresService.postgresPort }}
   POSTGRES_SCHEMA_NAME: {{ quote .Values.postgresService.postgresSchema }}
+  LIQUIBASE_CONTEXTS: {{ quote .Values.liquibase.contexts }}
 {{- end -}}

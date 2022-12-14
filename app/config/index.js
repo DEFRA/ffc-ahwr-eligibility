@@ -23,7 +23,7 @@ value.isDev = value.env === 'development'
 value.isTest = value.env === 'test'
 value.isProd = value.env === 'production'
 
-value.dbConfig = dbConfig
+//value.dbConfig = dbConfig
 value.registerYourInterestConfig = registerYourInterestConfig
 console.log(value)
 module.exports = value

@@ -2,8 +2,6 @@ describe('index test', () => {
   beforeEach(async () => {
     jest.clearAllMocks()
     jest.resetModules()
-    // jest.mock('../../../app/plugins')
-    // jest.mock('../../../app/auto-eligibility/plugins/waiting-list-scheduler')
   })
 
   test('Test server and message bus listener started', async () => {

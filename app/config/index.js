@@ -30,5 +30,7 @@ value.isProd = value.env === 'production'
 value.registerYourInterestConfig = registerYourInterestConfig
 value.autoEligibilityConfig = autoEligibilityConfig
 value.notifyConfig = notifyConfig
-console.log(`Config is ${JSON.stringify(value)}`)
+console.log(`registerYourInterestConfig is ${JSON.stringify(registerYourInterestConfig)}`)
+console.log(`autoEligibilityConfig is ${JSON.stringify(autoEligibilityConfig)}`)
+console.log(`notifyConfig is ${JSON.stringify(notifyConfig)}`)
 module.exports = value

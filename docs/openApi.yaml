@@ -25,7 +25,7 @@ paths:
             format: email
       responses:
         '200':
-          description: Successful operation.
+          description: The farmer's email address is eligible.
           content:
             application/json:
               schema:
@@ -33,7 +33,7 @@ paths:
         '400':
           description: Bad request. A valid email address must be specified.
         '404':
-          description: The farmer with the specified email address was not found.
+          description: The farmer's email address is ineligible or was not found.
         '5XX':
           description: Unexpected error.
 components:
@@ -43,19 +43,19 @@ components:
       properties:
         farmerName:
           type: string
-          example: "Marcin Mogiela"
+          example: "David Smith"
         name:
           type: string
-          example: "Marcin's Farm"
+          example: "David's Farm"
         sbi:
           type: string
-          example: "772222224"
+          example: "441111114"
         cph:
           type: string
-          example: "88/222/2224"
+          example: "44/333/1112"
         address:
           type: string
-          example: "Some Road, London, MK45 9ES"
+          example: "Some Road, London, MK55 7ES"
         email:
           type: string
-          example: "marcinmo@kainos.com"
+          example: "name@email.com"

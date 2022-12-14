@@ -22,12 +22,12 @@ module.exports = {
   },
   handler: (request, h) => {
     const response = {
-      farmerName: 'Marcin Mogiela',
-      name: 'Marcin\'s Farm',
-      sbi: '772222224',
-      cph: '88/222/2224',
-      address: 'Some Road, London, MK45 9ES',
-      email: 'marcinmo@kainos.com'
+      farmerName: 'David Smith',
+      name: 'David\'s Farm',
+      sbi: '441111114',
+      cph: '44/333/1112',
+      address: 'Some Road, London, MK55 7ES',
+      email: 'name@email.com'
     }
     return h
       .response(response)

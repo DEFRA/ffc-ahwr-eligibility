@@ -27,7 +27,7 @@ deployment:
   memoryThreshold: 80
   minReadySeconds: 0
   minReplicas: 1
-  maxReplicas: 2
+  maxReplicas: 1
   priorityClassName: default
   replicas: 1
   restartPolicy: Always
@@ -62,13 +62,13 @@ liquibase:
 livenessProbe:
   path: /healthz
   port: 3000
-  initialDelaySeconds: 10
+  initialDelaySeconds: 20
   periodSeconds: 10
   failureThreshold: 3
 
 readinessProbe:
   path: /healthy
   port: 3000
-  initialDelaySeconds: 10
+  initialDelaySeconds: 20
   periodSeconds: 10
   failureThreshold: 3

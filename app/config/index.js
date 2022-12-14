@@ -1,15 +1,15 @@
 const Joi = require('joi')
-const dbConfig = require('./database')
+// const dbConfig = require('./database')
 const registerYourInterestConfig = require('../register-your-interest/config')
-const autoEligiblityConfig = require('../auto-eligibility/config')
+const autoEligibilityConfig = require('../auto-eligibility/config')
 const notifyConfig = require('./notify')
 
 const schema = Joi.object({
-  env: Joi.string().valid('development', 'test', 'production').default('development')
+  // env: Joi.string().valid('development', 'test', 'production').default('development')
 })
 
 const config = {
-  env: process.env.NODE_ENV
+  // env: process.env.NODE_ENV
 }
 
 const result = schema.validate(config, {
@@ -22,13 +22,13 @@ if (result.error) {
 
 const value = result.value
 
-value.isDev = value.env === 'development'
-value.isTest = value.env === 'test'
-value.isProd = value.env === 'production'
+// value.isDev = value.env === 'development'
+// value.isTest = value.env === 'test'
+// value.isProd = value.env === 'production'
 
-value.dbConfig = dbConfig
+// value.dbConfig = dbConfig
 value.registerYourInterestConfig = registerYourInterestConfig
-value.autoEligiblityConfig = autoEligiblityConfig
+value.autoEligibilityConfig = autoEligibilityConfig
 value.notifyConfig = notifyConfig
 console.log(value)
 module.exports = value

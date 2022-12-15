@@ -16,5 +16,5 @@ data:
   APPLY_INVITE_TEMPLATE_ID: {{ quote .Values.container.notifyTemplateIdFarmerApplyInvite }}
   WAITING_LIST_SCHEDULE: {{ quote .Values.container.waitingListSchedule }}
   WAITING_LIST_SCHEDULER_ENABLED: {{ quote .Values.container.waitingListSchedulerEnabled }}
-  WAITING_LIST_THRESHOLD_UPPER_LIMIT: {{ quote .Values.container.waitingListTresholdUpperLimit }}
+  WAITING_LIST_THRESHOLD_UPPER_LIMIT: {{ quote .Values.container.waitingListThresholdUpperLimit }}
 {{- end -}}

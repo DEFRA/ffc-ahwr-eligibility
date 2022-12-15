@@ -8,6 +8,16 @@ const db = {}
 
 const sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, dbConfig)
 
+const sequelizeCheck = async () => {
+  try {
+    await sequelize.authenticate()
+    console.log('Connection has been established successfully.')
+  } catch (error) {
+    console.error('Unable to connect to the database:', error)
+  }
+}
+
+sequelizeCheck()
 fs.readdirSync(modelPath)
   .filter(file => {
     return (file.indexOf('.') !== 0) && (file !== 'index.js') && (file.slice(-3) === '.js')

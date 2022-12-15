@@ -40,7 +40,7 @@ container:
   notifyTemplateIdGenericIneligible:
   waitingListSchedule:
   waitingListSchedulerEnabled:
-  waitingListTresholdUpperLimit:
+  waitingListThresholdUpperLimit:
   imagePullPolicy: IfNotPresent
   messageQueueHost: namespace.servicebus.windows.net
   limitMemory: 100Mi

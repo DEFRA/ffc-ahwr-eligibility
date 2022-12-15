@@ -22,17 +22,14 @@ try {
   console.error('Error during sequalize', error)
 }
 
-const sequaliseCheck = async () => {
-  try {
-    console.log('Attempting to establish connection.')
-    await sequelize.authenticate()
+sequelize
+  .authenticate()
+  .then(() => {
     console.log('Connection has been established successfully.')
-  } catch (error) {
-    console.error('Unable to connect to the database:', error)
-  }
-}
-
-sequaliseCheck()
+  })
+  .catch(err => {
+    console.error('Unable to connect to the database:', err)
+  })
 
 fs.readdirSync(modelPath)
   .filter(file => {

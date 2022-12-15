@@ -10,10 +10,18 @@ console.log(dbConfig.database)
 console.log(dbConfig.username)
 console.log(dbConfig.password)
 
-const sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, dbConfig)
+let sequelize
+
+try {
+  console.log('Attempting to setup sequalize.')
+  sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, dbConfig)
+} catch (error) {
+  console.error('Error during sequalize', error)
+}
 
 const sequaliseCheck = async () => {
   try {
+    console.log('Attempting to establish connection.')
     await sequelize.authenticate()
     console.log('Connection has been established successfully.')
   } catch (error) {

@@ -4,6 +4,7 @@ function isProd () {
   return process.env.NODE_ENV === 'production'
 }
 
+console.log('inside of database.js')
 console.log(process.env.POSTGRES_HOST)
 console.log(process.env.POSTGRES_LOGGING)
 console.log(process.env.POSTGRES_PASSWORD)
@@ -11,14 +12,18 @@ console.log(process.env.POSTGRES_PORT)
 console.log(process.env.POSTGRES_SCHEMA_NAME)
 console.log(process.env.POSTGRES_USERNAME)
 
+console.log(process.env.NODE_ENV)
+
 const hooks = {
   beforeConnect: async (cfg) => {
+    console.log('inside of before connect')
     if (isProd()) {
       console.log('Setting production database conncetion config.')
       const credential = new DefaultAzureCredential()
       const accessToken = await credential.getToken('https://ossrdbms-aad.database.windows.net')
       cfg.password = accessToken.token
     }
+    console.log('after if isProd()')
   }
 }
 

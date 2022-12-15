@@ -14,7 +14,7 @@ let sequelize
 
 try {
   console.log('Attempting to setup sequalize.')
-  sequelize = new Sequelize(dbConfig.database, dbConfig.username, 'dummy', dbConfig)
+  sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, dbConfig)
   console.log('After sequalize constructor')
 } catch (error) {
   console.error('Error during sequalize', error)

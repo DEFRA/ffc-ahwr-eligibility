@@ -12,4 +12,7 @@ data:
   POSTGRES_SCHEMA_NAME: {{ quote .Values.postgresService.postgresSchema }}
   LIQUIBASE_CONTEXTS: {{ quote .Values.liquibase.contexts }}
   DEBUG: sequelize*
+  WAITING_LIST_TEMPLATE_ID_: {{ quote .Values.container.notifyTemplateIdWaitingList }}
+  INELIGIBLE_GENERIC_TEMPLATE_ID: {{ quote .Values.container.notifyTemplateIdGenericIneligible }}
+  APPLY_INVITE_TEMPLATE_ID: {{ quote .Values.container.notifyTemplateIdFarmerApplyInvite }}
 {{- end -}}

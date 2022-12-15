@@ -1,0 +1,46 @@
+openapi: 3.0.3
+info:
+  title: Eligibility API
+  description: |-
+    Eligibility API for Animal Health and Welfare Review
+  version: 0.1.0
+tags:
+  - name: eligibility
+    description: Everything about eligibility.
+paths:
+  /eligibility:
+    get:
+      tags:
+        - eligibility
+      summary: Check eligibility by farmer's email address.
+      description: Check whether a given farmer's email address has been flagged as eligible.
+      operationId: checkEligibility
+      parameters:
+        - name: emailAddress
+          in: query
+          description: Farmer's email address.
+          required: true
+          schema:
+            type: string
+            format: email
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Eligibility'
+        '400':
+          description: Bad request. A valid email address must be specified.
+        '404':
+          description: The specified email address was not found.
+        '5XX':
+          description: Unexpected error.
+components:
+  schemas:
+    Eligibility:
+      type: object
+      properties:
+        eligible:
+          type: boolean
+          example: true

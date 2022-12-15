@@ -14,7 +14,23 @@ let sequelize
 
 try {
   console.log('Attempting to setup sequalize.')
-  sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, dbConfig)
+  sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, {
+    define: {
+      createdAt: 'createdAt',
+      updatedAt: 'updatedAt'
+    },
+    dialect: 'postgres',
+    dialectOptions: {
+      ssl: isProd()
+    },
+    host: process.env.POSTGRES_HOST,
+    port: process.env.POSTGRES_PORT,
+    logging: function (str) {
+      console.log('inside of sequalize logging function')
+      console.log(str)
+    },
+    schema: process.env.POSTGRES_SCHEMA_NAME
+  })
   console.log('After sequalize constructor')
 } catch (error) {
   console.error('Error during sequalize', error)

@@ -21,6 +21,7 @@ const hooks = {
       console.log('Setting production database conncetion config.')
       const credential = new DefaultAzureCredential()
       const accessToken = await credential.getToken('https://ossrdbms-aad.database.windows.net')
+      console.log(`access token - ${accessToken}` )
       cfg.password = accessToken.token
     }
     console.log('after if isProd()')

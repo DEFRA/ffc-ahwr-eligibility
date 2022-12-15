@@ -52,6 +52,7 @@ postgresService:
   postgresPort: 5432
   postgresSchema: public
   postgresUser: postgres
+  postgresPassword: dummy
 
 liquibase:
   contexts: prod

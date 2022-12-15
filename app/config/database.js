@@ -54,7 +54,6 @@ const dbConfig = {
     console.log('inside of sequalize logging function')
     console.log(str)
   },
-  retry,
   schema: process.env.POSTGRES_SCHEMA_NAME,
   username: process.env.POSTGRES_USERNAME
 }

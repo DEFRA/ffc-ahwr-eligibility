@@ -14,22 +14,23 @@ let sequelize
 
 try {
   console.log('Attempting to setup sequalize.')
-  sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, {
-    logging: console.debug
-  })
+  sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, dbConfig)
   console.log('After sequalize constructor')
 } catch (error) {
   console.error('Error during sequalize', error)
 }
 
-sequelize
-  .authenticate()
-  .then(() => {
+const sequaliseCheck = async () => {
+  try {
+    console.log('Attempting to establish connection.')
+    await sequelize.authenticate()
     console.log('Connection has been established successfully.')
-  })
-  .catch(err => {
-    console.error('Unable to connect to the database:', err)
-  })
+  } catch (error) {
+    console.error('Unable to connect to the database:', error)
+  }
+}
+
+sequaliseCheck()
 
 fs.readdirSync(modelPath)
   .filter(file => {

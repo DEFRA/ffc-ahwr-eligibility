@@ -28,14 +28,14 @@ const hooks = {
   }
 }
 
-// const retry = {
-//   backoffBase: 500,
-//   backoffExponent: 1.1,
-//   match: [/SequelizeConnectionError/],
-//   max: 10,
-//   name: 'connection',
-//   timeout: 60000
-// }
+const retry = {
+  backoffBase: 500,
+  backoffExponent: 1.1,
+  match: [/SequelizeConnectionError/],
+  max: 10,
+  name: 'connection',
+  timeout: 60000
+}
 
 const dbConfig = {
   database: process.env.POSTGRES_DB,
@@ -47,6 +47,7 @@ const dbConfig = {
   dialectOptions: {
     ssl: isProd()
   },
+  retry,
   hooks,
   host: process.env.POSTGRES_HOST,
   password: 'ppp',

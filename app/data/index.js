@@ -21,7 +21,7 @@ try {
     },
     dialect: 'postgres',
     dialectOptions: {
-      ssl: isProd()
+      ssl: true
     },
     host: process.env.POSTGRES_HOST,
     port: process.env.POSTGRES_PORT,

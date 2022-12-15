@@ -45,6 +45,10 @@ const dbConfig = {
   host: process.env.POSTGRES_HOST,
   password: process.env.POSTGRES_PASSWORD,
   port: process.env.POSTGRES_PORT,
+  logging: function (str) {
+    console.log('inside of sequalize logging function')
+    console.log(str)
+  },
   retry,
   schema: process.env.POSTGRES_SCHEMA_NAME,
   username: process.env.POSTGRES_USERNAME

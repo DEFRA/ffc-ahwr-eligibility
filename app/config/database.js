@@ -50,7 +50,7 @@ const dbConfig = {
   retry,
   hooks,
   host: process.env.POSTGRES_HOST,
-  password: 'ppp',
+  password: process.env.POSTGRES_PASSWORD,
   port: process.env.POSTGRES_PORT,
   logging: function (str) {
     console.log('inside of sequalize logging function')

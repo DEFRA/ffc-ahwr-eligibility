@@ -12,20 +12,20 @@ paths:
     get:
       tags:
         - eligibility
-      summary: Check eligibility by farmer's email address.
-      description: Check whether a given farmer's email address has been flagged as eligible.
+      summary: Check eligibility by farmer's business email address.
+      description: Check whether a given farmer's business email address has been flagged as eligible.
       operationId: checkEligibility
       parameters:
         - name: emailAddress
           in: query
-          description: Farmer's email address.
+          description: Farmer's business email address.
           required: true
           schema:
             type: string
             format: email
       responses:
         '200':
-          description: The farmer's email address is eligible.
+          description: The farmer's business email address is eligible.
           content:
             application/json:
               schema:
@@ -33,7 +33,7 @@ paths:
         '400':
           description: Bad request. A valid email address must be specified.
         '404':
-          description: The farmer's email address is ineligible or was not found.
+          description: The farmer's business email address is ineligible or was not found.
         '5XX':
           description: Unexpected error.
 components:
@@ -50,9 +50,9 @@ components:
         sbi:
           type: string
           example: "441111114"
-        cph:
+        crn:
           type: string
-          example: "44/333/1112"
+          example: "4411111144"
         address:
           type: string
           example: "Some Road, London, MK55 7ES"

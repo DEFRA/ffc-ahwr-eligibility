@@ -25,7 +25,7 @@ module.exports = {
       farmerName: 'David Smith',
       name: 'David\'s Farm',
       sbi: '441111114',
-      cph: '44/333/1112',
+      crn: '4411111144',
       address: 'Some Road, London, MK55 7ES',
       email: 'name@email.com'
     }

@@ -1,6 +1,6 @@
-const processUnEligible = (interesRequest) => {
+const processIneligible = (interesRequest) => {
   console.log('Following interest not Eligible')
   console.log(interesRequest)
 }
 
-module.exports = processUnEligible
+module.exports = processIneligible

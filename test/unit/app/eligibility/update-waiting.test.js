@@ -1,5 +1,5 @@
 const db = require('../../../../app/data')
-const updateWaiting = require('../../../../app/eligibility/update-waiting')
+const updateWaiting = require('../../../../app/auto-eligibility/processing/update-waiting')
 
 const NON_WAITING_ELIGIBILITY = JSON.parse(JSON.stringify(require('../../../mock-components/mock-eligibility').nonWaitingEligibility))
 const SBI = require('../../../mock-components/mock-sbi')

@@ -1,9 +1,9 @@
 const checkEligibility = require('./check-eligibility')
 const updateWaiting = require('./update-waiting')
-const processUnEligible = require('./process-un-eligible')
+const processIneligible = require('./process-ineligible')
 
 module.exports = {
   checkEligibility,
   updateWaiting,
-  processUnEligible
+  processIneligible
 }

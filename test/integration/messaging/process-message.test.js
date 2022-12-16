@@ -1,9 +1,9 @@
-jest.mock('../../../app/eligibility/check-eligibility')
-const checkEligibility = require('../../../app/eligibility/check-eligibility')
-jest.mock('../../../app/eligibility/update-waiting')
-const updateWaiting = require('../../../app/eligibility/update-waiting')
-jest.mock('../../../app/eligibility/process-un-eligible')
-const processUnEligible = require('../../../app/eligibility/process-un-eligible')
+jest.mock('../../../app/auto-eligibility/processing/check-eligibility')
+const checkEligibility = require('../../../app/auto-eligibility/processing/check-eligibility')
+jest.mock('../../../app/auto-eligibility/processing/update-waiting')
+const updateWaiting = require('../../../app/auto-eligibility/processing/update-waiting')
+jest.mock('../../../app/auto-eligibility/processing/process-ineligible')
+const processIneligible = require('../../../app/auto-eligibility/processing/process-ineligible')
 
 const NON_WAITING_ELIGIBILITY = JSON.parse(JSON.stringify(require('../../mock-components/mock-eligibility').nonWaitingEligibility))
 const INTEREST_REQUEST = JSON.parse(JSON.stringify(require('../../mock-components/mock-interest-request')))
@@ -25,10 +25,10 @@ describe(('Consume register your interest message tests'), () => {
     expect(updateWaiting).toHaveBeenCalledWith(message.body.sbi, message.body.crn)
   })
 
-  test('ensure that processUnEligible is called when checkEligibility returns null', async () => {
+  test('ensure that processInligible is called when checkEligibility returns null', async () => {
     checkEligibility.mockResolvedValue(null)
     const message = { body: INTEREST_REQUEST }
     await processRegisterYourInterestMessage(message)
-    expect(processUnEligible).toHaveBeenCalled()
+    expect(processIneligible).toHaveBeenCalled()
   })
 })

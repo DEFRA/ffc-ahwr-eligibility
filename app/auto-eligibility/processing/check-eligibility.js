@@ -1,4 +1,4 @@
-const db = require('../data')
+const db = require('../../data')
 
 const checkEligibility = async (sbi, crn) => {
   return db.eligibility.findOne({

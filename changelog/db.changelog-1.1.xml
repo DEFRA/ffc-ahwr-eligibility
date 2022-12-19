@@ -8,7 +8,7 @@
       <column name="sbi" type="NUMBER(9)">
         <constraints nullable="false" unique="true" uniqueConstraintName="elg_sbi_ukey" />
       </column>
-      <column name="crn" type="NUMBER(10)">
+      <column name="crn" type="VARCHAR2(10)">
         <constraints nullable="false" unique="true" uniqueConstraintName="elg_crn_ukey" />
       </column>
       <column name="customer_name" type="VARCHAR2(1283)">
@@ -29,8 +29,25 @@
     </createTable>
   </changeSet>
   <changeSet author="Marcin Mogiela" id="3">
+    <addPrimaryKey
+        columnNames="sbi, crn"
+        constraintName="elg_pk"
+        schemaName="public"
+        tableName="eligibility" />
+  </changeSet>
+  <changeSet author="Marcin Mogiela" id="4">
     <createIndex indexName="elg_last_updated_at_idx" tableName="eligibility">
       <column name="last_updated_at"/>
     </createIndex>
+  </changeSet>
+  <changeSet author="Marcin Mogiela" id="5">
+    <setColumnRemarks
+        columnName="last_updated_at"
+        remarks="Updated in these cases:
+1. Once initially when the data warehouse one time data load happens.
+2. Every time we add a record to the waiting list.
+3. Every time we move someone from the waiting list to the access list.
+4. When the CCoE team manually run SQL to update data in an exception scenario."
+        tableName="eligibility"/>
   </changeSet>
 </databaseChangeLog>

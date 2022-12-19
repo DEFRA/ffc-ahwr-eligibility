@@ -27,6 +27,9 @@
         <constraints nullable="false" />
       </column>
     </createTable>
+    <rollback>
+        <dropTable tableName="eligibility"/>
+    </rollback>
   </changeSet>
   <changeSet author="Marcin Mogiela" id="3">
     <addPrimaryKey

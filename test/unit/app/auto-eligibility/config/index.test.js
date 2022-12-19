@@ -1,4 +1,4 @@
-const autoEligiblityConfig = require('../../../../../app/config').autoEligiblityConfig
+const autoEligibilityConfig = require('../../../../../app/config').autoEligibilityConfig
 
 describe('autoEligiblityConfig Config Test', () => {
   const OLD_ENV = process.env
@@ -13,7 +13,7 @@ describe('autoEligiblityConfig Config Test', () => {
   })
 
   test('Should pass validation for all fields populated', async () => {
-    expect(autoEligiblityConfig).toBeDefined()
+    expect(autoEligibilityConfig).toBeDefined()
   })
 
   test('Invalid env var throws error', () => {

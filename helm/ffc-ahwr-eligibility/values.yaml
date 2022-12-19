@@ -40,11 +40,7 @@ container:
   notifyTemplateIdGenericIneligible:
   waitingListSchedule:
   waitingListSchedulerEnabled:
-<<<<<<< HEAD
   waitingListThresholdUpperLimit:
-=======
-  waitingListTresholdUpperLimit:
->>>>>>> 2a5e346 (Added cron scheduler for waiting list functionality)
   imagePullPolicy: IfNotPresent
   messageQueueHost: namespace.servicebus.windows.net
   limitMemory: 100Mi

@@ -6,7 +6,13 @@ const processRegisterYourInterestMessage = async (message) => {
   const interestRequest = message.body
   const { sbi, crn } = interestRequest
   const eligible = await checkEligibility(sbi, crn)
-  eligible ? await processEligible(sbi, crn) : processIneligible(interestRequest)
+  if (eligible) {
+    console.log(`sbi: ${sbi}, crn: ${crn} is eligible`)
+    await processEligible(sbi, crn)
+  } else {
+    console.log(`sbi: ${sbi}, crn: ${crn} is not eligible`)
+    processIneligible(interestRequest)
+  }
 }
 
 module.exports = processRegisterYourInterestMessage

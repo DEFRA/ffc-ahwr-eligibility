@@ -5,7 +5,10 @@
   </changeSet>
   <changeSet author="Abidemi Adio" id="2">
     <addColumn tableName="eligibility">
-      <column name="waiting_updated_at" type="TIMESTAMP" />
+      <column
+        name="waiting_updated_at"
+        type="TIMESTAMP"
+        remarks="Updated once someone is moved to the waiting list." />
     </addColumn>
   </changeSet>
 </databaseChangeLog>

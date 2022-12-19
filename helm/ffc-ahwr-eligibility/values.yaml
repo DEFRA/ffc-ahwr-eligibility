@@ -59,9 +59,6 @@ postgresService:
   postgresSchema: public
   postgresUser: postgres
 
-liquibase:
-  contexts: prod
-
 livenessProbe:
   path: /healthz
   port: 3000

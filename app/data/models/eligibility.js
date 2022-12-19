@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
   const eligibility = sequelize.define('eligibility', {
     sbi: { type: DataTypes.INTEGER, primaryKey: true },
-    crn: { type: DataTypes.INTEGER, primaryKey: true },
+    crn: { type: DataTypes.STRING, primaryKey: true },
     customer_name: DataTypes.STRING,
     business_name: DataTypes.STRING,
     business_email: DataTypes.STRING,

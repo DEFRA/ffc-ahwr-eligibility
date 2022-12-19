@@ -38,6 +38,9 @@ container:
   notifyTemplateIdFarmerApplyInvite:
   notifyTemplateIdWaitingList:
   notifyTemplateIdGenericIneligible:
+  waitingListSchedule:
+  waitingListSchedulerEnabled:
+  waitingListThresholdUpperLimit:
   imagePullPolicy: IfNotPresent
   messageQueueHost: namespace.servicebus.windows.net
   limitMemory: 100Mi
@@ -59,13 +62,13 @@ liquibase:
 livenessProbe:
   path: /healthz
   port: 3000
-  initialDelaySeconds: 10
+  initialDelaySeconds: 20
   periodSeconds: 10
   failureThreshold: 3
 
 readinessProbe:
   path: /healthy
   port: 3000
-  initialDelaySeconds: 10
+  initialDelaySeconds: 20
   periodSeconds: 10
   failureThreshold: 3

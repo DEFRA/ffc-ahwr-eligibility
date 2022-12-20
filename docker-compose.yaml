@@ -10,6 +10,8 @@ services:
     depends_on:
       - ffc-ahwr-eligibility-postgres
     environment:
+      NODE_TLS_REJECT_UNAUTHORIZED: 0
+      DEBUG: sequelize*
       APPINSIGHTS_CLOUDROLE: ffc-ahwr-eligibility-local
       APPLICATIONINSIGHTS_CONNECTION_STRING: ${APPLICATIONINSIGHTS_CONNECTION_STRING}
       MESSAGE_QUEUE_HOST: ${MESSAGE_QUEUE_HOST:-notset}

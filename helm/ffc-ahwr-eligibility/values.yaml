@@ -38,7 +38,7 @@ container:
   notifyTemplateIdFarmerApplyInvite:
   notifyTemplateIdWaitingList:
   notifyTemplateIdGenericIneligible:
-  emailTemplateIdIneligibleApplication:
+  notifyTemplateIdIneligibleApplication:
   waitingListSchedule:
   waitingListSchedulerEnabled:
   waitingListThresholdUpperLimit:

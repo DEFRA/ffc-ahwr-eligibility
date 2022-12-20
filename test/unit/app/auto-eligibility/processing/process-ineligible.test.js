@@ -1,4 +1,4 @@
-const MOCK_EMAIL_TEMPLATE_ID_INELIGIBLE_APPLICATION = '7a0ce567-d908-4f35-a858-de9e8f5445ec'
+const MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION = '7a0ce567-d908-4f35-a858-de9e8f5445ec'
 
 const MOCK_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS = 'eat@email.com'
 
@@ -17,7 +17,7 @@ describe('Process ineligible application', () => {
         emailAddress: MOCK_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS
       },
       emailTemplateIds: {
-        ineligibleApplication: MOCK_EMAIL_TEMPLATE_ID_INELIGIBLE_APPLICATION
+        ineligibleApplication: MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION
       }
     }))
 
@@ -36,7 +36,7 @@ describe('Process ineligible application', () => {
     await processIneligible(sbi, crn, businessEmail)
 
     expect(notifyClient.sendEmail).toHaveBeenCalledWith(
-      MOCK_EMAIL_TEMPLATE_ID_INELIGIBLE_APPLICATION,
+      MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION,
       MOCK_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS,
       {
         sbi,

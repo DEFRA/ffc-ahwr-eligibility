@@ -56,10 +56,10 @@ Please ask a developer for an example `.env` file that you can include in the ro
 | WAITING_LIST_SCHEDULE      | Cron expression for frequency of waiting list job                 |
 | WAITING_LIST_SCHEDULER_ENABLED      | Feature switch to control running of waiting list cron job        |
 | WAITING_LIST_THRESHOLD_UPPER_LIMIT      | Upper limit for how many farmers from the waiting list can be provided access to the service in one cron job process      |
-| WAITING_LIST_TEMPLATE_ID_      | Notify template ID for the waiting list email
-| INELIGIBLE_GENERIC_TEMPLATE_ID      | Notify template ID for the generic exception email        |
-| APPLY_INVITE_TEMPLATE_ID      | Notify template ID for the apply guidance invite       |
-| EMAIL_TEMPLATE_ID_INELIGIBLE_APPLICATION | Notify email template ID for the ineligible application |
+| NOTIFY_TEMPLATE_ID_WAITING_LIST_      | Notify template ID for the waiting list email
+| NOTIFY_TEMPLATE_ID_INELIGIBLE_GENERIC      | Notify template ID for the generic exception email        |
+| NOTIFY_TEMPLATE_ID_APPLY_INVITE      | Notify template ID for the apply guidance invite       |
+| NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION | Notify email template ID for the ineligible application |
 | EARLY_ADOPTION_TEAM_EMAIL_ADDRESS | Early adoption team email address |
 
 

@@ -22,10 +22,10 @@ const config = {
     emailAddress: process.env.EARLY_ADOPTION_TEAM_EMAIL_ADDRESS
   },
   emailTemplateIds: {
-    waitingList: process.env.WAITING_LIST_TEMPLATE_ID,
-    genericIneligible: process.env.INELIGIBLE_GENERIC_TEMPLATE_ID,
-    applyServiceInvite: process.env.APPLY_INVITE_TEMPLATE_ID,
-    ineligibleApplication: process.env.EMAIL_TEMPLATE_ID_INELIGIBLE_APPLICATION
+    waitingList: process.env.NOTIFY_TEMPLATE_ID_WAITING_LIST,
+    genericIneligible: process.env.NOTIFY_TEMPLATE_ID_INELIGIBLE_GENERIC,
+    applyServiceInvite: process.env.NOTIFY_TEMPLATE_ID_APPLY_INVITE,
+    ineligibleApplication: process.env.NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION
   },
   waitingListScheduler: {
     enabled: process.env.WAITING_LIST_SCHEDULER_ENABLED,

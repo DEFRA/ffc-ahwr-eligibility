@@ -29,13 +29,13 @@ const sendWaitingListEmail = async (email) => {
   )
 }
 
-const sendApplyGuidanceEmail = async (email, applyGuidanceUrl) => {
+const sendApplyGuidanceEmail = async (email) => {
   await sendEmail(
     config.emailNotifier.emailTemplateIds.applyServiceInvite,
     email,
     {
       personalisation: {
-        applyGuidanceUrl
+        applyGuidanceUrl: config.applyServiceUri
       }
     }
   )

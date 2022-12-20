@@ -1,11 +1,11 @@
 jest.mock('../../../app/auto-eligibility/processing/update-waiting')
-jest.mock('../../../app/auto-eligibility/email', () => {
+jest.mock('../../../app/auto-eligibility/email-notifier', () => {
   return {
     sendWaitingListEmail: jest.fn()
   }
 })
 const updateWaiting = require('../../../app/auto-eligibility/processing/update-waiting')
-const emailNotifier = require('../../../app/auto-eligibility/email')
+const emailNotifier = require('../../../app/auto-eligibility/email-notifier')
 const processEligible = require('../../../app/auto-eligibility/processing/process-eligible')
 const SBI = require('../../mock-components/mock-sbi')
 const CRN = require('../../mock-components/mock-crn')

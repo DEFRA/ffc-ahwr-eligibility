@@ -6,14 +6,14 @@ describe('Process waiting list function test.', () => {
 
   test('test mulitple records updated', async () => {
     const spyConsole = jest.spyOn(console, 'log')
-    jest.mock('../../../../../app/auto-eligibility/email', () => {
+    jest.mock('../../../../../app/auto-eligibility/email-notifier', () => {
       return {
         sendApplyGuidanceEmail: jest.fn()
       }
     })
     jest.mock('../../../../../app/auto-eligibility/processing/update-access-granted', () => jest.fn())
     const updateAccessGranted = require('../../../../../app/auto-eligibility/processing/update-access-granted')
-    const mockEmailNotifier = require('../../../../../app/auto-eligibility/email')
+    const mockEmailNotifier = require('../../../../../app/auto-eligibility/email-notifier')
     updateAccessGranted.mockResolvedValue([
       '3', [{ business_email: 'test@email.com' }, { business_email: 'test2@email.com' }, { business_email: 'test3@email.com' }]
     ])
@@ -27,14 +27,14 @@ describe('Process waiting list function test.', () => {
 
   test('test no records updated', async () => {
     const spyConsole = jest.spyOn(console, 'log')
-    jest.mock('../../../../../app/auto-eligibility/email', () => {
+    jest.mock('../../../../../app/auto-eligibility/email-notifier', () => {
       return {
         sendApplyGuidanceEmail: jest.fn()
       }
     })
     jest.mock('../../../../../app/auto-eligibility/processing/update-access-granted', () => jest.fn())
     const updateAccessGranted = require('../../../../../app/auto-eligibility/processing/update-access-granted')
-    const mockEmailNotifier = require('../../../../../app/auto-eligibility/email')
+    const mockEmailNotifier = require('../../../../../app/auto-eligibility/email-notifier')
     updateAccessGranted.mockResolvedValue([
       '0', []
     ])
@@ -48,14 +48,14 @@ describe('Process waiting list function test.', () => {
 
   test('test error handled', async () => {
     const spyConsole = jest.spyOn(console, 'error')
-    jest.mock('../../../../../app/auto-eligibility/email', () => {
+    jest.mock('../../../../../app/auto-eligibility/email-notifier', () => {
       return {
         sendApplyGuidanceEmail: jest.fn()
       }
     })
     jest.mock('../../../../../app/auto-eligibility/processing/update-access-granted', () => jest.fn())
     const updateAccessGranted = require('../../../../../app/auto-eligibility/processing/update-access-granted')
-    const mockEmailNotifier = require('../../../../../app/auto-eligibility/email')
+    const mockEmailNotifier = require('../../../../../app/auto-eligibility/email-notifier')
     updateAccessGranted.mockRejectedValue(new Error('Some DB error'))
     const processWaitingList = require('../../../../../app/auto-eligibility/lib/process-waiting-list')
     await processWaitingList(50)

@@ -3,14 +3,16 @@ describe('Send email test', () => {
   let autoEligibilityEmail
   const mockNotifyConfig = { apiKey: 'someKey' }
   const mockAutoEligibilityConfig = {
-    earlyAdoptionTeam: {
-      emailAddress: 'eat@email.com'
-    },
-    emailTemplateIds: {
-      ineligibleApplication: 'ineligibleApplication',
-      waitingList: 'waitingListTemplateId',
-      genericIneligible: 'ineligbleTemplateId',
-      applyServiceInvite: 'applyServiceInviteTemplateId'
+    emailNotifier: {
+      earlyAdoptionTeam: {
+        emailAddress: 'eat@email.com'
+      },
+      emailTemplateIds: {
+        ineligibleApplication: 'ineligibleApplication',
+        waitingList: 'waitingListTemplateId',
+        genericIneligible: 'ineligbleTemplateId',
+        applyServiceInvite: 'applyServiceInviteTemplateId'
+      }
     }
   }
 

@@ -19,8 +19,10 @@ describe('Process eligible', () => {
     }))
     notifyClient = require('../../../../../app/client/notify-client')
     jest.mock('../../../../../app/auto-eligibility/config', () => ({
-      emailTemplateIds: {
-        waitingList: MOCK_WAITING_LIST_EMAIL_TEMPLATE_ID
+      emailNotifier: {
+        emailTemplateIds: {
+          waitingList: MOCK_WAITING_LIST_EMAIL_TEMPLATE_ID
+        }
       }
     }))
 

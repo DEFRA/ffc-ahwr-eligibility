@@ -13,11 +13,13 @@ describe('Process ineligible application', () => {
     }))
     notifyClient = require('../../../../../app/client/notify-client')
     jest.mock('../../../../../app/auto-eligibility/config', () => ({
-      earlyAdoptionTeam: {
-        emailAddress: MOCK_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS
-      },
-      emailTemplateIds: {
-        ineligibleApplication: MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION
+      emailNotifier: {
+        earlyAdoptionTeam: {
+          emailAddress: MOCK_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS
+        },
+        emailTemplateIds: {
+          ineligibleApplication: MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION
+        }
       }
     }))
 

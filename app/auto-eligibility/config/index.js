@@ -1,15 +1,7 @@
 const Joi = require('joi')
 
 const schema = Joi.object({
-  earlyAdoptionTeam: {
-    emailAddress: Joi.string().trim().email()
-  },
-  emailTemplateIds: {
-    waitingList: Joi.string().uuid(),
-    genericIneligible: Joi.string().uuid(),
-    applyServiceInvite: Joi.string().uuid(),
-    ineligibleApplication: Joi.string().uuid()
-  },
+  emailNotifier: require('../email-notifier/email-notifier.config.schema'),
   waitingListScheduler: {
     enabled: Joi.bool().default(true),
     schedule: Joi.string().default('0 9 * * TUE'), // At 09:00 AM, only on Tuesday
@@ -18,15 +10,7 @@ const schema = Joi.object({
 })
 
 const config = {
-  earlyAdoptionTeam: {
-    emailAddress: process.env.EARLY_ADOPTION_TEAM_EMAIL_ADDRESS
-  },
-  emailTemplateIds: {
-    waitingList: process.env.NOTIFY_TEMPLATE_ID_WAITING_LIST,
-    genericIneligible: process.env.NOTIFY_TEMPLATE_ID_INELIGIBLE_GENERIC,
-    applyServiceInvite: process.env.NOTIFY_TEMPLATE_ID_APPLY_INVITE,
-    ineligibleApplication: process.env.NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION
-  },
+  emailNotifier: require('../email-notifier/email-notifier.config'),
   waitingListScheduler: {
     enabled: process.env.WAITING_LIST_SCHEDULER_ENABLED,
     schedule: process.env.WAITING_LIST_SCHEDULE,

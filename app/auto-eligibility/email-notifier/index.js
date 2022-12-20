@@ -3,22 +3,36 @@ const config = require('../config')
 
 const sendIneligibleApplicationEmail = async (ineligibleApplicationData) => {
   await sendEmail(
-    config.emailTemplateIds.ineligibleApplication,
-    config.earlyAdoptionTeam.emailAddress,
+    config.emailNotifier.emailTemplateIds.ineligibleApplication,
+    config.emailNotifier.earlyAdoptionTeam.emailAddress,
     ineligibleApplicationData
   )
 }
 
 const sendIneligibleEmail = async (email) => {
-  await sendEmail(config.emailTemplateIds.genericIneligible, email)
+  await sendEmail(
+    config.emailNotifier.emailTemplateIds.genericIneligible,
+    email
+  )
 }
 
 const sendWaitingListEmail = async (email) => {
-  await sendEmail(config.emailTemplateIds.waitingList, email)
+  await sendEmail(
+    config.emailNotifier.emailTemplateIds.waitingList,
+    email
+  )
 }
 
 const sendApplyGuidanceEmail = async (email, applyUrl) => {
-  await sendEmail(config.emailTemplateIds.applyServiceInvite, email, { personalisation: { applyGuidanceUrl: applyUrl } })
+  await sendEmail(
+    config.emailNotifier.emailTemplateIds.applyServiceInvite,
+    email,
+    {
+      personalisation: {
+        applyGuidanceUrl: applyUrl
+      }
+    }
+  )
 }
 
 module.exports = {

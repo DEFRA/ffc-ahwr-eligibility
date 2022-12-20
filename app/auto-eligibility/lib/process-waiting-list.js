@@ -17,4 +17,4 @@ const processWaitingList = async (upperlimit) => {
   }
 }
 
-module.exports = { processWaitingList }
+module.exports = processWaitingList

@@ -1,15 +1,19 @@
 describe('Init Server Test', () => {
-
-  let waitingListSchedulerPlugin
+  let plugins
   let server
+  let waitingListSchedulerPlugin
 
   beforeAll(() => {
     jest.resetModules()
     jest.resetAllMocks()
-    waitingListSchedulerPlugin = require('../../../../app/plugins').waitingListSchedulerPlugin
-    jest.mock('../../../../app/plugins')
-    server = require('../../../../app/server/server')
+    jest.mock('../../../../app/plugins', () => ({
+      waitingListSchedulerPlugin: {}
+    }))
     jest.mock('../../../../app/server/server')
+
+    server = require('../../../../app/server/server')
+    plugins = require('../../../../app/plugins')
+    waitingListSchedulerPlugin = plugins.waitingListSchedulerPlugin
   })
 
   test('Should start server', async () => {

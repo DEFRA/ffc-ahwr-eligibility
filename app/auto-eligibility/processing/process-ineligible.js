@@ -1,4 +1,4 @@
-const emailNotifier = require('../email')
+const emailNotifier = require('../email-notifier')
 
 const processIneligible = async (sbi, crn, businessEmail) => {
   console.log(`Processing as ineligible: ${JSON.stringify({ sbi, crn, businessEmail })}`)

@@ -17,7 +17,7 @@ describe('Send email test', () => {
   beforeAll(() => {
     mockSendEmail = require('../../../../../app/lib/send-email')
     jest.mock('../../../../../app/lib/send-email')
-    autoEligibilityEmail = require('../../../../../app/auto-eligibility/email')
+    autoEligibilityEmail = require('../../../../../app/auto-eligibility/email-notifier')
     jest.mock('../../../../../app/config/notify', () => mockNotifyConfig)
     require('../../../../../app/config/notify')
     jest.mock('../../../../../app/auto-eligibility/config', () => mockAutoEligibilityConfig)

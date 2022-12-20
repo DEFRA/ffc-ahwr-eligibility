@@ -12,7 +12,7 @@ data:
   POSTGRES_SCHEMA_NAME: {{ quote .Values.postgresService.postgresSchema }}
   LIQUIBASE_CONTEXTS: {{ quote .Values.liquibase.contexts }}
   DEBUG: sequelize*
-  EARLY_ADOPTION_TEAM_EMAIL_ADDRESS: {{ quote .Values.container.earlyAdoptionTeamEmailAddress }}
+  NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS: {{ quote .Values.container.notifyEarlyAdoptionTeamEmailAddress }}
   NOTIFY_TEMPLATE_ID_WAITING_LIST_: {{ quote .Values.container.notifyTemplateIdWaitingList }}
   NOTIFY_TEMPLATE_ID_INELIGIBLE_GENERIC: {{ quote .Values.container.notifyTemplateIdGenericIneligible }}
   NOTIFY_TEMPLATE_ID_APPLY_INVITE: {{ quote .Values.container.notifyTemplateIdFarmerApplyInvite }}

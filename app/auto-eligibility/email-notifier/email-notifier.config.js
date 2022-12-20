@@ -2,7 +2,7 @@ const schema = require('./email-notifier.config.schema')
 
 const config = {
   earlyAdoptionTeam: {
-    emailAddress: process.env.EARLY_ADOPTION_TEAM_EMAIL_ADDRESS
+    emailAddress: process.env.NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS
   },
   emailTemplateIds: {
     waitingList: process.env.NOTIFY_TEMPLATE_ID_WAITING_LIST,

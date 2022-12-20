@@ -60,7 +60,7 @@ Please ask a developer for an example `.env` file that you can include in the ro
 | NOTIFY_TEMPLATE_ID_INELIGIBLE_GENERIC      | Notify template ID for the generic exception email        |
 | NOTIFY_TEMPLATE_ID_APPLY_INVITE      | Notify template ID for the apply guidance invite       |
 | NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION | Notify email template ID for the ineligible application |
-| EARLY_ADOPTION_TEAM_EMAIL_ADDRESS | Early adoption team email address |
+| NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS | Early adoption team email address |
 
 
 ## Running the application

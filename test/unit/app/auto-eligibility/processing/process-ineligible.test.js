@@ -1,6 +1,6 @@
 const MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION = '7a0ce567-d908-4f35-a858-de9e8f5445ec'
 
-const MOCK_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS = 'eat@email.com'
+const MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS = 'eat@email.com'
 
 describe('Process ineligible application', () => {
   let notifyClient
@@ -15,7 +15,7 @@ describe('Process ineligible application', () => {
     jest.mock('../../../../../app/auto-eligibility/config', () => ({
       emailNotifier: {
         earlyAdoptionTeam: {
-          emailAddress: MOCK_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS
+          emailAddress: MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS
         },
         emailTemplateIds: {
           ineligibleApplication: MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION
@@ -39,7 +39,7 @@ describe('Process ineligible application', () => {
 
     expect(notifyClient.sendEmail).toHaveBeenCalledWith(
       MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION,
-      MOCK_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS,
+      MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS,
       {
         sbi,
         crn,

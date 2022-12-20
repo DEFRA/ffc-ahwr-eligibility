@@ -25,7 +25,7 @@ const config = {
     waitingList: process.env.WAITING_LIST_TEMPLATE_ID,
     genericIneligible: process.env.INELIGIBLE_GENERIC_TEMPLATE_ID,
     applyServiceInvite: process.env.APPLY_INVITE_TEMPLATE_ID,
-    ineligibleApplication: process.env.INELIGIBLE_APPLICATION_EMAIL_TEMPLATE_ID
+    ineligibleApplication: process.env.EMAIL_TEMPLATE_ID_INELIGIBLE_APPLICATION
   },
   waitingListScheduler: {
     enabled: process.env.WAITING_LIST_SCHEDULER_ENABLED,

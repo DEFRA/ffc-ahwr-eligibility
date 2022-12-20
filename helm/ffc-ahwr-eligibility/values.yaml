@@ -38,6 +38,8 @@ container:
   notifyTemplateIdFarmerApplyInvite:
   notifyTemplateIdWaitingList:
   notifyTemplateIdGenericIneligible:
+  notifyTemplateIdIneligibleApplication:
+  notifyEarlyAdoptionTeamEmailAddress:
   waitingListSchedule:
   waitingListSchedulerEnabled:
   waitingListThresholdUpperLimit:

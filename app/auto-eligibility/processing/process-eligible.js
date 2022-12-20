@@ -1,5 +1,5 @@
 const updateWaiting = require('./update-waiting')
-const emailNotifier = require('../email')
+const emailNotifier = require('../email-notifier')
 
 const processEligible = async (sbi, crn, businessEmailAddress) => {
   console.log(`Processing as eligible: ${JSON.stringify({ sbi, crn, businessEmailAddress })}`)

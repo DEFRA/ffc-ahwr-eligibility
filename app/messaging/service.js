@@ -1,12 +1,12 @@
 const { MessageReceiver } = require('ffc-messaging')
 const registerYourInterestConfig = require('../config').registerYourInterestConfig
-const processRegisterYourInterestMessage = require('../register-your-interest/messaging/process-message')
+const processRegisterYourInterestRequest = require('../register-your-interest/messaging/process-register-your-interest-request')
 
 let registerYourInterestReceiver
 
 const start = async () => {
   const registerYourInterestMessageHandler = message => {
-    processRegisterYourInterestMessage(message)
+    processRegisterYourInterestRequest(message.body)
     registerYourInterestReceiver.completeMessage(message)
   }
 

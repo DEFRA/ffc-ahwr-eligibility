@@ -41,9 +41,11 @@ describe('Process ineligible application', () => {
       MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION,
       MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS,
       {
-        sbi,
-        crn,
-        businessEmail
+        personalisation: {
+          sbi,
+          crn,
+          businessEmail
+        }
       }
     )
   })

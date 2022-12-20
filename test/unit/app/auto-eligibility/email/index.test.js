@@ -31,19 +31,21 @@ describe('Send email test', () => {
     const crn = '1234567890'
     const businessEmail = 'business@email.com'
 
-    await autoEligibilityEmail.sendIneligibleApplicationEmail({
+    await autoEligibilityEmail.sendIneligibleApplicationEmail(
       sbi,
       crn,
       businessEmail
-    })
+    )
 
     expect(mockSendEmail).toHaveBeenCalledWith(
       'ineligibleApplication',
       'eat@email.com',
       {
-        sbi,
-        crn,
-        businessEmail
+        personalisation: {
+          sbi,
+          crn,
+          businessEmail
+        }
       }
     )
   })

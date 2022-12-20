@@ -1,11 +1,17 @@
 const sendEmail = require('../../lib/send-email')
 const config = require('../config')
 
-const sendIneligibleApplicationEmail = async (ineligibleApplicationData) => {
+const sendIneligibleApplicationEmail = async (sbi, crn, businessEmail) => {
   await sendEmail(
     config.emailNotifier.emailTemplateIds.ineligibleApplication,
     config.emailNotifier.earlyAdoptionTeam.emailAddress,
-    ineligibleApplicationData
+    {
+      personalisation: {
+        sbi,
+        crn,
+        businessEmail
+      }
+    }
   )
 }
 
@@ -23,13 +29,13 @@ const sendWaitingListEmail = async (email) => {
   )
 }
 
-const sendApplyGuidanceEmail = async (email, applyUrl) => {
+const sendApplyGuidanceEmail = async (email, applyGuidanceUrl) => {
   await sendEmail(
     config.emailNotifier.emailTemplateIds.applyServiceInvite,
     email,
     {
       personalisation: {
-        applyGuidanceUrl: applyUrl
+        applyGuidanceUrl
       }
     }
   )

@@ -1,10 +1,14 @@
 const Joi = require('joi')
 
 const schema = Joi.object({
+  earlyAdoptionTeam: {
+    emailAddress: Joi.string().trim().email()
+  },
   emailTemplateIds: {
     waitingList: Joi.string().uuid(),
     genericIneligible: Joi.string().uuid(),
-    applyServiceInvite: Joi.string().uuid()
+    applyServiceInvite: Joi.string().uuid(),
+    ineligibleApplication: Joi.string().uuid()
   },
   waitingListScheduler: {
     enabled: Joi.bool().default(true),
@@ -14,10 +18,14 @@ const schema = Joi.object({
 })
 
 const config = {
+  earlyAdoptionTeam: {
+    emailAddress: process.env.EARLY_ADOPTION_TEAM_EMAIL_ADDRESS
+  },
   emailTemplateIds: {
     waitingList: process.env.WAITING_LIST_TEMPLATE_ID,
     genericIneligible: process.env.INELIGIBLE_GENERIC_TEMPLATE_ID,
-    applyServiceInvite: process.env.APPLY_INVITE_TEMPLATE_ID
+    applyServiceInvite: process.env.APPLY_INVITE_TEMPLATE_ID,
+    ineligibleApplication: process.env.INELIGIBLE_APPLICATION_EMAIL_TEMPLATE_ID
   },
   waitingListScheduler: {
     enabled: process.env.WAITING_LIST_SCHEDULER_ENABLED,

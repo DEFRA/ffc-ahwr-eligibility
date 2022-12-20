@@ -59,6 +59,8 @@ Please ask a developer for an example `.env` file that you can include in the ro
 | WAITING_LIST_TEMPLATE_ID_      | Notify template ID for the waiting list email
 | INELIGIBLE_GENERIC_TEMPLATE_ID      | Notify template ID for the generic exception email        |
 | APPLY_INVITE_TEMPLATE_ID      | Notify template ID for the apply guidance invite       |
+| INELIGIBLE_APPLICATION_EMAIL_TEMPLATE_ID | Notify email template ID for the ineligible application |
+| EARLY_ADOPTION_TEAM_EMAIL_ADDRESS | Early adoption team email address |
 
 
 ## Running the application

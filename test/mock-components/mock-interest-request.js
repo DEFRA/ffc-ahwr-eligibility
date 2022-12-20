@@ -3,5 +3,6 @@ const CRN = require('./mock-crn')
 
 module.exports = {
   sbi: SBI,
-  crn: CRN
+  crn: CRN,
+  email: 'name@email.com'
 }

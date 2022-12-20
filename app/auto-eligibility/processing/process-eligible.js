@@ -1,6 +1,10 @@
 const updateWaiting = require('./update-waiting')
-const processEligible = async (sbi, crn) => {
+const emailNotifier = require('../email')
+
+const processEligible = async (sbi, crn, businessEmailAddress) => {
+  console.log(`Processing as eligible: ${JSON.stringify({ sbi, crn, businessEmailAddress })}`)
   await updateWaiting(sbi, crn)
+  await emailNotifier.sendWaitingListEmail(businessEmailAddress)
 }
 
 module.exports = processEligible

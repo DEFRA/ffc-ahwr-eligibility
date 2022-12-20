@@ -24,6 +24,7 @@
     "@hapi/hapi": "^20.1.5",
     "applicationinsights": "^2.1.6",
     "ffc-messaging": "^2.3.4",
+    "joi": "^17.7.0",
     "node-cron": "^3.0.2",
     "notifications-node-client": "^5.1.1",
     "pg": "^8.7.3",
@@ -33,6 +34,7 @@
   "devDependencies": {
     "jest": "^27.0.6",
     "jest-junit": "^12.2.0",
+    "jest-when": "^3.5.2",
     "nodemon": "^2.0.12",
     "standard": "^16.0.3"
   },

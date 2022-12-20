@@ -16,8 +16,7 @@ components:
         properties:
           sbi:
             type: string
-            description: Single Business Indentifier
-            
+            description: Single Business Indentifier            
           crn:
             type: string
             description: Customer reference number

@@ -1,4 +1,4 @@
-// const retrieveWaitingList = require('../../auto-eligibility/processing/retrieve-waiting-list')
+const applyServiceUri = require('../config').applyServiceUri
 const updateAccessGranted = require('../../auto-eligibility/processing/update-access-granted')
 const { sendApplyGuidanceEmail } = require('../../auto-eligibility/email')
 
@@ -10,7 +10,7 @@ const processWaitingList = async (upperlimit) => {
     const rowsUpdated = result[1]
     console.log(`${updatedRows} farmers moved from the waiting list.`)
     rowsUpdated.forEach(farmer => {
-      sendApplyGuidanceEmail('liam.wilson@kainos.com','http://localhost:3000/apply')
+      sendApplyGuidanceEmail(farmer.business_email, applyServiceUri)
     })
   } catch (e) {
     console.error('Error processing waiting list.', e)

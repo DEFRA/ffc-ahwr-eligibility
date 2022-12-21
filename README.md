@@ -52,7 +52,6 @@ Please ask a developer for an example `.env` file that you can include in the ro
 
 | Name                                  | Description                                                                                      |
 | ----                                  | -----------                                                                                      |
-<<<<<<< HEAD
 | LIQUIBASE_CONTEXTS      | Expressions that control whether commands like update run certain changesets |
 | WAITING_LIST_SCHEDULE      | Cron expression for frequency of waiting list job                 |
 | WAITING_LIST_SCHEDULER_ENABLED      | Feature switch to control running of waiting list cron job        |
@@ -64,11 +63,8 @@ Please ask a developer for an example `.env` file that you can include in the ro
 | NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS | Early adoption team email address |
 | WAITING_LIST_TEMPLATE_ID_      | Notify template ID for the waiting list email
 | INELIGIBLE_GENERIC_TEMPLATE_ID      | Notify template ID for the generic exception email        |
-| APPLY_INVITE_TEMPLATE_ID      | Notify template ID for the apply guidance invite       |
 | APPLY_SERVICE_URI | URI for the apply service |
 
-=======
->>>>>>> 3cf624a (FFC-140127: change DDL for eligibility table)
 
 ## Running the application
 

@@ -12,9 +12,9 @@ describe('Send email test', () => {
         waitingList: 'waitingListTemplateId',
         genericIneligible: 'ineligbleTemplateId',
         applyServiceInvite: 'applyServiceInviteTemplateId'
-      }
-    },
-    applyServiceUri: 'http://localhost:3000/apply'
+      },
+      applyServiceUri: 'http://localhost:3000/apply'
+    }
   }
 
   beforeAll(() => {

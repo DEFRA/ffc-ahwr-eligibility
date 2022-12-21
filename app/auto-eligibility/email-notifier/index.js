@@ -35,7 +35,7 @@ const sendApplyGuidanceEmail = async (email) => {
     email,
     {
       personalisation: {
-        applyGuidanceUrl: config.applyServiceUri
+        applyGuidanceUrl: config.emailNotifier.applyServiceUri
       }
     }
   )

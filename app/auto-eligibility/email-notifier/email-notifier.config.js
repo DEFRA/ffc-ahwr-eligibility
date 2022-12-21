@@ -9,7 +9,8 @@ const config = {
     genericIneligible: process.env.NOTIFY_TEMPLATE_ID_INELIGIBLE_GENERIC,
     applyServiceInvite: process.env.NOTIFY_TEMPLATE_ID_APPLY_INVITE,
     ineligibleApplication: process.env.NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION
-  }
+  },
+  applyServiceUri: process.env.APPLY_SERVICE_URI
 }
 
 const { error, value } = schema.validate(config, { abortEarly: false })

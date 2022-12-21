@@ -48,8 +48,8 @@
         columnName="last_updated_at"
         remarks="Updated in these cases:
 1. Once initially when the data warehouse one time data load happens.
-2. Every time we add a farmer to the waiting list.
-3. Every time we move a farmer from the waiting list to the access list.
+2. Every time a farmer is added to the waiting list.
+3. Every time a farmer is moved from the waiting list to the access list.
 4. When the CCoE team manually run SQL to update data in an exception scenario."
         tableName="eligibility"/>
   </changeSet>

@@ -7,7 +7,8 @@ module.exports = (sequelize, DataTypes) => {
     business_email: DataTypes.STRING,
     business_address: DataTypes.STRING,
     last_updated_at: DataTypes.DATE,
-    waiting_updated_at: DataTypes.DATE
+    waiting_updated_at: DataTypes.DATE,
+    access_granted: DataTypes.BOOLEAN
   },
   {
     tableName: 'eligibility',

@@ -43,6 +43,7 @@ container:
   waitingListSchedule:
   waitingListSchedulerEnabled:
   waitingListThresholdUpperLimit:
+  applyServiceUri: 
   imagePullPolicy: IfNotPresent
   messageQueueHost: namespace.servicebus.windows.net
   limitMemory: 100Mi

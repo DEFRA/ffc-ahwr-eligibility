@@ -1,9 +1,9 @@
-const db = require('../../../../app/data')
-const checkEligibility = require('../../../../app/auto-eligibility/processing/check-eligibility')
+const db = require('../../../../../app/data')
+const checkEligibility = require('../../../../../app/auto-eligibility/processing/check-eligibility')
 
-const NON_WAITING_ELIGIBILITY = JSON.parse(JSON.stringify(require('../../../mock-components/mock-eligibility').nonWaitingEligibility))
-const SBI = require('../../../mock-components/mock-sbi')
-const CRN = require('../../../mock-components/mock-crn')
+const NON_WAITING_ELIGIBILITY = JSON.parse(JSON.stringify(require('../../../../mock-components/mock-eligibility').nonWaitingEligibility))
+const SBI = require('../../../../mock-components/mock-sbi')
+const CRN = require('../../../../mock-components/mock-crn')
 
 describe('process check Eligibility', () => {
   beforeAll(async () => {

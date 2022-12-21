@@ -20,4 +20,5 @@ data:
   WAITING_LIST_SCHEDULE: {{ quote .Values.container.waitingListSchedule }}
   WAITING_LIST_SCHEDULER_ENABLED: {{ quote .Values.container.waitingListSchedulerEnabled }}
   WAITING_LIST_THRESHOLD_UPPER_LIMIT: {{ quote .Values.container.waitingListThresholdUpperLimit }}
+  APPLY_SERVICE_URI: {{ quote .Values.container.applyServiceUri }}
 {{- end -}}

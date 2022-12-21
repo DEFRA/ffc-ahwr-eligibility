@@ -12,17 +12,18 @@ describe('Send email test', () => {
         waitingList: 'waitingListTemplateId',
         genericIneligible: 'ineligbleTemplateId',
         applyServiceInvite: 'applyServiceInviteTemplateId'
-      }
+      },
+      applyServiceUri: 'http://localhost:3000/apply'
     }
   }
 
   beforeAll(() => {
-    mockSendEmail = require('../../../../../app/lib/send-email')
     jest.mock('../../../../../app/lib/send-email')
-    autoEligibilityEmail = require('../../../../../app/auto-eligibility/email-notifier')
     jest.mock('../../../../../app/config/notify', () => mockNotifyConfig)
-    require('../../../../../app/config/notify')
     jest.mock('../../../../../app/auto-eligibility/config', () => mockAutoEligibilityConfig)
+    require('../../../../../app/config/notify')
+    autoEligibilityEmail = require('../../../../../app/auto-eligibility/email-notifier')
+    mockSendEmail = require('../../../../../app/lib/send-email')
     require('../../../../../app/auto-eligibility/config')
   })
 
@@ -67,13 +68,13 @@ describe('Send email test', () => {
   })
 
   test('Send invite to apply guidance email', async () => {
-    await autoEligibilityEmail.sendApplyGuidanceEmail('email@email.com', 'https://localhost:3000/apply')
+    await autoEligibilityEmail.sendApplyGuidanceEmail('email@email.com')
     expect(mockSendEmail).toHaveBeenCalledWith(
       'applyServiceInviteTemplateId',
       'email@email.com',
       {
         personalisation: {
-          applyGuidanceUrl: 'https://localhost:3000/apply'
+          applyGuidanceUrl: 'http://localhost:3000/apply'
         }
       }
     )

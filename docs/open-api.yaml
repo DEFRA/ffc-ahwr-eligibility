@@ -49,13 +49,13 @@ components:
           example: "David's Farm"
         sbi:
           type: string
-          example: "441111114"
+          example: "123456789"
         crn:
           type: string
-          example: "4411111144"
+          example: "1234567890"
         address:
           type: string
           example: "Some Road, London, MK55 7ES"
         email:
           type: string
-          example: "name@email.com"
+          example: "business@email.com"

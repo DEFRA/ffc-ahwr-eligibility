@@ -9,7 +9,7 @@
         <constraints nullable="false" unique="true" uniqueConstraintName="elg_sbi_ukey" />
       </column>
       <column name="crn" type="VARCHAR2(10)">
-        <constraints nullable="false" unique="true" uniqueConstraintName="elg_crn_ukey" />
+        <constraints nullable="false" unique="true" />
       </column>
       <column name="customer_name" type="VARCHAR2(1283)">
         <constraints nullable="false" />
@@ -26,20 +26,21 @@
       <column name="last_updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
         <constraints nullable="false" />
       </column>
+      <column name="waiting_updated_at" type="TIMESTAMP">
+        <constraints nullable="true" />
+      </column>
+      <column name="access_granted" type="boolean" defaultValueBoolean="false" />
     </createTable>
-    <rollback>
-        <dropTable tableName="eligibility"/>
-    </rollback>
   </changeSet>
   <changeSet author="Marcin Mogiela" id="3">
     <addPrimaryKey
-        columnNames="sbi, crn"
+        columnNames="sbi"
         constraintName="elg_pk"
         tableName="eligibility" />
   </changeSet>
   <changeSet author="Marcin Mogiela" id="4">
-    <createIndex indexName="elg_last_updated_at_idx" tableName="eligibility">
-      <column name="last_updated_at"/>
+    <createIndex indexName="elg_waiting_updated_at_idx" tableName="eligibility">
+      <column name="waiting_updated_at"/>
     </createIndex>
   </changeSet>
   <changeSet author="Marcin Mogiela" id="5">
@@ -47,9 +48,15 @@
         columnName="last_updated_at"
         remarks="Updated in these cases:
 1. Once initially when the data warehouse one time data load happens.
-2. Every time we add a record to the waiting list.
-3. Every time we move someone from the waiting list to the access list.
+2. Every time we add a farmer to the waiting list.
+3. Every time we move a farmer from the waiting list to the access list.
 4. When the CCoE team manually run SQL to update data in an exception scenario."
+        tableName="eligibility"/>
+  </changeSet>
+  <changeSet author="Marcin Mogiela" id="6">
+    <setColumnRemarks
+        columnName="waiting_updated_at"
+        remarks="Updated once a farmer is moved to the waiting list."
         tableName="eligibility"/>
   </changeSet>
 </databaseChangeLog>

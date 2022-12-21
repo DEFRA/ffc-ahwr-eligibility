@@ -9,7 +9,7 @@
         <constraints nullable="false" unique="true" uniqueConstraintName="elg_sbi_ukey" />
       </column>
       <column name="crn" type="VARCHAR2(10)">
-        <constraints nullable="true" />
+        <constraints nullable="false" />
       </column>
       <column name="customer_name" type="VARCHAR2(1283)">
         <constraints nullable="false" />

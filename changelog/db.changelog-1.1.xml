@@ -59,4 +59,10 @@
         remarks="Updated once a farmer is moved to the waiting list."
         tableName="eligibility"/>
   </changeSet>
+  <changeSet author="Marcin Mogiela" id="7">
+    <setColumnRemarks
+        columnName="access_granted"
+        remarks="Updated once a farmer is invited to apply."
+        tableName="eligibility"/>
+  </changeSet>
 </databaseChangeLog>

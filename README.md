@@ -63,7 +63,6 @@ Please ask a developer for an example `.env` file that you can include in the ro
 | NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS | Early adoption team email address |
 | WAITING_LIST_TEMPLATE_ID_      | Notify template ID for the waiting list email
 | INELIGIBLE_GENERIC_TEMPLATE_ID      | Notify template ID for the generic exception email        |
-| APPLY_INVITE_TEMPLATE_ID      | Notify template ID for the apply guidance invite       |
 | APPLY_SERVICE_URI | URI for the apply service |
 
 

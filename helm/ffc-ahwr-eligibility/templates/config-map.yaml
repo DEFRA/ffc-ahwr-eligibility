@@ -10,7 +10,6 @@ data:
   POSTGRES_HOST: {{ quote .Values.postgresService.postgresExternalName }}
   POSTGRES_PORT: {{ quote .Values.postgresService.postgresPort }}
   POSTGRES_SCHEMA_NAME: {{ quote .Values.postgresService.postgresSchema }}
-  LIQUIBASE_CONTEXTS: {{ quote .Values.liquibase.contexts }}
   DEBUG: sequelize*
   NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS: {{ quote .Values.container.notifyEarlyAdoptionTeamEmailAddress }}
   NOTIFY_TEMPLATE_ID_WAITING_LIST_: {{ quote .Values.container.notifyTemplateIdWaitingList }}

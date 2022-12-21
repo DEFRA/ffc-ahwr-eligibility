@@ -32,13 +32,13 @@ describe('process check Eligibility', () => {
   })
 
   test('should return null when no record in database', async () => {
-    const result = await checkEligibility(23, 28)
+    const result = await checkEligibility(23, '28')
     expect(result).toBeNull()
   })
 
   test('should return null when sbi and crn not in database', async () => {
     await db.eligibility.create(NON_WAITING_ELIGIBILITY)
-    const result = await checkEligibility(23, 28)
+    const result = await checkEligibility(23, '28')
     expect(result).toBeNull()
   })
 

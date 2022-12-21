@@ -6,10 +6,10 @@
   <changeSet author="Marcin Mogiela" id="2">
     <createTable tableName="eligibility">
       <column name="sbi" type="NUMBER(9)">
-        <constraints nullable="false" unique="true" uniqueConstraintName="elg_sbi_ukey" />
+        <constraints nullable="false" />
       </column>
-      <column name="crn" type="NUMBER(10)">
-        <constraints nullable="false" unique="true" uniqueConstraintName="elg_crn_ukey" />
+      <column name="crn" type="VARCHAR2(10)">
+        <constraints nullable="false" />
       </column>
       <column name="customer_name" type="VARCHAR2(1283)">
         <constraints nullable="false" />
@@ -18,7 +18,7 @@
         <constraints nullable="false" />
       </column>
       <column name="business_email" type="VARCHAR2(254)">
-        <constraints nullable="false" unique="true" uniqueConstraintName="elg_business_email_ukey" />
+        <constraints nullable="false" />
       </column>
       <column name="business_address" type="VARCHAR2(4000)">
         <constraints nullable="false" />
@@ -26,11 +26,43 @@
       <column name="last_updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
         <constraints nullable="false" />
       </column>
+      <column name="waiting_updated_at" type="TIMESTAMP">
+        <constraints nullable="true" />
+      </column>
+      <column name="access_granted" type="boolean" defaultValueBoolean="false" />
     </createTable>
   </changeSet>
   <changeSet author="Marcin Mogiela" id="3">
-    <createIndex indexName="elg_last_updated_at_idx" tableName="eligibility">
-      <column name="last_updated_at"/>
+    <addPrimaryKey
+        columnNames="sbi"
+        constraintName="elg_pk"
+        tableName="eligibility" />
+  </changeSet>
+  <changeSet author="Marcin Mogiela" id="4">
+    <createIndex indexName="elg_waiting_updated_at_idx" tableName="eligibility">
+      <column name="waiting_updated_at"/>
     </createIndex>
+  </changeSet>
+  <changeSet author="Marcin Mogiela" id="5">
+    <setColumnRemarks
+        columnName="last_updated_at"
+        remarks="Updated in these cases:
+1. Once initially when the data warehouse one time data load happens.
+2. Every time a farmer is added to the waiting list.
+3. Every time a farmer is moved from the waiting list to the access list.
+4. When the CCoE team manually run SQL to update data in an exception scenario."
+        tableName="eligibility"/>
+  </changeSet>
+  <changeSet author="Marcin Mogiela" id="6">
+    <setColumnRemarks
+        columnName="waiting_updated_at"
+        remarks="Updated once a farmer is moved to the waiting list."
+        tableName="eligibility"/>
+  </changeSet>
+  <changeSet author="Marcin Mogiela" id="7">
+    <setColumnRemarks
+        columnName="access_granted"
+        remarks="Updated once a farmer is invited to apply."
+        tableName="eligibility"/>
   </changeSet>
 </databaseChangeLog>

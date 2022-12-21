@@ -22,6 +22,7 @@ describe('Eligibility Api - /api/eligibility', () => {
   afterAll(async () => {
     await server.stop()
     jest.resetModules()
+    resetAllWhenMocks()
   })
 
   describe('GET', () => {

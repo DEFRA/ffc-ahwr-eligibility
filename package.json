@@ -5,7 +5,7 @@
   "homepage": "https://github.com/DEFRA/ffc-ahwr-eligibility",
   "main": "app/index.js",
   "scripts": {
-    "pretest": "npm run test:lint",
+    "pretest": "npm run test:lint --no-audit",
     "test": "jest --runInBand --forceExit",
     "test:watch": "jest --coverage=false --onlyChanged --watch --runInBand",
     "test:lint": "standard",

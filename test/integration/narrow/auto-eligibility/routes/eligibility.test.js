@@ -134,7 +134,6 @@ describe('Eligibility Api - /api/eligibility', () => {
         .mockRejectedValue(testCase.error)
 
       const response = await server.inject(options)
-      const payload = JSON.parse(response.payload)
 
       expect(response.statusCode).toBe(500)
       expect(consoleError).toHaveBeenCalledWith(testCase.error)

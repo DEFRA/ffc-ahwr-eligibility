@@ -5,7 +5,7 @@
   "homepage": "https://github.com/DEFRA/ffc-ahwr-eligibility",
   "main": "app/index.js",
   "scripts": {
-    "pretest": "npm run test:lint --no-audit",
+    "pretest": "npm run test:lint",
     "test": "jest --runInBand --forceExit",
     "test:watch": "jest --coverage=false --onlyChanged --watch --runInBand",
     "test:lint": "standard",
@@ -26,7 +26,7 @@
     "ffc-messaging": "^2.6.2",
     "joi": "^17.7.0",
     "node-cron": "^3.0.2",
-    "notifications-node-client": "^5.1.1",
+    "notifications-node-client": "^5.2.3",
     "pg": "^8.7.3",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.16.2"

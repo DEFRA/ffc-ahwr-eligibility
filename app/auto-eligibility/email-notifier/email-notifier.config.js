@@ -12,7 +12,7 @@ const config = {
   },
   applyService: {
     uri: process.env.APPLY_SERVICE_URI,
-    vetGuidance: process.env.APPLY_SERVICE_URI + "/guidance-for-vet"
+    vetGuidance: process.env.APPLY_SERVICE_URI + '/guidance-for-vet'
   }
 }
 

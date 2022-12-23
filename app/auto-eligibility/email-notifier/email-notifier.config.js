@@ -10,7 +10,10 @@ const config = {
     applyServiceInvite: process.env.NOTIFY_TEMPLATE_ID_APPLY_INVITE,
     ineligibleApplication: process.env.NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION
   },
-  applyServiceUri: process.env.APPLY_SERVICE_URI
+  applyService: {
+    uri: process.env.APPLY_SERVICE_URI,
+    vetGuidance: process.env.APPLY_SERVICE_URI + "/guidance-for-vet"
+  }
 }
 
 const { error, value } = schema.validate(config, { abortEarly: false })

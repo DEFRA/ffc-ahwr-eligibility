@@ -10,5 +10,8 @@ module.exports = Joi.object({
     applyServiceInvite: Joi.string().uuid(),
     ineligibleApplication: Joi.string().uuid()
   },
-  applyServiceUri: Joi.string().uri()
+  applyService: {
+    uri: Joi.string().uri(),
+    vetGuidance: Joi.string().uri()
+  }
 })

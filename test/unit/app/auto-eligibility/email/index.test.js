@@ -13,7 +13,10 @@ describe('Send email test', () => {
         genericIneligible: 'ineligbleTemplateId',
         applyServiceInvite: 'applyServiceInviteTemplateId'
       },
-      applyServiceUri: 'http://localhost:3000/apply'
+      applyService: {
+        uri: 'http://localhost:3000/apply',
+        vetGuidance: 'http://localhost:3000/apply/vet-guidance'
+      }
     }
   }
 
@@ -74,7 +77,8 @@ describe('Send email test', () => {
       'email@email.com',
       {
         personalisation: {
-          applyGuidanceUrl: 'http://localhost:3000/apply'
+          applyGuidanceUrl: 'http://localhost:3000/apply',
+          applyVetGuidanceUrl: 'http://localhost:3000/apply/vet-guidance'
         }
       }
     )

@@ -1,4 +1,4 @@
-const registerYourInterestConfig = require('../../../../app/config').registerYourInterestConfig
+let registerYourInterestConfig
 
 describe('RegisterYourInterestConfig Config Test', () => {
   const OLD_ENV = process.env
@@ -6,6 +6,16 @@ describe('RegisterYourInterestConfig Config Test', () => {
   beforeEach(() => {
     jest.resetModules()
     process.env = { ...OLD_ENV }
+    jest.mock('../../../../app/auto-eligibility/config', () => {
+      return {
+        emailNotifier: {
+          applyService: {
+            vetGuidance: 'http://localhost:3000/apply/vet-guidance'
+          }
+        }
+      }
+    })
+    registerYourInterestConfig = require('../../../../app/config').registerYourInterestConfig
   })
 
   afterAll(() => {

@@ -5,14 +5,17 @@ const processRegisterYourInterestRequest = require('../register-your-interest/me
 let registerYourInterestReceiver
 
 const start = async () => {
-  const registerYourInterestMessageHandler = message => {
-    processRegisterYourInterestRequest(message.body)
-    registerYourInterestReceiver.completeMessage(message)
-  }
-
-  registerYourInterestReceiver = new MessageReceiver(registerYourInterestConfig.registerYourInterestRequestQueue, registerYourInterestMessageHandler)
-  await registerYourInterestReceiver.subscribe()
-  console.info('Ready to receive messages')
+  try {
+    const registerYourInterestMessageHandler = message => {
+      processRegisterYourInterestRequest(message.body)
+      registerYourInterestReceiver.completeMessage(message)
+    }
+    registerYourInterestReceiver = new MessageReceiver(registerYourInterestConfig.registerYourInterestRequestQueue, registerYourInterestMessageHandler)
+    await registerYourInterestReceiver.subscribe()
+    console.info('Ready to receive messages')
+  } catch (e) {
+    console.log('Error starting message receiver.', e)
+  } 
 }
 
 const stop = async () => {

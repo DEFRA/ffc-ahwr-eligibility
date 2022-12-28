@@ -15,7 +15,7 @@ const start = async () => {
     console.info('Ready to receive messages')
   } catch (e) {
     console.log('Error starting message receiver.', e)
-  } 
+  }
 }
 
 const stop = async () => {

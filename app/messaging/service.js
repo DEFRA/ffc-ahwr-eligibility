@@ -14,7 +14,7 @@ const start = async () => {
     await registerYourInterestReceiver.subscribe()
     console.info('Ready to receive messages')
   } catch (e) {
-    console.log('Error starting message receiver.', e)
+    console.error('Error starting message receiver.', e)
   }
 }
 

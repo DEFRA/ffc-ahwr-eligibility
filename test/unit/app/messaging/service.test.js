@@ -3,17 +3,17 @@ let mockClose
 let service
 
 describe(('Consume register your interest message tests'), () => {
-  beforeAll(() => {
+  beforeEach(() => {
     jest.resetModules()
     jest.resetAllMocks()
     jest.mock('ffc-messaging')
     jest.mock('../../../../app/register-your-interest/messaging/process-register-your-interest-request', () => ({}))
-    require('../../../../app/register-your-interest/messaging/process-register-your-interest-request')
-    mocksubscribe = jest.fn()
-    mockClose = jest.fn()
+    mocksubscribe = jest.fn().mockImplementation(() => {})
+    mockClose = jest.fn().mockImplementation(() => {})
     const { MessageReceiver } = require('ffc-messaging')
     MessageReceiver.prototype.subscribe = mocksubscribe
     MessageReceiver.prototype.closeConnection = mockClose
+    require('../../../../app/register-your-interest/messaging/process-register-your-interest-request')
     service = require('../../../../app/messaging/service')
   })
 
@@ -23,7 +23,17 @@ describe(('Consume register your interest message tests'), () => {
   })
 
   test('successfully closed session', async () => {
+    await service.start()
     await service.stop()
     expect(mockClose).toHaveBeenCalledTimes(1)
+  })
+
+  test('catch error starting message receiver', async () => {
+    const consoleErrorSpy = jest.spyOn(console, 'error')
+    mocksubscribe.mockImplementation(() => {
+      throw new Error('Some Error')
+    })
+    await service.start()
+    expect(consoleErrorSpy).toHaveBeenCalledTimes(1)
   })
 })

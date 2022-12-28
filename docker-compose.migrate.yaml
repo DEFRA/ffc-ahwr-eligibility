@@ -18,9 +18,7 @@ services:
     image: liquibase/liquibase:3.10.x
     environment:
       << : *common-migration
-      << : *common-postgres
-    ports:
-      - "5433:5432"       
+      << : *common-postgres  
     entrypoint: >
       sh -c "/scripts/migration/database-up"
     depends_on:

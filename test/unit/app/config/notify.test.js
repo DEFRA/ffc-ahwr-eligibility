@@ -1,4 +1,4 @@
-const notifyConfig = require('../../../../app/config').notifyConfig
+let notifyConfig
 
 describe('notifyConfig Config Test', () => {
   const OLD_ENV = process.env
@@ -6,6 +6,8 @@ describe('notifyConfig Config Test', () => {
   beforeEach(() => {
     jest.resetModules()
     process.env = { ...OLD_ENV }
+    jest.mock('../../../../app/auto-eligibility/config', () => {})
+    notifyConfig = require('../../../../app/config').notifyConfig
   })
 
   afterAll(() => {

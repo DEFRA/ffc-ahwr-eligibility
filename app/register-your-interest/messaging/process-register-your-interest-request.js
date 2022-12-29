@@ -10,7 +10,8 @@ const processRegisterYourInterestRequest = async (request) => {
   const { sbi, crn, email } = req.value
   const eligible = await checkEligibility(sbi, crn, email)
   if (eligible) {
-    await processEligible(sbi, crn, email, eligible.waiting_updated_at, eligible.access_granted)
+    const { waiting_updated_at: waitingUpdatedAt, access_granted: accessGranted } = eligible
+    await processEligible(sbi, crn, email, waitingUpdatedAt, accessGranted)
   } else {
     await processIneligible(sbi, crn, email)
   }

@@ -44,7 +44,7 @@ describe('Process register your interest message', () => {
         request.crn,
         request.email
       )
-      .mockResolvedValue({ waiting_updated_at: '2022-12-29 11:35:00', access_granted: false })
+      .mockResolvedValue({ waiting_updated_at: null, access_granted: false })
 
     await processRegisterYourInterestRequest(request)
 
@@ -53,7 +53,7 @@ describe('Process register your interest message', () => {
       request.sbi,
       request.crn,
       request.email,
-      '2022-12-29 11:35:00',
+      null,
       false
     )
   })

@@ -41,9 +41,10 @@ describe('Process register your interest message', () => {
     when(checkEligibility)
       .calledWith(
         request.sbi,
-        request.crn
+        request.crn,
+        request.email
       )
-      .mockResolvedValue({})
+      .mockResolvedValue({ waiting_updated_at: '2022-12-29 11:35:00', access_granted: false })
 
     await processRegisterYourInterestRequest(request)
 
@@ -51,7 +52,9 @@ describe('Process register your interest message', () => {
     expect(processEligible).toHaveBeenCalledWith(
       request.sbi,
       request.crn,
-      request.email
+      request.email,
+      '2022-12-29 11:35:00',
+      false
     )
   })
 
@@ -64,7 +67,8 @@ describe('Process register your interest message', () => {
     when(checkEligibility)
       .calledWith(
         request.sbi,
-        request.crn
+        request.crn,
+        request.email
       )
       .mockResolvedValue(undefined)
 

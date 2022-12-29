@@ -46,11 +46,11 @@ container:
   applyServiceUri: 
   imagePullPolicy: IfNotPresent
   messageQueueHost: namespace.servicebus.windows.net
-  limitMemory: 100Mi
+  limitMemory: 150Mi
   limitCpu: 80m
   port: 3000
-  requestCpu: 40m
-  requestMemory: 80Mi
+  requestCpu: 60m
+  requestMemory: 100Mi
 
 postgresService:
   postgresDb: ffc_ahwr_eligibility
@@ -62,13 +62,13 @@ postgresService:
 livenessProbe:
   path: /healthz
   port: 3000
-  initialDelaySeconds: 20
+  initialDelaySeconds: 30
   periodSeconds: 10
   failureThreshold: 3
 
 readinessProbe:
   path: /healthy
   port: 3000
-  initialDelaySeconds: 20
+  initialDelaySeconds: 30
   periodSeconds: 10
   failureThreshold: 3

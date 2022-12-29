@@ -1,0 +1,61 @@
+openapi: 3.0.3
+info:
+  title: Eligibility API
+  description: |-
+    Eligibility API for Animal Health and Welfare Review
+  version: 0.1.0
+tags:
+  - name: eligibility
+    description: Everything about eligibility.
+paths:
+  /eligibility:
+    get:
+      tags:
+        - eligibility
+      summary: Check eligibility by farmer's business email address.
+      description: Check whether a given farmer's business email address has been flagged as eligible.
+      operationId: checkEligibility
+      parameters:
+        - name: emailAddress
+          in: query
+          description: Farmer's business email address.
+          required: true
+          schema:
+            type: string
+            format: email
+      responses:
+        '200':
+          description: The farmer's business email address is eligible.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Bad request. A valid email address must be specified.
+        '404':
+          description: The farmer's business email address is ineligible or was not found.
+        '5XX':
+          description: Unexpected error.
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        farmerName:
+          type: string
+          example: "David Smith"
+        name:
+          type: string
+          example: "David's Farm"
+        sbi:
+          type: string
+          example: "123456789"
+        crn:
+          type: string
+          example: "1234567890"
+        address:
+          type: string
+          example: "Some Road, London, MK55 7ES"
+        email:
+          type: string
+          example: "business@email.com"

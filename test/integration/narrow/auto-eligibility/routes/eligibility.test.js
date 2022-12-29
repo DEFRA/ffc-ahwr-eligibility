@@ -1,35 +1,142 @@
-describe('Eligibility Api - /api/eligibility', () => {
-  const server = require('../../../../../app/server/server')
+const { when, resetAllWhenMocks } = require('jest-when')
 
-  const URL = '/api/eligibility'
+const API_URL = '/api/eligibility'
+
+describe('Eligibility Api - /api/eligibility', () => {
+  let db
+  let server
+  let consoleError
 
   beforeAll(async () => {
     jest.resetAllMocks()
+
+    jest.mock('../../../../../app/data')
+    db = require('../../../../../app/data')
+
+    server = require('../../../../../app/server/server')
     await server.start()
+
+    consoleError = jest.spyOn(console, 'error')
   })
 
-  afterEach(async () => {
+  afterAll(async () => {
     await server.stop()
+    jest.resetModules()
+    resetAllWhenMocks()
   })
 
   describe('GET', () => {
     test.each([
       {
-        emailAddress: 'name@email.com'
+        emailAddress: 'business@email.com',
+        farmer: {
+          sbi: 123456789,
+          crn: '1234567890',
+          customer_name: 'David Smith',
+          business_name: 'David\'s Farm',
+          business_email: 'business@email.com',
+          business_address: 'Some Road, London, MK55 7ES',
+          last_updated_at: undefined,
+          waiting_updated_at: undefined,
+          access_granted: true
+        }
       }
-    ])('Returns whether a given farmer\'s email address has been flagged as eligible', async (testCase) => {
+    ])('Returns a farmer provided he is granted access', async (testCase) => {
       const options = {
         method: 'GET',
-        url: `${URL}?emailAddress=${testCase.emailAddress}`
+        url: `${API_URL}?emailAddress=${testCase.emailAddress}`
       }
+      when(db.eligibility.findOne)
+        .calledWith({
+          where: {
+            business_email: testCase.emailAddress
+          }
+        })
+        .mockResolvedValue(testCase.farmer)
 
       const response = await server.inject(options)
       const payload = JSON.parse(response.payload)
 
       expect(response.statusCode).toBe(200)
       expect(payload).toEqual({
-        eligible: true
+        farmerName: testCase.farmer.customer_name,
+        name: testCase.farmer.business_name,
+        sbi: testCase.farmer.sbi,
+        crn: testCase.farmer.crn,
+        address: testCase.farmer.business_address,
+        email: testCase.farmer.business_email
       })
+    })
+
+    test.each([
+      {
+        emailAddress: 'business@email.com',
+        farmer: {
+          sbi: 123456789,
+          crn: '1234567890',
+          customer_name: 'David Smith',
+          business_name: 'David\'s Farm',
+          business_email: 'business@email.com',
+          business_address: 'Some Road, London, MK55 7ES',
+          last_updated_at: undefined,
+          waiting_updated_at: undefined,
+          access_granted: false
+        }
+      },
+      {
+        emailAddress: 'business@email.com',
+        farmer: {}
+      },
+      {
+        emailAddress: 'business@email.com',
+        farmer: undefined
+      }
+    ])('Returns 404 if a farmer is not found or is not granted access', async (testCase) => {
+      const options = {
+        method: 'GET',
+        url: `${API_URL}?emailAddress=${testCase.emailAddress}`
+      }
+      when(db.eligibility.findOne)
+        .calledWith({
+          where: {
+            business_email: testCase.emailAddress
+          }
+        })
+        .mockResolvedValue(testCase.farmer)
+
+      const response = await server.inject(options)
+      const payload = JSON.parse(response.payload)
+
+      expect(response.statusCode).toBe(404)
+      expect(payload).toEqual({
+        error: 'Not Found',
+        message: 'Farmer not found',
+        statusCode: 404
+      })
+    })
+
+    test.each([
+      {
+        emailAddress: 'business@email.com',
+        error: new Error('ECONNREFUSED')
+      }
+    ])('Returns 500 if some internal error', async (testCase) => {
+      const options = {
+        method: 'GET',
+        url: `${API_URL}?emailAddress=${testCase.emailAddress}`
+      }
+      when(db.eligibility.findOne)
+        .calledWith({
+          where: {
+            business_email: testCase.emailAddress
+          }
+        })
+        .mockRejectedValue(testCase.error)
+
+      const response = await server.inject(options)
+
+      expect(response.statusCode).toBe(500)
+      expect(consoleError).toHaveBeenCalledWith(testCase.error)
     })
 
     test.each([
@@ -45,7 +152,7 @@ describe('Eligibility Api - /api/eligibility', () => {
     ])('Bad request. A valid email address must be specified. ($queryString)', async (testCase) => {
       const options = {
         method: 'GET',
-        url: `${URL}${testCase.queryString}`
+        url: `${API_URL}${testCase.queryString}`
       }
 
       const response = await server.inject(options)

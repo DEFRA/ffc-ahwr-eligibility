@@ -1,4 +1,4 @@
-const autoEligibilityConfig = require('../../../../../app/config').autoEligibilityConfig
+let autoEligibilityConfig
 
 describe('autoEligiblityConfig Config Test', () => {
   const OLD_ENV = process.env
@@ -6,6 +6,8 @@ describe('autoEligiblityConfig Config Test', () => {
   beforeEach(() => {
     jest.resetModules()
     process.env = { ...OLD_ENV }
+    process.env.APPLY_SERVICE_URI = 'http://localhost:3000/apply'
+    autoEligibilityConfig = require('../../../../../app/config').autoEligibilityConfig
   })
 
   afterAll(() => {

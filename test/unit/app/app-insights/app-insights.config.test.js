@@ -29,6 +29,19 @@ describe('App Insights Config', () => {
     expect(appInsightsConfig.appName).toEqual(ROLE_NAME)
   })
 
+  test('All of the fields are empty', async () => {
+    const CONN_STRING = ''
+    const ROLE_NAME = ''
+
+    process.env.APPLICATIONINSIGHTS_CONNECTION_STRING = CONN_STRING
+    process.env.APPINSIGHTS_CLOUDROLE = ROLE_NAME
+    appInsightsConfig = require('../../../../app/app-insights/app-insights.config')
+
+    expect(appInsightsConfig).toBeDefined()
+    expect(appInsightsConfig.connectionString).toEqual(CONN_STRING)
+    expect(appInsightsConfig.appName).toEqual(ROLE_NAME)
+  })
+
   test('Schema validation error', () => {
     const CONN_STRING = 123
     const ROLE_NAME = 'role_name'

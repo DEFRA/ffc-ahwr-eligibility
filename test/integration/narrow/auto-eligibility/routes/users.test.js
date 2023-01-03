@@ -42,6 +42,44 @@ describe('Eligibility Api - /api/users', () => {
             access_granted: true
           }
         ]
+      },
+      {
+        emailAddress: 'business@email.com',
+        farmers: [
+          {
+            sbi: 123456789,
+            crn: '1234567890',
+            customer_name: 'David Smith',
+            business_name: 'David\'s Farm',
+            business_email: 'business@email.com',
+            business_address: 'Some Road, London, MK55 7ES',
+            last_updated_at: undefined,
+            waiting_updated_at: undefined,
+            access_granted: true
+          },
+          {
+            sbi: 123456789,
+            crn: '1234567890',
+            customer_name: 'David Smith',
+            business_name: 'David\'s Farm',
+            business_email: 'business@email.com',
+            business_address: 'Some Road, London, MK55 7ES',
+            last_updated_at: undefined,
+            waiting_updated_at: undefined,
+            access_granted: false
+          },
+          {
+            sbi: 123456789,
+            crn: '1234567890',
+            customer_name: 'David Smith',
+            business_name: 'David\'s Farm',
+            business_email: 'business@email.com',
+            business_address: 'Some Road, London, MK55 7ES',
+            last_updated_at: undefined,
+            waiting_updated_at: undefined,
+            access_granted: true
+          }
+        ]
       }
     ])('Returns a farmer provided he is granted access', async (testCase) => {
       const options = {
@@ -60,16 +98,16 @@ describe('Eligibility Api - /api/users', () => {
       const payload = JSON.parse(response.payload)
 
       expect(response.statusCode).toBe(200)
-      expect(payload).toEqual([
-        {
-        farmerName: testCase.farmers[0].customer_name,
-        name: testCase.farmers[0].business_name,
-        sbi: testCase.farmers[0].sbi,
-        crn: testCase.farmers[0].crn,
-        address: testCase.farmers[0].business_address,
-        email: testCase.farmers[0].business_email
-        }
-      ])
+      expect(payload).toEqual(
+        testCase.farmers.filter(farmer => farmer.access_granted).map(farmer => ({
+          farmerName: farmer.customer_name,
+          name: farmer.business_name,
+          sbi: farmer.sbi,
+          crn: farmer.crn,
+          address: farmer.business_address,
+          email: farmer.business_email
+        }))
+      )
     })
 
     test.each([

@@ -40,7 +40,7 @@ module.exports = {
           email: farmer.business_email
         }))
       )
-        .code(200)
+      .code(200)
     } catch (error) {
       console.error(error)
       throw Boom.internal(error)

@@ -81,7 +81,7 @@ describe('Eligibility Api - /api/users', () => {
           }
         ]
       }
-    ])('Returns a farmer provided he is granted access', async (testCase) => {
+    ])('Returns farmer list provided they are granted access', async (testCase) => {
       const options = {
         method: 'GET',
         url: `${API_URL}?emailAddress=${testCase.emailAddress}`
@@ -135,7 +135,7 @@ describe('Eligibility Api - /api/users', () => {
         emailAddress: 'business@email.com',
         farmers: undefined
       }
-    ])('Returns 404 if a farmer is not found or is not granted access', async (testCase) => {
+    ])('Returns 404 if no farmer is found or is not granted access', async (testCase) => {
       const options = {
         method: 'GET',
         url: `${API_URL}?emailAddress=${testCase.emailAddress}`

@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const { when, resetAllWhenMocks } = require('jest-when')
 
 const API_URL = '/api/users'
@@ -66,17 +67,6 @@ describe('Eligibility Api - /api/users', () => {
             business_address: 'Some Road, London, MK55 7ES',
             last_updated_at: undefined,
             waiting_updated_at: undefined,
-            access_granted: false
-          },
-          {
-            sbi: 123456789,
-            crn: '1234567890',
-            customer_name: 'David Smith',
-            business_name: 'David\'s Farm',
-            business_email: 'business@email.com',
-            business_address: 'Some Road, London, MK55 7ES',
-            last_updated_at: undefined,
-            waiting_updated_at: undefined,
             access_granted: true
           }
         ]
@@ -89,7 +79,10 @@ describe('Eligibility Api - /api/users', () => {
       when(db.eligibility.findAll)
         .calledWith({
           where: {
-            business_email: testCase.emailAddress
+            [Op.and]: [
+              { business_email: testCase.emailAddress },
+              { access_granted: true }
+            ]
           }
         })
         .mockResolvedValue(testCase.farmers)
@@ -113,23 +106,7 @@ describe('Eligibility Api - /api/users', () => {
     test.each([
       {
         emailAddress: 'business@email.com',
-        farmers: [
-          {
-            sbi: 123456789,
-            crn: '1234567890',
-            customer_name: 'David Smith',
-            business_name: 'David\'s Farm',
-            business_email: 'business@email.com',
-            business_address: 'Some Road, London, MK55 7ES',
-            last_updated_at: undefined,
-            waiting_updated_at: undefined,
-            access_granted: false
-          }
-        ]
-      },
-      {
-        emailAddress: 'business@email.com',
-        farmers: [{}]
+        farmers: []
       },
       {
         emailAddress: 'business@email.com',
@@ -143,7 +120,10 @@ describe('Eligibility Api - /api/users', () => {
       when(db.eligibility.findAll)
         .calledWith({
           where: {
-            business_email: testCase.emailAddress
+            [Op.and]: [
+              { business_email: testCase.emailAddress },
+              { access_granted: true }
+            ]
           }
         })
         .mockResolvedValue(testCase.farmers)
@@ -172,7 +152,10 @@ describe('Eligibility Api - /api/users', () => {
       when(db.eligibility.findAll)
         .calledWith({
           where: {
-            business_email: testCase.emailAddress
+            [Op.and]: [
+              { business_email: testCase.emailAddress },
+              { access_granted: true }
+            ]
           }
         })
         .mockRejectedValue(testCase.error)

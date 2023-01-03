@@ -23,11 +23,11 @@ module.exports = {
   },
   handler: async (request, h) => {
     try {
-      const all = await eligibilityDbTable.findAllByBusinessEmail(
-        request.query.emailAddress
+      const farmers = await eligibilityDbTable.findAllByBusinessEmailAndAccessGranted(
+        request.query.emailAddress,
+        true
       )
-      const farmers = all ? all.filter(farmer => farmer.access_granted) : []
-      if (farmers.length === 0) {
+      if (!farmers || farmers.length === 0) {
         return Boom.notFound('No farmer found')
       }
       return h.response(
@@ -40,7 +40,7 @@ module.exports = {
           email: farmer.business_email
         }))
       )
-        .code(200)
+      .code(200)
     } catch (error) {
       console.error(error)
       throw Boom.internal(error)

@@ -1,4 +1,4 @@
-const { Op } = require("sequelize");
+const { Op } = require('sequelize')
 const { when, resetAllWhenMocks } = require('jest-when')
 
 const API_URL = '/api/users'

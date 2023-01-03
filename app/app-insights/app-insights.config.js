@@ -2,7 +2,7 @@ const schema = require('./app-insights.config.schema')
 
 const config = {
   connectionString: process.env.APPLICATIONINSIGHTS_CONNECTION_STRING,
-  appName: process.env.APPINSIGHTS_CLOUDROLE
+  roleName: process.env.APPINSIGHTS_CLOUDROLE
 }
 
 const { error, value } = schema.validate(config, { abortEarly: false })

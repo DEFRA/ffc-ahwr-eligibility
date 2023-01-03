@@ -1,6 +1,8 @@
 describe('App Insights', () => {
   const logSpy = jest.spyOn(console, 'log')
 
+  const MOCK_CONNECTION_STRING = 'mock_conn_string'
+
   const MOCK_APP_INSIGHTS_SETUP = jest.fn(() => ({ start: jest.fn() }))
 
   let appInsights
@@ -34,8 +36,8 @@ describe('App Insights', () => {
         const original = jest.requireActual('../../../../app/app-insights/app-insights.config')
         return {
           ...original,
-          connectionString: 'mock_conn_string',
-          appName: 'mock_app_name'
+          connectionString: MOCK_CONNECTION_STRING,
+          roleName: 'mock_app_name'
         }
       })
       const appInsightsConfig = require('../../../../app/app-insights/app-insights.config')
@@ -44,9 +46,9 @@ describe('App Insights', () => {
       const { setup } = require('../../../../app/app-insights/app-insights')
       setup()
 
-      expect(MOCK_APP_INSIGHTS_SETUP).toHaveBeenCalledTimes(1)
+      expect(MOCK_APP_INSIGHTS_SETUP).toHaveBeenCalledWith(MOCK_CONNECTION_STRING)
       expect(logSpy).toHaveBeenCalledWith('App Insights Running')
-      expect(appInsights.defaultClient.context.tags[cloudRoleTag]).toEqual(appInsightsConfig.appName)
+      expect(appInsights.defaultClient.context.tags[cloudRoleTag]).toEqual(appInsightsConfig.roleName)
     })
 
     test('when there is no app insights config defined', () => {
@@ -55,7 +57,7 @@ describe('App Insights', () => {
         return {
           ...original,
           connectionString: undefined,
-          appName: undefined
+          roleName: undefined
         }
       })
 

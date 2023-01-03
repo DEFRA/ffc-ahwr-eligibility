@@ -3,11 +3,12 @@ const config = require('./app-insights.config')
 
 function setup () {
   if (config.connectionString) {
-    appInsights.setup().start()
+    appInsights.setup(
+      config.connectionString
+    ).start()
     console.log('App Insights Running')
     const cloudRoleTag = appInsights.defaultClient.context.keys.cloudRole
-    const appName = config.appName
-    appInsights.defaultClient.context.tags[cloudRoleTag] = appName
+    appInsights.defaultClient.context.tags[cloudRoleTag] = config.roleName
   } else {
     console.log('App Insights Not Running!')
   }

@@ -1,5 +1,6 @@
 describe('App Insights Config', () => {
   const OLD_ENV = process.env
+
   let appInsightsConfig
 
   beforeEach(() => {
@@ -26,7 +27,7 @@ describe('App Insights Config', () => {
 
     expect(appInsightsConfig).toBeDefined()
     expect(appInsightsConfig.connectionString).toEqual(CONN_STRING)
-    expect(appInsightsConfig.appName).toEqual(ROLE_NAME)
+    expect(appInsightsConfig.roleName).toEqual(ROLE_NAME)
   })
 
   test('All of the fields are empty', async () => {
@@ -39,7 +40,7 @@ describe('App Insights Config', () => {
 
     expect(appInsightsConfig).toBeDefined()
     expect(appInsightsConfig.connectionString).toEqual(CONN_STRING)
-    expect(appInsightsConfig.appName).toEqual(ROLE_NAME)
+    expect(appInsightsConfig.roleName).toEqual(ROLE_NAME)
   })
 
   test('Schema validation error', () => {

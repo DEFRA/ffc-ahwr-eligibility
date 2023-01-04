@@ -17,30 +17,37 @@ function setup () {
 
 function logTrace (message, properties) {
   console.log(`${message}: ${JSON.stringify(properties)}`)
+  /*
   const telemetryClient = appInsights.defaultClient
   const traceTelemetry = {
     message,
     properties
   }
   telemetryClient?.trackTrace(traceTelemetry)
+  */
 }
 
 function logEvent (eventName, properties) {
   console.log(`${eventName}: ${JSON.stringify(properties)}`)
+  /*
   const telemetryClient = appInsights.defaultClient
   const eventTelemetry = {
     name: eventName,
     properties
   }
   telemetryClient?.trackEvent(eventTelemetry)
+  */
 }
 
-function logError (error, properties) {
+function logError (error, errorMessage, properties) {
   console.error(error)
   const telemetryClient = appInsights.defaultClient
   const exceptionTelemetry = {
     exception: error,
-    properties
+    properties: {
+      errorMessage,
+      ...properties
+    }
   }
   telemetryClient?.trackException(exceptionTelemetry)
 }

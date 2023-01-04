@@ -1,4 +1,5 @@
 const { MessageReceiver } = require('ffc-messaging')
+const logger = require('../app-insights')
 const registerYourInterestConfig = require('../config').registerYourInterestConfig
 const processRegisterYourInterestRequest = require('../register-your-interest/messaging/process-register-your-interest-request')
 
@@ -12,9 +13,9 @@ const start = async () => {
     }
     registerYourInterestReceiver = new MessageReceiver(registerYourInterestConfig.registerYourInterestRequestQueue, registerYourInterestMessageHandler)
     await registerYourInterestReceiver.subscribe()
-    console.info('Ready to receive messages')
+    logger.logTrace('Ready to receive messages')
   } catch (e) {
-    console.error('Error starting message receiver.', e)
+    logger.logError(e, 'Failed to start the message receiver')
   }
 }
 

@@ -2,6 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const { Sequelize, DataTypes } = require('sequelize')
 const config = require('../config')
+const logger = require('../app-insights')
 const dbConfig = config.dbConfig[config.env]
 const modelPath = path.join(__dirname, 'models')
 const db = {}
@@ -11,9 +12,9 @@ const sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.p
 const sequelizeCheck = async () => {
   try {
     await sequelize.authenticate()
-    console.log('Connection has been established successfully.')
+    logger.logTrace('Connection has been established successfully')
   } catch (error) {
-    console.error('Unable to connect to the database:', error)
+    logger.logError(error, 'Failed to connect to the database')
   }
 }
 

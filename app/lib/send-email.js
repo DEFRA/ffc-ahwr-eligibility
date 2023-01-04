@@ -1,13 +1,24 @@
+const logger = require('../app-insights')
 const notifyClient = require('../client/notify-client')
 
-module.exports = async (templateId, email, options) => {
+module.exports = async (templateId, emailAddress, options) => {
   try {
-    console.log(`Attempting to send email with template ID ${templateId} to email ${email}`)
-    await notifyClient.sendEmail(templateId, email, options)
-    console.log(`Successfully sent email with template ID ${templateId} to email ${email}.`)
+    logger.logTrace('Attempting to send an email', {
+      emailAddress,
+      templateId
+    })
+    await notifyClient.sendEmail(templateId, emailAddress, options)
+    logger.logTrace('Email has been sent successfully', {
+      emailAddress,
+      templateId
+    })
     return true
   } catch (e) {
-    console.error(`Error ${JSON.stringify(e.response.data.errors)} occurred during sending of email to address ${email} with template ID ${templateId}.`)
+    logger.logError(e, 'Failed to send an email', {
+      emailAddress,
+      templateId: templateId,
+      errors: e.response.data.errors
+    })
     return false
   }
 }

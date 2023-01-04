@@ -1,5 +1,7 @@
+const logger = require('../app-insights')
+
 const unhandledRejection = async (err) => {
-  console.error(err)
+  logger.logError(err, 'Unhandled rejection')
   process.exit(1)
 }
 

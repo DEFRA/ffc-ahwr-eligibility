@@ -41,7 +41,7 @@ module.exports = {
         })
         .code(200)
     } catch (error) {
-      appInsights.logError(error, {
+      appInsights.logError(error, 'Failed to get eligibility', {
         emailAddress: request.query.emailAddress
       })
       throw Boom.internal(error)

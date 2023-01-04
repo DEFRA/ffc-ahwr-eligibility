@@ -1,18 +1,23 @@
 const updateAccessGranted = require('../../auto-eligibility/processing/update-access-granted')
 const { sendApplyGuidanceEmail } = require('../../auto-eligibility/email-notifier')
+const logger = require('../../app-insights')
 
 const processWaitingList = async (upperlimit) => {
-  console.log(`Executing process waiting list with limit of ${upperlimit}.`)
+  logger.logTrace('Executing process waiting list', {
+    upperlimit
+  })
   try {
     const result = await updateAccessGranted()
     const farmersCount = result[0]
     const farmers = result[1]
-    console.log(`${farmersCount} farmers moved from the waiting list.`)
+    logger.logTrace('Farmers moved from the waiting list', {
+      farmersCount
+    })
     farmers.forEach(farmer => {
       sendApplyGuidanceEmail(farmer.business_email)
     })
   } catch (e) {
-    console.error('Error processing waiting list.', e)
+    logger.logError(e, 'Failed to process waiting list')
   }
 }
 

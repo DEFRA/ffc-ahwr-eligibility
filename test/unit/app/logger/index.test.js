@@ -1,5 +1,7 @@
-describe('App Insights', () => {
+describe('Logger', () => {
   const logSpy = jest.spyOn(console, 'log')
+
+  const errorSpy = jest.spyOn(console, 'error')
 
   const MOCK_CONNECTION_STRING = 'mock_conn_string'
 
@@ -72,7 +74,7 @@ describe('App Insights', () => {
   })
 
   describe('logTrace', () => {
-    test('when called with message and some custom properties', () => {
+    test('when called with message and custom properties', () => {
       const { logTrace } = require('../../../../app/logger')
 
       logTrace('Trace message', {
@@ -80,6 +82,9 @@ describe('App Insights', () => {
         param2: 'value2'
       })
 
+      expect(logSpy).toHaveBeenCalledWith(
+        `Trace message: {"param1":"value1","param2":"value2"}`
+      )
       /*
       expect(appInsights.defaultClient.trackTrace).toHaveBeenCalledWith({
         message: 'Trace message',
@@ -90,10 +95,23 @@ describe('App Insights', () => {
       })
       */
     })
+
+    test('when called with message', () => {
+      const { logTrace } = require('../../../../app/logger')
+
+      logTrace('Trace message')
+
+      expect(logSpy).toHaveBeenCalledWith('Trace message')
+      /*
+      expect(appInsights.defaultClient.trackTrace).toHaveBeenCalledWith({
+        message: 'Trace message'
+      })
+      */
+    })
   })
 
   describe('logEvent', () => {
-    test('when called with message and some custom properties', () => {
+    test('when called with message and custom properties', () => {
       const { logEvent } = require('../../../../app/logger')
 
       logEvent('Event name', {
@@ -101,6 +119,7 @@ describe('App Insights', () => {
         param2: 'value2'
       })
 
+      expect(logSpy).toHaveBeenCalledWith(`Event name: {"param1":"value1","param2":"value2"}`)
       /*
       expect(appInsights.defaultClient.trackEvent).toHaveBeenCalledWith({
         name: 'Event name',
@@ -111,10 +130,23 @@ describe('App Insights', () => {
       })
       */
     })
+
+    test('when called with message', () => {
+      const { logEvent } = require('../../../../app/logger')
+
+      logEvent('Event name')
+
+      expect(logSpy).toHaveBeenCalledWith('Event name')
+      /*
+      expect(appInsights.defaultClient.trackEvent).toHaveBeenCalledWith({
+        name: 'Event name'
+      })
+      */
+    })
   })
 
   describe('logError', () => {
-    test('when called with message and some custom properties', () => {
+    test('when called with error and message and custom properties', () => {
       const { logError } = require('../../../../app/logger')
 
       logError(new Error('msg'), 'Error message', {
@@ -122,6 +154,7 @@ describe('App Insights', () => {
         param2: 'value2'
       })
 
+      expect(errorSpy).toHaveBeenCalledWith(new Error('msg'))
       expect(appInsights.defaultClient.trackException).toHaveBeenCalledWith({
         exception: new Error('msg'),
         properties: {
@@ -129,6 +162,31 @@ describe('App Insights', () => {
           param1: 'value1',
           param2: 'value2'
         }
+      })
+    })
+
+    test('when called with error and message', () => {
+      const { logError } = require('../../../../app/logger')
+
+      logError(new Error('msg'), 'Error message')
+
+      expect(errorSpy).toHaveBeenCalledWith(new Error('msg'))
+      expect(appInsights.defaultClient.trackException).toHaveBeenCalledWith({
+        exception: new Error('msg'),
+        properties: {
+          errorMessage: 'Error message'
+        }
+      })
+    })
+
+    test('when called with error', () => {
+      const { logError } = require('../../../../app/logger')
+
+      logError(new Error('msg'))
+
+      expect(errorSpy).toHaveBeenCalledWith(new Error('msg'))
+      expect(appInsights.defaultClient.trackException).toHaveBeenCalledWith({
+        exception: new Error('msg')
       })
     })
   })

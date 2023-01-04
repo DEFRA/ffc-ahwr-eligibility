@@ -16,7 +16,11 @@ function setup () {
 }
 
 function logTrace (message, properties) {
-  console.log(`${message}: ${JSON.stringify(properties)}`)
+  if (properties) {
+    console.log(`${message}: ${JSON.stringify(properties)}`)
+  } else {
+    console.log(message)
+  }
   /*
   const telemetryClient = appInsights.defaultClient
   const traceTelemetry = {
@@ -28,7 +32,11 @@ function logTrace (message, properties) {
 }
 
 function logEvent (eventName, properties) {
-  console.log(`${eventName}: ${JSON.stringify(properties)}`)
+  if (properties) {
+    console.log(`${eventName}: ${JSON.stringify(properties)}`)
+  } else {
+    console.log(eventName)
+  }
   /*
   const telemetryClient = appInsights.defaultClient
   const eventTelemetry = {
@@ -42,13 +50,17 @@ function logEvent (eventName, properties) {
 function logError (error, errorMessage, properties) {
   console.error(error)
   const telemetryClient = appInsights.defaultClient
-  const exceptionTelemetry = {
-    exception: error,
-    properties: {
-      errorMessage,
-      ...properties
-    }
-  }
+  const exceptionTelemetry = errorMessage
+    ? {
+        exception: error,
+        properties: {
+          errorMessage,
+          ...properties
+        }
+      }
+    : {
+        exception: error
+      }
   telemetryClient?.trackException(exceptionTelemetry)
 }
 

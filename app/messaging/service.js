@@ -1,5 +1,5 @@
 const { MessageReceiver } = require('ffc-messaging')
-const logger = require('../app-insights')
+const logger = require('../logger')
 const registerYourInterestConfig = require('../config').registerYourInterestConfig
 const processRegisterYourInterestRequest = require('../register-your-interest/messaging/process-register-your-interest-request')
 

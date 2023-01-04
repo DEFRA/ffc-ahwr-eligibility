@@ -1,7 +1,7 @@
 const Joi = require('joi')
 const Boom = require('@hapi/boom')
 const eligibilityDbTable = require('../db/eligibility.db.table')
-const logger = require('../../app-insights')
+const logger = require('../../logger')
 
 module.exports = {
   method: 'GET',

@@ -1,6 +1,6 @@
 const updateAccessGranted = require('../../auto-eligibility/processing/update-access-granted')
 const { sendApplyGuidanceEmail } = require('../../auto-eligibility/email-notifier')
-const logger = require('../../app-insights')
+const logger = require('../../logger')
 
 const processWaitingList = async (upperlimit) => {
   logger.logTrace('Executing process waiting list', {

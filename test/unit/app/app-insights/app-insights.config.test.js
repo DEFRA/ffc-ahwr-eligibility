@@ -13,7 +13,7 @@ describe('App Insights Config', () => {
   })
 
   test('None of the fields are populated', async () => {
-    appInsightsConfig = require('../../../../app/app-insights/app-insights.config')
+    appInsightsConfig = require('../../../../app/logger/app-insights.config')
     expect(appInsightsConfig).toBeDefined()
   })
 
@@ -23,7 +23,7 @@ describe('App Insights Config', () => {
 
     process.env.APPLICATIONINSIGHTS_CONNECTION_STRING = CONN_STRING
     process.env.APPINSIGHTS_CLOUDROLE = ROLE_NAME
-    appInsightsConfig = require('../../../../app/app-insights/app-insights.config')
+    appInsightsConfig = require('../../../../app/logger/app-insights.config')
 
     expect(appInsightsConfig).toBeDefined()
     expect(appInsightsConfig.connectionString).toEqual(CONN_STRING)
@@ -36,7 +36,7 @@ describe('App Insights Config', () => {
 
     process.env.APPLICATIONINSIGHTS_CONNECTION_STRING = CONN_STRING
     process.env.APPINSIGHTS_CLOUDROLE = ROLE_NAME
-    appInsightsConfig = require('../../../../app/app-insights/app-insights.config')
+    appInsightsConfig = require('../../../../app/logger/app-insights.config')
 
     expect(appInsightsConfig).toBeDefined()
     expect(appInsightsConfig.connectionString).toEqual(CONN_STRING)
@@ -51,7 +51,7 @@ describe('App Insights Config', () => {
     process.env.APPINSIGHTS_CLOUDROLE = ROLE_NAME
 
     expect(
-      () => require('../../../../app/app-insights/app-insights.config')
+      () => require('../../../../app/logger/app-insights.config')
     ).toThrowError('The app insights configuration is invalid. "connectionString" must be a string')
   })
 })

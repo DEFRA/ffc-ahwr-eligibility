@@ -1,4 +1,4 @@
-const logger = require('../app-insights')
+const logger = require('../logger')
 
 const unhandledRejection = async (err) => {
   logger.logError(err, 'Unhandled rejection')

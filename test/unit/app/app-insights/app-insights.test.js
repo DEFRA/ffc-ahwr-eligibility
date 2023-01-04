@@ -42,10 +42,10 @@ describe('App Insights', () => {
           roleName: 'mock_app_name'
         }
       })
-      const appInsightsConfig = require('../../../../app/app-insights/app-insights.config')
+      const appInsightsConfig = require('../../../../app/logger/app-insights.config')
       const cloudRoleTag = appInsights.defaultClient.context.keys.cloudRole
 
-      const { setup } = require('../../../../app/app-insights')
+      const { setup } = require('../../../../app/logger')
       setup()
 
       expect(MOCK_APP_INSIGHTS_SETUP).toHaveBeenCalledWith(MOCK_CONNECTION_STRING)
@@ -63,7 +63,7 @@ describe('App Insights', () => {
         }
       })
 
-      const { setup } = require('../../../../app/app-insights')
+      const { setup } = require('../../../../app/logger')
       setup()
 
       expect(MOCK_APP_INSIGHTS_SETUP).toHaveBeenCalledTimes(0)
@@ -73,7 +73,7 @@ describe('App Insights', () => {
 
   describe('logTrace', () => {
     test('when called with message and some custom properties', () => {
-      const { logTrace } = require('../../../../app/app-insights')
+      const { logTrace } = require('../../../../app/logger')
 
       logTrace('Trace message', {
         param1: 'value1',
@@ -94,7 +94,7 @@ describe('App Insights', () => {
 
   describe('logEvent', () => {
     test('when called with message and some custom properties', () => {
-      const { logEvent } = require('../../../../app/app-insights')
+      const { logEvent } = require('../../../../app/logger')
 
       logEvent('Event name', {
         param1: 'value1',
@@ -115,7 +115,7 @@ describe('App Insights', () => {
 
   describe('logError', () => {
     test('when called with message and some custom properties', () => {
-      const { logError } = require('../../../../app/app-insights')
+      const { logError } = require('../../../../app/logger')
 
       logError(new Error('msg'), 'Error message', {
         param1: 'value1',

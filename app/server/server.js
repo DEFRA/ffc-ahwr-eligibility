@@ -1,4 +1,4 @@
-require('../app-insights').setup()
+require('../logger').setup()
 const Hapi = require('@hapi/hapi')
 
 const server = Hapi.server({

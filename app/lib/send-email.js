@@ -1,4 +1,4 @@
-const logger = require('../app-insights')
+const logger = require('../logger')
 const notifyClient = require('../client/notify-client')
 
 module.exports = async (templateId, emailAddress, options) => {

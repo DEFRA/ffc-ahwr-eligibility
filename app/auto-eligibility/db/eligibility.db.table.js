@@ -1,6 +1,6 @@
 const { Op } = require('sequelize')
 const db = require('../../data')
-const logger = require('../../app-insights')
+const logger = require('../../logger')
 
 const findByBusinessEmail = async (businessEmail) => {
   logger.logTrace('Finding by business_email', {

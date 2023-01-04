@@ -7,28 +7,44 @@ function setup () {
       config.connectionString
     ).start()
     console.log('App Insights Running')
-    const cloudRoleTag = appInsights.defaultClient.context.keys.cloudRole
-    appInsights.defaultClient.context.tags[cloudRoleTag] = config.roleName
+    appInsights.defaultClient.context.tags[
+      appInsights.defaultClient.context.keys.cloudRole
+    ] = config.roleName
   } else {
     console.log('App Insights Not Running!')
   }
 }
 
-function logException (request, event) {
-  try {
-    const client = appInsights.defaultClient
-    client?.trackException({
-      exception: event.error ?? new Error('unknown'),
-      properties: {
-        statusCode: request ? request.statusCode : '',
-        sessionId: request ? request.yar?.id : '',
-        payload: request ? request.payload : '',
-        request: event.request ?? 'Server Error'
-      }
-    })
-  } catch (err) {
-    console.error(err, 'App Insights')
+function logTrace(message, properties) {
+  const telemetryClient = appInsights.defaultClient;
+  const traceTelemetry = {
+    message,
+    properties
   }
+  telemetryClient?.trackTrace(traceTelemetry)
 }
 
-module.exports = { setup, logException }
+function logEvent(eventName, properties) {
+  const telemetryClient = appInsights.defaultClient;
+  const eventTelemetry = {
+    name: eventName,
+    properties
+  }
+  telemetryClient?.trackEvent(eventTelemetry)
+}
+
+function logError(error, properties) {
+  const telemetryClient = appInsights.defaultClient;
+  const exceptionTelemetry = {
+    exception: error,
+    properties
+  }
+  telemetryClient?.trackException(exceptionTelemetry)
+}
+
+module.exports = {
+  setup,
+  logTrace,
+  logEvent,
+  logError
+}

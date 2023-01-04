@@ -18,6 +18,8 @@ describe('App Insights', () => {
             keys: { cloudRole: 'mock_role_name' },
             tags: {}
           },
+          trackTrace: jest.fn((item) => null),
+          trackEvent: jest.fn((item) => null),
           trackException: jest.fn((item) => null)
         }
       }
@@ -69,44 +71,58 @@ describe('App Insights', () => {
     })
   })
 
-  describe('logException', () => {
-    test('when called with empty request and empty event', () => {
-      const { logException } = require('../../../../app/app-insights/app-insights')
+  describe('logTrace', () => {
+    test('when called with message and some custom properties', () => {
+      const { logTrace } = require('../../../../app/app-insights/app-insights')
 
-      logException({}, {})
+      logTrace('Trace message', {
+        param1: 'value1',
+        param2: 'value2'
+      })
 
-      expect(appInsights.defaultClient.trackException).toHaveBeenCalledWith({
-        exception: new Error('unknown'),
+      expect(appInsights.defaultClient.trackTrace).toHaveBeenCalledWith({
+        message: 'Trace message',
         properties: {
-          statusCode: undefined,
-          sessionId: undefined,
-          payload: undefined,
-          request: 'Server Error'
+          param1: 'value1',
+          param2: 'value2'
         }
       })
     })
+  })
 
-    test('when called with both request and event', () => {
-      const req = {
-        statusCode: 200,
-        yar: { id: 'mock_id' },
-        payload: 'mock_payload'
-      }
-      const event = {
-        error: 'mock_error',
-        request: 'mock_request'
-      }
+  describe('logEvent', () => {
+    test('when called with message and some custom properties', () => {
+      const { logEvent } = require('../../../../app/app-insights/app-insights')
 
-      const { logException } = require('../../../../app/app-insights/app-insights')
-      logException(req, event)
+      logEvent('Event name', {
+        param1: 'value1',
+        param2: 'value2'
+      })
+
+      expect(appInsights.defaultClient.trackEvent).toHaveBeenCalledWith({
+        name: 'Event name',
+        properties: {
+          param1: 'value1',
+          param2: 'value2'
+        }
+      })
+    })
+  })
+
+  describe('logError', () => {
+    test('when called with message and some custom properties', () => {
+      const { logError } = require('../../../../app/app-insights/app-insights')
+
+      logError(new Error('msg'), {
+        param1: 'value1',
+        param2: 'value2'
+      })
 
       expect(appInsights.defaultClient.trackException).toHaveBeenCalledWith({
-        exception: event.error,
+        exception: new Error('msg'),
         properties: {
-          statusCode: req.statusCode,
-          sessionId: req.yar.id,
-          payload: req.payload,
-          request: event.request
+          param1: 'value1',
+          param2: 'value2'
         }
       })
     })

@@ -1,6 +1,7 @@
 const Joi = require('joi')
 const Boom = require('@hapi/boom')
 const eligibilityDbTable = require('../db/eligibility.db.table')
+const appInsights = require('../../app-insights/app-insights')
 
 module.exports = {
   method: 'GET',
@@ -41,6 +42,9 @@ module.exports = {
         .code(200)
     } catch (error) {
       console.error(error)
+      appInsights.logError(error, {
+        emailAddress: request.query.emailAddress
+      })
       throw Boom.internal(error)
     }
   }

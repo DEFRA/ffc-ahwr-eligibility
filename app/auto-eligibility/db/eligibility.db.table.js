@@ -1,9 +1,9 @@
 const { Op } = require('sequelize')
 const db = require('../../data')
-const appInsights = require('../../app-insights')
+const logger = require('../../app-insights')
 
 const findByBusinessEmail = async (businessEmail) => {
-  appInsights.logTrace('Finding by business_email', {
+  logger.logTrace('Finding by business_email', {
     businessEmail
   })
   return await db.eligibility.findOne({

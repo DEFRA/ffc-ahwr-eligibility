@@ -34,8 +34,8 @@ describe('App Insights', () => {
 
   describe('setup', () => {
     test('when there is app insights config defined', () => {
-      jest.mock('../../../../app/app-insights/app-insights.config', () => {
-        const original = jest.requireActual('../../../../app/app-insights/app-insights.config')
+      jest.mock('../../../../app/logger/app-insights.config', () => {
+        const original = jest.requireActual('../../../../app/logger/app-insights.config')
         return {
           ...original,
           connectionString: MOCK_CONNECTION_STRING,
@@ -54,8 +54,8 @@ describe('App Insights', () => {
     })
 
     test('when there is no app insights config defined', () => {
-      jest.mock('../../../../app/app-insights/app-insights.config', () => {
-        const original = jest.requireActual('../../../../app/app-insights/app-insights.config')
+      jest.mock('../../../../app/logger/app-insights.config', () => {
+        const original = jest.requireActual('../../../../app/logger/app-insights.config')
         return {
           ...original,
           connectionString: undefined,

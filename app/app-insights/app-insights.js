@@ -15,8 +15,8 @@ function setup () {
   }
 }
 
-function logTrace(message, properties) {
-  const telemetryClient = appInsights.defaultClient;
+function logTrace (message, properties) {
+  const telemetryClient = appInsights.defaultClient
   const traceTelemetry = {
     message,
     properties
@@ -24,8 +24,8 @@ function logTrace(message, properties) {
   telemetryClient?.trackTrace(traceTelemetry)
 }
 
-function logEvent(eventName, properties) {
-  const telemetryClient = appInsights.defaultClient;
+function logEvent (eventName, properties) {
+  const telemetryClient = appInsights.defaultClient
   const eventTelemetry = {
     name: eventName,
     properties
@@ -33,8 +33,8 @@ function logEvent(eventName, properties) {
   telemetryClient?.trackEvent(eventTelemetry)
 }
 
-function logError(error, properties) {
-  const telemetryClient = appInsights.defaultClient;
+function logError (error, properties) {
+  const telemetryClient = appInsights.defaultClient
   const exceptionTelemetry = {
     exception: error,
     properties

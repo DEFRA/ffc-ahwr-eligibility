@@ -1,7 +1,7 @@
 const Joi = require('joi')
 const Boom = require('@hapi/boom')
 const eligibilityDbTable = require('../db/eligibility.db.table')
-const appInsights = require('../../app-insights')
+const logger = require('../../app-insights')
 
 module.exports = {
   method: 'GET',
@@ -41,7 +41,7 @@ module.exports = {
         })
         .code(200)
     } catch (error) {
-      appInsights.logError(error, 'Failed to get eligibility', {
+      logger.logError(error, 'Failed to get eligibility', {
         emailAddress: request.query.emailAddress
       })
       throw Boom.internal(error)

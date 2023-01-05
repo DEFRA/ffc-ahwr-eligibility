@@ -16,7 +16,7 @@ function setup () {
 }
 
 function logTrace (message, properties) {
-  console.log(properties ?`${message}: ${JSON.stringify(properties)}` : message)
+  console.log(properties ? `${message}: ${JSON.stringify(properties)}` : message)
   /*
   const telemetryClient = appInsights.defaultClient
   const traceTelemetry = {
@@ -28,7 +28,7 @@ function logTrace (message, properties) {
 }
 
 function logEvent (eventName, properties) {
-  console.log(properties ?`${eventName}: ${JSON.stringify(properties)}` : eventName)
+  console.log(properties ? `${eventName}: ${JSON.stringify(properties)}` : eventName)
   /*
   const telemetryClient = appInsights.defaultClient
   const eventTelemetry = {

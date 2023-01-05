@@ -29,7 +29,6 @@ const config = {
 const { error, value } = schema.validate(config, { abortEarly: false })
 
 if (error) {
-  console.log(error)
   throw new Error(`The message queue config is invalid. ${error.message}`)
 }
 

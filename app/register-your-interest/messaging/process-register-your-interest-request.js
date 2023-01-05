@@ -1,8 +1,11 @@
+const logger = require('../../logger')
 const { checkEligibility, processEligible, processIneligible } = require('../../auto-eligibility/processing')
 const schema = require('./register-your-interest-request.schema')
 
 const processRegisterYourInterestRequest = async (request) => {
-  console.log(`Processing register your interest request: ${JSON.stringify(request)}`)
+  logger.logTrace('Processing register your interest request', {
+    request
+  })
   const req = schema.validate(request)
   if (req.error) {
     throw new Error(req.error)

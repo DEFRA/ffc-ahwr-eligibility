@@ -83,7 +83,7 @@ describe('Logger', () => {
       })
 
       expect(logSpy).toHaveBeenCalledWith(
-        `Trace message: {"param1":"value1","param2":"value2"}`
+        'Trace message: {"param1":"value1","param2":"value2"}'
       )
       /*
       expect(appInsights.defaultClient.trackTrace).toHaveBeenCalledWith({
@@ -119,7 +119,7 @@ describe('Logger', () => {
         param2: 'value2'
       })
 
-      expect(logSpy).toHaveBeenCalledWith(`Event name: {"param1":"value1","param2":"value2"}`)
+      expect(logSpy).toHaveBeenCalledWith('Event name: {"param1":"value1","param2":"value2"}')
       /*
       expect(appInsights.defaultClient.trackEvent).toHaveBeenCalledWith({
         name: 'Event name',

@@ -4,7 +4,7 @@ const schema = require('./register-your-interest-request.schema')
 
 const processRegisterYourInterestRequest = async (request) => {
   logger.logTrace('Processing register your interest request', {
-    request
+    ...request
   })
   const req = schema.validate(request)
   if (req.error) {

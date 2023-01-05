@@ -1,9 +1,9 @@
 const { Op } = require('sequelize')
 const { when, resetAllWhenMocks } = require('jest-when')
 
-const API_URL = '/api/users'
+const API_URL = '/api/businesses'
 
-describe('Eligibility Api - /api/users', () => {
+describe(`Eligibility Api - ${API_URL}`, () => {
   let db
   let server
   let consoleError

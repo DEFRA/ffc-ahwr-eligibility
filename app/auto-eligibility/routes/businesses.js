@@ -4,7 +4,7 @@ const eligibilityDbTable = require('../db/eligibility.db.table')
 
 module.exports = {
   method: 'GET',
-  path: '/api/users',
+  path: '/api/businesses',
   options: {
     validate: {
       query: Joi.object({

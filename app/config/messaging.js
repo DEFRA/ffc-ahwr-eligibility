@@ -1,7 +1,5 @@
 const Joi = require('joi')
 
-const msgTypePrefix = 'uk.gov.ffc.ahwr'
-
 const mqSchema = Joi.object({
   messageQueue: {
     host: Joi.string().required(),

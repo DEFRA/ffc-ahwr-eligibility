@@ -1,6 +1,12 @@
 const Joi = require('joi')
 const Boom = require('@hapi/boom')
 const eligibilityDbTable = require('../db/eligibility.db.table')
+const { sendMonitoringEvent } = require('../../event')
+
+const getIp = (request) => {
+  const xForwardedForHeader = request.headers['x-forwarded-for']
+  return xForwardedForHeader ? xForwardedForHeader.split(',')[0] : request.info.remoteAddress
+}
 
 module.exports = {
   method: 'GET',
@@ -41,6 +47,7 @@ module.exports = {
         .code(200)
     } catch (error) {
       console.error(error)
+      sendMonitoringEvent(request.yar.id, error.message, equest.query.emailAddress, getIp(request))
       throw Boom.internal(error)
     }
   }

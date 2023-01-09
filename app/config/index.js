@@ -3,6 +3,8 @@ const dbConfig = require('./database')
 const registerYourInterestConfig = require('../register-your-interest/config')
 const autoEligibilityConfig = require('../auto-eligibility/config')
 const notifyConfig = require('./notify')
+const mqConfig = require('./messaging')
+
 const schema = Joi.object({
   env: Joi.string().valid('development', 'test', 'production').default('development')
 })
@@ -30,5 +32,6 @@ value.dbConfig = dbConfig
 value.registerYourInterestConfig = registerYourInterestConfig
 value.autoEligibilityConfig = autoEligibilityConfig
 value.notifyConfig = notifyConfig
+value.mqConfig = mqConfig
 
 module.exports = value

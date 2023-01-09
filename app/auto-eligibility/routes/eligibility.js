@@ -47,7 +47,7 @@ module.exports = {
         .code(200)
     } catch (error) {
       console.error(error)
-      sendMonitoringEvent(request.yar.id, error.message, equest.query.emailAddress, getIp(request))
+      await sendMonitoringEvent(request.yar.id, error.message, equest.query.emailAddress, getIp(request))
       throw Boom.internal(error)
     }
   }

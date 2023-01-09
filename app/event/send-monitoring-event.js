@@ -8,8 +8,8 @@ const sendMonitoringEvent = async (sessionId, alert, email, ip, status = 'alert'
       cph: 'n/a',
       email: email ?? 'unknown',
       name: 'send-monitoring-event',
-      type: 'monitoring-magic-link',
-      message: 'Monitoring magic link.',
+      type: 'monitoring-eligibility-email',
+      message: 'Monitoring eligibility email.',
       ip,
       data: { alert }
     }

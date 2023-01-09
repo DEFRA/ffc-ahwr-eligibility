@@ -14,8 +14,8 @@ describe('Send event on session set', () => {
       sbi: 'n/a',
       cph: 'n/a',
       name: 'send-monitoring-event',
-      type: 'monitoring-magic-link',
-      message: 'Monitoring magic link.'
+      type: 'monitoring-eligibility-email',
+      message: 'Monitoring eligibility email.'
     }
   })
 

@@ -29,16 +29,44 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/Business'
         '400':
           description: Bad request. A valid email address must be specified.
         '404':
           description: The farmer's business email address is ineligible or was not found.
         '5XX':
           description: Unexpected error.
+  /businesses:
+    get:
+      tags:
+        - eligibility
+      summary: Returns eligible businesses by business email.
+      description: Returns a list of eligible farmer businesses.
+      operationId: businesses
+      parameters:
+        - name: businessEmail
+          in: query
+          description: Farmer's business email address.
+          required: true
+          schema:
+            type: string
+            format: email
+      responses:
+        '200':
+          description: The list of eligible farmer businesses.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Business' 
+        '400':
+          description: Bad request. A valid email address must be specified.
+        '5XX':
+          description: Unexpected error.
 components:
   schemas:
-    User:
+    Business:
       type: object
       properties:
         farmerName:

@@ -1,14 +1,16 @@
-const db = require('../../data')
+const eligibilityDbTable = require('../db/eligibility.db.table')
 
-const checkEligibility = async (sbi, crn, email) => {
-  console.log(`Checking eligibility: ${JSON.stringify({ sbi, crn, email })}`)
-  return db.eligibility.findOne({
-    where: {
-      sbi,
-      crn,
-      business_email: email
-    }
-  })
+const checkEligibility = async (sbi, crn, businessEmail) => {
+  const businesses = await eligibilityDbTable.findAllBy(sbi, crn, businessEmail)
+  return {
+    sbi,
+    crn,
+    businessEmail,
+    isEligible: () => businesses.length > 0,
+    hasMultipleSbiNumbersAttachedToTheBusinessEmail: () => businesses.length > 1,
+    isAlreadyOnWaitingList: () => typeof businesses[0].waiting_updated_at !== 'undefined',
+    hasAccessGranted: () => businesses[0].access_granted,
+  }
 }
 
 module.exports = checkEligibility

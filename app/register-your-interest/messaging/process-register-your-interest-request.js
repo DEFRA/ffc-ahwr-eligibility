@@ -1,5 +1,5 @@
-const { checkEligibility, processEligible, processIneligible } = require('../../auto-eligibility/processing')
 const schema = require('./register-your-interest-request.schema')
+const autoEligibility = require('../../auto-eligibility/processing')
 
 const processRegisterYourInterestRequest = async (request) => {
   console.log(`Processing register your interest request: ${JSON.stringify(request)}`)
@@ -7,13 +7,16 @@ const processRegisterYourInterestRequest = async (request) => {
   if (req.error) {
     throw new Error(req.error)
   }
-  const { sbi, crn, email } = req.value
-  const eligible = await checkEligibility(sbi, crn, email)
-  if (eligible) {
-    const { waiting_updated_at: waitingUpdatedAt, access_granted: accessGranted } = eligible
-    await processEligible(sbi, crn, email, waitingUpdatedAt, accessGranted)
+  const { sbi, crn, email: businessEmail } = req.value
+  const business = await autoEligibility.checkEligibility(sbi, crn, businessEmail)
+  if (business.isEligible()) {
+    if (business.hasMultipleSbiNumbersAttachedToTheBusinessEmail()) {
+      await autoEligibility.processIneligible(business)
+    } else {
+      await autoEligibility.processEligible(business)
+    }
   } else {
-    await processIneligible(sbi, crn, email)
+    await autoEligibility.processIneligible(business)
   }
 }
 

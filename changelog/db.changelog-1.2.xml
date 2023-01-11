@@ -1,0 +1,28 @@
+<?xml version="1.1" encoding="utf-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.9.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+  <changeSet author="Liam Wilson" id="1">
+    <tagDatabase tag="v1.2.0" />
+  </changeSet>
+  <changeSet author="Liam Wilson" id="2">
+    <dropPrimaryKey
+      tableName="eligibility"
+      dropIndex="true"
+      constraintName="elg_pk" />
+  </changeSet>
+  <changeSet author="Liam Wilson" id="3">
+    <dropIndex
+      tableName="eligibility"
+      indexName="elg_business_address_idx" />
+  </changeSet>
+  <changeSet author="Liam Wilson" id="4">
+    <addPrimaryKey
+      columnNames="sbi, crn"
+      constraintName="elg_pk"
+      tableName="eligibility" />
+  </changeSet>
+  <changeSet author="Liam Wilson" id="5">
+    <createIndex indexName="elg_business_email_idx" tableName="eligibility">
+      <column name="business_email" />
+    </createIndex>
+  </changeSet>
+</databaseChangeLog>

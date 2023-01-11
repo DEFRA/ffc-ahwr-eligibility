@@ -1,6 +1,7 @@
 const eligibilityDbTable = require('../db/eligibility.db.table')
 
 const checkEligibility = async (sbi, crn, businessEmail) => {
+  console.log(`Checking eligibility: ${JSON.stringify({ sbi, crn, businessEmail })}`)
   const businesses = await eligibilityDbTable.findAllByBusinessEmail(businessEmail)
   const eligibleBussiness = businesses.find(business => business.sbi === sbi && business.crn === crn)
   return {

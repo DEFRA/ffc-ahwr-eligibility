@@ -4,7 +4,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       primaryKey: true
     },
-    crn: DataTypes.STRING,
+    crn: {
+      type: DataTypes.STRING,
+      primaryKey: true
+    },
     customer_name: DataTypes.STRING,
     business_name: DataTypes.STRING,
     business_email: DataTypes.STRING,

@@ -22,12 +22,10 @@ const findAllByBusinessEmailAndAccessGranted = async (businessEmail, accessGrant
   })
 }
 
-const findAllBy = async (sbi, crn, businessEmail) => {
-  console.log(`Finding all by: ${JSON.stringify({ sbi, crn, businessEmail })}`)
+const findAllByBusinessEmail = async (businessEmail) => {
+  console.log(`Finding all business_email : ${JSON.stringify({ businessEmail })}`)
   return db.eligibility.findAll({
     where: {
-      sbi,
-      crn,
       business_email: businessEmail
     }
   })
@@ -36,5 +34,5 @@ const findAllBy = async (sbi, crn, businessEmail) => {
 module.exports = {
   findByBusinessEmail,
   findAllByBusinessEmailAndAccessGranted,
-  findAllBy
+  findAllByBusinessEmail
 }

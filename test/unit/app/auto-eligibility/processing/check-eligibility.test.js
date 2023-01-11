@@ -1,6 +1,7 @@
 const { when, resetAllWhenMocks } = require('jest-when')
 
 describe('checkEligibility', () => {
+  let logSpy
   let db
   let checkEligibility
 
@@ -10,7 +11,7 @@ describe('checkEligibility', () => {
 
     checkEligibility = require('../../../../../app/auto-eligibility/processing/check-eligibility')
 
-    consoleError = jest.spyOn(console, 'error')
+    logSpy = jest.spyOn(console, 'log')
   })
 
   afterAll(async () => {
@@ -200,13 +201,18 @@ describe('checkEligibility', () => {
         }
       })
       .mockResolvedValue(testCase.given.foundBusinesses)
-    
+
     const business = await checkEligibility(
       testCase.given.sbi,
       testCase.given.crn,
       testCase.given.businessEmail
     )
 
+    expect(logSpy).toHaveBeenCalledWith(`Checking eligibility: ${JSON.stringify({
+      sbi: testCase.given.sbi,
+      crn: testCase.given.crn,
+      businessEmail: testCase.given.businessEmail
+    })}`)
     expect(business.sbi).toEqual(testCase.given.sbi)
     expect(business.crn).toEqual(testCase.given.crn)
     expect(business.businessEmail).toEqual(testCase.given.businessEmail)

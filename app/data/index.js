@@ -17,7 +17,7 @@ const sequelizeCheck = async () => {
   }
 }
 
-//sequelizeCheck()
+sequelizeCheck()
 
 fs.readdirSync(modelPath)
   .filter(file => {

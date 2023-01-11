@@ -43,7 +43,7 @@ describe('Process register your interest request', () => {
         isAlreadyOnWaitingList: () => false,
         hasAccessGranted: () => false
       },
-      when: 'eligible business was found',
+      when: 'eligible business was found'
     }
   ])('when $when process it as eligible', async (testCase) => {
     when(checkEligibility)
@@ -79,7 +79,7 @@ describe('Process register your interest request', () => {
         isAlreadyOnWaitingList: () => false,
         hasAccessGranted: () => false
       },
-      when: 'ineligible business was found',
+      when: 'ineligible business was found'
     },
     {
       given: {
@@ -91,7 +91,7 @@ describe('Process register your interest request', () => {
         isAlreadyOnWaitingList: () => false,
         hasAccessGranted: () => false
       },
-      when: 'eligible business was found but it had multiple sbi numbers attached to it',
+      when: 'eligible business was found but it had multiple sbi numbers attached to it'
     }
   ])('when $when process it as ineligible', async (testCase) => {
     when(checkEligibility)
@@ -128,11 +128,13 @@ describe('Process register your interest request', () => {
     }
   ])('when $when throw schema validation error', async (testCase) => {
     expect(
-      async () => { await processRegisterYourInterestRequest({
-        sbi: testCase.given.sbi,
-        crn: testCase.given.crn,
-        email: testCase.given.businessEmail
-      }) }
+      async () => {
+        await processRegisterYourInterestRequest({
+          sbi: testCase.given.sbi,
+          crn: testCase.given.crn,
+          email: testCase.given.businessEmail
+        })
+      }
     ).rejects.toThrowError(testCase.expect)
   })
 })

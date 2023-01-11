@@ -11,7 +11,7 @@ const checkEligibility = async (sbi, crn, businessEmail) => {
     isEligible: () => typeof eligibleBussiness !== 'undefined',
     hasMultipleSbiNumbersAttachedToBusinessEmail: () => businesses.length > 1,
     isAlreadyOnWaitingList: () => typeof eligibleBussiness !== 'undefined' && typeof eligibleBussiness.waiting_updated_at !== 'undefined',
-    hasAccessGranted: () => typeof eligibleBussiness !== 'undefined' && eligibleBussiness.access_granted,
+    hasAccessGranted: () => typeof eligibleBussiness !== 'undefined' && eligibleBussiness.access_granted
   }
 }
 

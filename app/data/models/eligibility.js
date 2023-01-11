@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     access_granted: DataTypes.BOOLEAN
   },
   {
-    tableName: 'eligibility',
+    tableName: 'customer',
     freezeTableName: true,
     timestamps: false
   })

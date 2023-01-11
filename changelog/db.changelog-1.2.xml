@@ -25,4 +25,9 @@
       <column name="business_email" />
     </createIndex>
   </changeSet>
+  <changeSet author="Marcin Mogiela" id="6">  
+    <renameTable
+      newTableName="customer" 
+      oldTableName="eligibility" />  
+</changeSet>
 </databaseChangeLog>

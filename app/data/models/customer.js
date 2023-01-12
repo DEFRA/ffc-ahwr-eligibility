@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const eligibility = sequelize.define('eligibility', {
+  const customer = sequelize.define('customer', {
     sbi: {
       type: DataTypes.INTEGER,
       primaryKey: true
@@ -21,5 +21,5 @@ module.exports = (sequelize, DataTypes) => {
     freezeTableName: true,
     timestamps: false
   })
-  return eligibility
+  return customer
 }

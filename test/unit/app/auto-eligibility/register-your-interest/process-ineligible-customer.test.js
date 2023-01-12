@@ -23,7 +23,7 @@ describe('Process ineligible customer', () => {
       }
     }))
 
-    processIneligibleCustomer = require('../../../../../app/auto-eligibility/processing/process-ineligible-customer')
+    processIneligibleCustomer = require('../../../../../app/auto-eligibility/register-your-interest/process-ineligible-customer')
 
     logSpy = jest.spyOn(console, 'log')
   })

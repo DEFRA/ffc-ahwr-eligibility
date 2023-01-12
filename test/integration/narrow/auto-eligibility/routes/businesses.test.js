@@ -76,7 +76,7 @@ describe(`Eligibility Api - ${API_URL}`, () => {
         method: 'GET',
         url: `${API_URL}?emailAddress=${testCase.emailAddress}`
       }
-      when(db.eligibility.findAll)
+      when(db.customer.findAll)
         .calledWith({
           where: {
             [Op.and]: [
@@ -117,7 +117,7 @@ describe(`Eligibility Api - ${API_URL}`, () => {
         method: 'GET',
         url: `${API_URL}?emailAddress=${testCase.emailAddress}`
       }
-      when(db.eligibility.findAll)
+      when(db.customer.findAll)
         .calledWith({
           where: {
             [Op.and]: [
@@ -149,7 +149,7 @@ describe(`Eligibility Api - ${API_URL}`, () => {
         method: 'GET',
         url: `${API_URL}?emailAddress=${testCase.emailAddress}`
       }
-      when(db.eligibility.findAll)
+      when(db.customer.findAll)
         .calledWith({
           where: {
             [Op.and]: [

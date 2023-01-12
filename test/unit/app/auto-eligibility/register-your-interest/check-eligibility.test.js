@@ -1,6 +1,8 @@
 const { when, resetAllWhenMocks } = require('jest-when')
 const { Op } = require('sequelize')
 
+const MOCK_NOW = new Date()
+
 describe('checkEligibility', () => {
   let logSpy
   let db
@@ -10,7 +12,7 @@ describe('checkEligibility', () => {
     jest.mock('../../../../../app/data')
     db = require('../../../../../app/data')
 
-    checkEligibility = require('../../../../../app/auto-eligibility/processing/check-eligibility')
+    checkEligibility = require('../../../../../app/auto-eligibility/register-your-interest/check-eligibility')
 
     logSpy = jest.spyOn(console, 'log')
   })
@@ -181,7 +183,7 @@ describe('checkEligibility', () => {
             business_email: 'business2@email.com',
             business_address: 'Some Road, London, MK55 7ES',
             last_updated_at: undefined,
-            waiting_updated_at: new Date(),
+            waiting_updated_at: MOCK_NOW,
             access_granted: false
           }
         ]
@@ -215,7 +217,7 @@ describe('checkEligibility', () => {
               business_email: 'business2@email.com',
               business_address: 'Some Road, London, MK55 7ES',
               last_updated_at: undefined,
-              waiting_updated_at: new Date(),
+              waiting_updated_at: MOCK_NOW,
               access_granted: false
             }
           ])}`,
@@ -302,7 +304,7 @@ describe('checkEligibility', () => {
       }
     }
   ])('%s', async (testCase) => {
-    when(db.eligibility.findAll)
+    when(db.customer.findAll)
       .calledWith({
         where: {
           [Op.or]: [

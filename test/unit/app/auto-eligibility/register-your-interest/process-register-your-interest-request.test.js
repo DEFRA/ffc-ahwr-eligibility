@@ -15,16 +15,16 @@ describe('Process register your interest request', () => {
       apiKey: 'mockApiKey'
     }))
 
-    jest.mock('../../../../../app/auto-eligibility/processing/check-eligibility')
-    checkEligibility = require('../../../../../app/auto-eligibility/processing/check-eligibility')
+    jest.mock('../../../../../app/auto-eligibility/register-your-interest/check-eligibility')
+    checkEligibility = require('../../../../../app/auto-eligibility/register-your-interest/check-eligibility')
 
-    jest.mock('../../../../../app/auto-eligibility/processing/process-eligible-customer')
-    processEligible = require('../../../../../app/auto-eligibility/processing/process-eligible-customer')
+    jest.mock('../../../../../app/auto-eligibility/register-your-interest/process-eligible-customer')
+    processEligible = require('../../../../../app/auto-eligibility/register-your-interest/process-eligible-customer')
 
-    jest.mock('../../../../../app/auto-eligibility/processing/process-ineligible-customer')
-    processIneligible = require('../../../../../app/auto-eligibility/processing/process-ineligible-customer')
+    jest.mock('../../../../../app/auto-eligibility/register-your-interest/process-ineligible-customer')
+    processIneligible = require('../../../../../app/auto-eligibility/register-your-interest/process-ineligible-customer')
 
-    processRegisterYourInterestRequest = require('../../../../../app/register-your-interest/messaging/process-register-your-interest-request')
+    processRegisterYourInterestRequest = require('../../../../../app/auto-eligibility/register-your-interest/process-register-your-interest-request')
   })
 
   afterAll(() => {

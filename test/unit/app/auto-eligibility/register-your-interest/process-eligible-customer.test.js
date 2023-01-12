@@ -33,7 +33,7 @@ describe('Process eligible customer', () => {
       }
     }))
 
-    processEligibleCustomer = require('../../../../../app/auto-eligibility/processing/process-eligible-customer')
+    processEligibleCustomer = require('../../../../../app/auto-eligibility/register-your-interest/process-eligible-customer')
 
     logSpy = jest.spyOn(console, 'log')
   })
@@ -161,7 +161,7 @@ describe('Process eligible customer', () => {
       (consoleLog, idx) => expect(logSpy).toHaveBeenNthCalledWith(idx + 1, consoleLog)
     )
     if (typeof testCase.expect.db !== 'undefined') {
-      expect(db.eligibility.update).toHaveBeenCalledWith({
+      expect(db.customer.update).toHaveBeenCalledWith({
         last_updated_at: testCase.expect.db.now,
         waiting_updated_at: testCase.expect.db.now
       }, {

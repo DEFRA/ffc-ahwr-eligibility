@@ -1,6 +1,6 @@
 const Joi = require('joi')
 const Boom = require('@hapi/boom')
-const eligibilityDbTable = require('../db/eligibility.db.table')
+const customerDbTable = require('../db/customer.db.table')
 const { sendMonitoringEvent } = require('../../event')
 
 const getIp = (request) => {
@@ -29,7 +29,7 @@ module.exports = {
   },
   handler: async (request, h) => {
     try {
-      const farmer = await eligibilityDbTable.findByBusinessEmail(
+      const farmer = await customerDbTable.findByBusinessEmail(
         request.query.emailAddress
       )
       if (!farmer || !farmer.access_granted) {

@@ -1,4 +1,4 @@
-const customerDbTable = require('../db/eligibility.db.table')
+const customerDbTable = require('../db/customer.db.table')
 
 const checkEligibility = async (sbi, crn, businessEmail) => {
   console.log(`Checking eligibility: ${JSON.stringify({ sbi, crn, businessEmail })}`)

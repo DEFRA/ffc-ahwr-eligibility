@@ -1,6 +1,6 @@
 const Joi = require('joi')
 const dbConfig = require('./database')
-const registerYourInterestConfig = require('../register-your-interest/config')
+const registerYourInterestConfig = require('../auto-eligibility/register-your-interest/register-your-interest.config')
 const autoEligibilityConfig = require('../auto-eligibility/config')
 const notifyConfig = require('./notify')
 const mqConfig = require('./messaging')

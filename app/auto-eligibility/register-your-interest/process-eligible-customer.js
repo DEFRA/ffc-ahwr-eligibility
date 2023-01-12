@@ -1,5 +1,5 @@
 const emailNotifier = require('../email-notifier')
-const updateWaiting = require('./update-waiting')
+const customerDbTable = require('../db/customer.db.table')
 
 const processEligibleCustomer = async (customer) => {
   console.log(`Processing eligible customer: ${JSON.stringify({
@@ -25,7 +25,7 @@ const processEligibleCustomer = async (customer) => {
     console.log('The customer is already on the waiting list')
     return
   }
-  await updateWaiting(customer.sbi, customer.crn)
+  await customerDbTable.updateWaitingUpdatedAt(customer.sbi, customer.crn)
   await emailNotifier.sendWaitingListEmail(customer.businessEmail)
 }
 

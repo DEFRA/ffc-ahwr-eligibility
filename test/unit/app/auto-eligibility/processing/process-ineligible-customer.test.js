@@ -58,7 +58,7 @@ describe('Process ineligible customer', () => {
           `Successfully sent email with template ID ${MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION} to email ${MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS}`
         ]
       }
-    },
+    }
   ])('%s', async (testCase) => {
     await processIneligibleCustomer(testCase.given.customer)
 

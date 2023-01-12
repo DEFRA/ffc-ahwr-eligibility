@@ -71,7 +71,7 @@ describe('Process register your interest request', () => {
     })
 
     testCase.expect.consoleLogs.forEach(
-      (consoleLog, idx) => expect(logSpy).toHaveBeenNthCalledWith(idx+1, consoleLog)
+      (consoleLog, idx) => expect(logSpy).toHaveBeenNthCalledWith(idx + 1, consoleLog)
     )
     expect(processEligible).toHaveBeenCalledWith(testCase.given)
   })
@@ -115,7 +115,7 @@ describe('Process register your interest request', () => {
     })
 
     testCase.expect.consoleLogs.forEach(
-      (consoleLog, idx) => expect(logSpy).toHaveBeenNthCalledWith(idx+1, consoleLog)
+      (consoleLog, idx) => expect(logSpy).toHaveBeenNthCalledWith(idx + 1, consoleLog)
     )
     expect(processIneligible).toHaveBeenCalledWith(testCase.given)
   })

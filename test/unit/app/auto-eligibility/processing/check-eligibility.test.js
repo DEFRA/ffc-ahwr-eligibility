@@ -30,7 +30,7 @@ describe('checkEligibility', () => {
       given: {
         sbi: 123456789,
         crn: '1234567890',
-        businessEmail: 'business@email.com',
+        businessEmail: 'business@email.com'
       },
       when: {
         foundCustomers: []
@@ -54,7 +54,7 @@ describe('checkEligibility', () => {
       given: {
         sbi: 111111111,
         crn: '1111111111',
-        businessEmail: 'business@email.com',
+        businessEmail: 'business@email.com'
       },
       when: {
         foundCustomers: [
@@ -110,7 +110,7 @@ describe('checkEligibility', () => {
       given: {
         sbi: 111111111,
         crn: '1111111111',
-        businessEmail: 'business@email.com',
+        businessEmail: 'business@email.com'
       },
       when: {
         foundCustomers: [
@@ -158,7 +158,7 @@ describe('checkEligibility', () => {
       given: {
         sbi: 111111111,
         crn: '1111111111',
-        businessEmail: 'business@email.com',
+        businessEmail: 'business@email.com'
       },
       when: {
         foundCustomers: [
@@ -228,7 +228,7 @@ describe('checkEligibility', () => {
       given: {
         sbi: 222222222,
         crn: '2222222222',
-        businessEmail: 'business@email.com',
+        businessEmail: 'business@email.com'
       },
       when: {
         foundCustomers: [
@@ -301,7 +301,7 @@ describe('checkEligibility', () => {
         ]
       }
     }
-  ])(`%s`, async (testCase) => {
+  ])('%s', async (testCase) => {
     when(db.eligibility.findAll)
       .calledWith({
         where: {
@@ -320,7 +320,7 @@ describe('checkEligibility', () => {
     )
 
     testCase.expect.consoleLogs.forEach(
-      (consoleLog, idx) => expect(logSpy).toHaveBeenNthCalledWith(idx+1, consoleLog)
+      (consoleLog, idx) => expect(logSpy).toHaveBeenNthCalledWith(idx + 1, consoleLog)
     )
     expect(business.sbi).toEqual(testCase.given.sbi)
     expect(business.crn).toEqual(testCase.given.crn)

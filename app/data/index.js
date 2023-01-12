@@ -17,8 +17,7 @@ const sequelizeCheck = async () => {
   }
 }
 
-//sequelizeCheck()
-
+sequelizeCheck()
 fs.readdirSync(modelPath)
   .filter(file => {
     return (file.indexOf('.') !== 0) && (file !== 'index.js') && (file.slice(-3) === '.js')

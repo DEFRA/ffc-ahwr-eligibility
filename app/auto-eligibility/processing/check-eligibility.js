@@ -16,7 +16,7 @@ const checkEligibility = async (sbi, crn, businessEmail) => {
       isEligible: () => false,
       businessEmailHasMultipleDistinctSbi: () => false,
       alreadyOnWaitingList: () => false,
-      hasAccessGranted: () => false,
+      hasAccessGranted: () => false
     }
   }
   const eligibleCustomer = customers

@@ -1,17 +1,42 @@
-const eligibilityDbTable = require('../db/eligibility.db.table')
+const customerDbTable = require('../db/eligibility.db.table')
 
 const checkEligibility = async (sbi, crn, businessEmail) => {
   console.log(`Checking eligibility: ${JSON.stringify({ sbi, crn, businessEmail })}`)
-  const businesses = await eligibilityDbTable.findAllByBusinessEmail(businessEmail)
-  const eligibleBussiness = businesses.find(business => business.sbi === sbi && business.crn === crn)
+  const customers = await customerDbTable.findAllBySbiOrBusinessEmail(sbi, businessEmail)
+  if (customers
+    .filter(customer => customer.sbi === sbi)
+    .some(customer => typeof customer.waiting_updated_at !== 'undefined')
+  ) {
+    console.log(`Sbi already registered: ${JSON.stringify({ sbi })}`)
+    return {
+      sbi,
+      crn,
+      businessEmail,
+      sbiAlreadyRegistered: () => true,
+      isEligible: () => false,
+      businessEmailHasMultipleDistinctSbi: () => false,
+      alreadyOnWaitingList: () => false,
+      hasAccessGranted: () => false,
+    }
+  }
+  const eligibleCustomer = customers
+    .filter(customer => customer.business_email === businessEmail)
+    .find(customer => customer.sbi === sbi && customer.crn === crn)
+  console.log(typeof eligibleCustomer !== 'undefined'
+    ? `Eligible customer found: ${JSON.stringify({ ...eligibleCustomer })}`
+    : 'Eligible customer not found'
+  )
   return {
     sbi,
     crn,
     businessEmail,
-    isEligible: () => typeof eligibleBussiness !== 'undefined',
-    hasMultipleSbiNumbersAttachedToBusinessEmail: () => businesses.length > 1,
-    isAlreadyOnWaitingList: () => typeof eligibleBussiness !== 'undefined' && typeof eligibleBussiness.waiting_updated_at !== 'undefined',
-    hasAccessGranted: () => typeof eligibleBussiness !== 'undefined' && eligibleBussiness.access_granted
+    sbiAlreadyRegistered: () => false,
+    isEligible: () => typeof eligibleCustomer !== 'undefined',
+    businessEmailHasMultipleDistinctSbi: () => [
+      ...new Set(customers.map(customer => customer.sbi))
+    ].length > 1,
+    alreadyOnWaitingList: () => typeof eligibleCustomer !== 'undefined' && typeof eligibleCustomer.waiting_updated_at !== 'undefined',
+    hasAccessGranted: () => typeof eligibleCustomer !== 'undefined' && eligibleCustomer.access_granted
   }
 }
 

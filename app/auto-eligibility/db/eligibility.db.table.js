@@ -22,8 +22,20 @@ const findAllByBusinessEmailAndAccessGranted = async (businessEmail, accessGrant
   })
 }
 
+const findAllBySbiOrBusinessEmail = async (sbi, businessEmail) => {
+  console.log(`Finding all by sbi or business_email: ${JSON.stringify({ sbi, businessEmail })}`)
+  return db.eligibility.findAll({
+    where: {
+      [Op.or]: [
+        { sbi: sbi },
+        { business_email: businessEmail },
+      ]
+    }
+  })
+}
+
 const findAllByBusinessEmail = async (businessEmail) => {
-  console.log(`Finding all business_email : ${JSON.stringify({ businessEmail })}`)
+  console.log(`Finding all by business_email : ${JSON.stringify({ businessEmail })}`)
   return db.eligibility.findAll({
     where: {
       business_email: businessEmail
@@ -33,6 +45,7 @@ const findAllByBusinessEmail = async (businessEmail) => {
 
 module.exports = {
   findByBusinessEmail,
+  findAllBySbiOrBusinessEmail,
   findAllByBusinessEmailAndAccessGranted,
   findAllByBusinessEmail
 }

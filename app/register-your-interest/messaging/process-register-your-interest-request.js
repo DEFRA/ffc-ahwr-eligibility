@@ -10,7 +10,7 @@ const processRegisterYourInterestRequest = async (request) => {
   const { sbi, crn, email: businessEmail } = req.value
   const business = await autoEligibility.checkEligibility(sbi, crn, businessEmail)
   if (business.isEligible()) {
-    if (business.hasMultipleSbiNumbersAttachedToBusinessEmail()) {
+    if (business.businessEmailHasMultipleDistinctSbi()) {
       await autoEligibility.processIneligible(business)
     } else {
       await autoEligibility.processEligible(business)

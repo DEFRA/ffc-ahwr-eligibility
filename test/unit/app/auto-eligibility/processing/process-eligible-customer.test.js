@@ -30,7 +30,7 @@ describe('Process eligible customer', () => {
         earlyAdoptionTeam: {
           emailAddress: MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS
         }
-      },
+      }
     }))
 
     processEligible = require('../../../../../app/auto-eligibility/processing/process-eligible-customer')
@@ -62,7 +62,7 @@ describe('Process eligible customer', () => {
       expect: {
         emailNotifier: {
           emailTemplateId: MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION,
-          emailAddressTo: MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS,
+          emailAddressTo: MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS
         },
         consoleLogs: [
           `Processing eligible customer: ${JSON.stringify({
@@ -84,13 +84,13 @@ describe('Process eligible customer', () => {
           crn: '1234567890',
           businessEmail: 'business@email.com',
           sbiAlreadyRegistered: () => false,
-          businessEmailHasMultipleDistinctSbi: () => true,
+          businessEmailHasMultipleDistinctSbi: () => true
         }
       },
       expect: {
         emailNotifier: {
           emailTemplateId: MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION,
-          emailAddressTo: MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS,
+          emailAddressTo: MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS
         },
         consoleLogs: [
           `Processing eligible customer: ${JSON.stringify({
@@ -168,7 +168,7 @@ describe('Process eligible customer', () => {
         lock: true,
         where: {
           sbi: testCase.given.customer.sbi,
-          crn: testCase.given.customer.crn,
+          crn: testCase.given.customer.crn
         }
       })
     }
@@ -181,7 +181,7 @@ describe('Process eligible customer', () => {
             sbi: testCase.given.customer.sbi,
             crn: testCase.given.customer.crn,
             businessEmail: testCase.given.customer.businessEmail
-          }        
+          }
         }
       )
     }

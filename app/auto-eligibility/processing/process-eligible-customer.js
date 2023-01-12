@@ -6,25 +6,25 @@ const processEligibleCustomer = async (customer) => {
      ...customer
   })}`)
   if (customer.sbiAlreadyRegistered()) {
-    console.log('The customer\`s sbi has already been registered')
+    console.log('The customer`s sbi has already been registered')
     return await emailNotifier.sendIneligibleApplicationEmail(
       customer.sbi,
       customer.crn,
       customer.businessEmail
     )
-  } 
+  }
   if (customer.businessEmailHasMultipleDistinctSbi()) {
-    console.log('The customer\`s business email has multiple sbi which as of now the system does not support')
+    console.log('The customer`s business email has multiple sbi which as of now the system does not support')
     return await emailNotifier.sendIneligibleApplicationEmail(
       customer.sbi,
       customer.crn,
       customer.businessEmail
     )
-  } 
+  }
   if (customer.alreadyOnWaitingList()) {
     console.log('The customer is already on the waiting list')
     return
-  } 
+  }
   await updateWaiting(customer.sbi, customer.crn)
   await emailNotifier.sendWaitingListEmail(customer.businessEmail)
 }

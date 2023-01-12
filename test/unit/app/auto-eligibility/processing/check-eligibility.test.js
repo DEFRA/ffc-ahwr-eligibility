@@ -1,4 +1,5 @@
 const { when, resetAllWhenMocks } = require('jest-when')
+const { Op } = require('sequelize')
 
 describe('checkEligibility', () => {
   let logSpy
@@ -16,35 +17,50 @@ describe('checkEligibility', () => {
 
   afterAll(async () => {
     jest.resetModules()
-    jest.resetAllMocks()
     resetAllWhenMocks()
+  })
+
+  afterEach(() => {
+    jest.resetAllMocks()
   })
 
   test.each([
     {
+      toString: () => 'when no customers were found',
       given: {
         sbi: 123456789,
         crn: '1234567890',
         businessEmail: 'business@email.com',
-        foundBusinesses: []
       },
-      when: 'no businesses were found',
+      when: {
+        foundCustomers: []
+      },
       expect: {
+        sbiAlreadyRegistered: false,
         isEligible: false,
-        hasMultipleSbiNumbersAttachedToBusinessEmail: false,
-        isAlreadyOnWaitingList: false,
-        hasAccessGranted: false
+        businessEmailHasMultipleDistinctSbi: false,
+        alreadyOnWaitingList: false,
+        hasAccessGranted: false,
+        consoleLogs: [
+          `Checking eligibility: ${JSON.stringify({ sbi: 123456789, crn: '1234567890', businessEmail: 'business@email.com' })}`,
+          `Finding all by sbi or business_email: ${JSON.stringify({ sbi: 123456789, businessEmail: 'business@email.com' })}`,
+          `Found customers: ${JSON.stringify([])}`,
+          'Eligible customer not found'
+        ]
       }
     },
     {
+      toString: () => 'when one eligible customer was found',
       given: {
-        sbi: 123456789,
-        crn: '1234567890',
+        sbi: 111111111,
+        crn: '1111111111',
         businessEmail: 'business@email.com',
-        foundBusinesses: [
+      },
+      when: {
+        foundCustomers: [
           {
-            sbi: 123456789,
-            crn: '1234567890',
+            sbi: 111111111,
+            crn: '1111111111',
             customer_name: 'David Smith',
             business_name: 'David\'s Farm',
             business_email: 'business@email.com',
@@ -55,88 +71,52 @@ describe('checkEligibility', () => {
           }
         ]
       },
-      when: 'one business was found',
       expect: {
+        sbiAlreadyRegistered: false,
         isEligible: true,
-        hasMultipleSbiNumbersAttachedToBusinessEmail: false,
-        isAlreadyOnWaitingList: false,
-        hasAccessGranted: false
-      }
-    },
-    {
-      given: {
-        sbi: 123456789,
-        crn: '1234567890',
-        businessEmail: 'business@email.com',
-        foundBusinesses: [
-          {
-            sbi: 123456789,
-            crn: '1234567890',
+        businessEmailHasMultipleDistinctSbi: false,
+        alreadyOnWaitingList: false,
+        hasAccessGranted: false,
+        consoleLogs: [
+          `Checking eligibility: ${JSON.stringify({ sbi: 111111111, crn: '1111111111', businessEmail: 'business@email.com' })}`,
+          `Finding all by sbi or business_email: ${JSON.stringify({ sbi: 111111111, businessEmail: 'business@email.com' })}`,
+          `Found customers: ${JSON.stringify([
+            {
+              sbi: 111111111,
+              crn: '1111111111',
+              customer_name: 'David Smith',
+              business_name: 'David\'s Farm',
+              business_email: 'business@email.com',
+              business_address: 'Some Road, London, MK55 7ES',
+              last_updated_at: undefined,
+              waiting_updated_at: undefined,
+              access_granted: false
+            }
+          ])}`,
+          `Eligible customer found: ${JSON.stringify({
+            sbi: 111111111,
+            crn: '1111111111',
             customer_name: 'David Smith',
             business_name: 'David\'s Farm',
             business_email: 'business@email.com',
             business_address: 'Some Road, London, MK55 7ES',
-            last_updated_at: undefined,
-            waiting_updated_at: new Date(),
             access_granted: false
-          }
+          })}`
         ]
-      },
-      when: 'a business already on the waiting list was found',
-      expect: {
-        isEligible: true,
-        hasMultipleSbiNumbersAttachedToBusinessEmail: false,
-        isAlreadyOnWaitingList: true,
-        hasAccessGranted: false
       }
     },
     {
+      toString: () => 'when one ineligible customer was found',
       given: {
-        sbi: 123456789,
-        crn: '1234567890',
+        sbi: 111111111,
+        crn: '1111111111',
         businessEmail: 'business@email.com',
-        foundBusinesses: [
-          {
-            sbi: 123456789,
-            crn: '1234567890',
-            customer_name: 'David Smith',
-            business_name: 'David\'s Farm',
-            business_email: 'business@email.com',
-            business_address: 'Some Road, London, MK55 7ES',
-            last_updated_at: undefined,
-            waiting_updated_at: new Date(),
-            access_granted: true
-          }
-        ]
       },
-      when: 'a business with access granted was found',
-      expect: {
-        isEligible: true,
-        hasMultipleSbiNumbersAttachedToBusinessEmail: false,
-        isAlreadyOnWaitingList: true,
-        hasAccessGranted: true
-      }
-    },
-    {
-      given: {
-        sbi: 123456789,
-        crn: '1234567890',
-        businessEmail: 'business@email.com',
-        foundBusinesses: [
+      when: {
+        foundCustomers: [
           {
-            sbi: 123456789,
-            crn: '1234567890',
-            customer_name: 'David Smith',
-            business_name: 'David\'s Farm',
-            business_email: 'business@email.com',
-            business_address: 'Some Road, London, MK55 7ES',
-            last_updated_at: undefined,
-            waiting_updated_at: undefined,
-            access_granted: false
-          },
-          {
-            sbi: 111456789,
-            crn: '1114567890',
+            sbi: 222222222,
+            crn: '2222222222',
             customer_name: 'David Smith',
             business_name: 'David\'s Farm',
             business_email: 'business@email.com',
@@ -147,23 +127,44 @@ describe('checkEligibility', () => {
           }
         ]
       },
-      when: 'multiple businesses were found',
       expect: {
-        isEligible: true,
-        hasMultipleSbiNumbersAttachedToBusinessEmail: true,
-        isAlreadyOnWaitingList: false,
-        hasAccessGranted: false
+        sbiAlreadyRegistered: false,
+        isEligible: false,
+        businessEmailHasMultipleDistinctSbi: false,
+        alreadyOnWaitingList: false,
+        hasAccessGranted: false,
+        consoleLogs: [
+          `Checking eligibility: ${JSON.stringify({ sbi: 111111111, crn: '1111111111', businessEmail: 'business@email.com' })}`,
+          `Finding all by sbi or business_email: ${JSON.stringify({ sbi: 111111111, businessEmail: 'business@email.com' })}`,
+          `Found customers: ${JSON.stringify([
+            {
+              sbi: 222222222,
+              crn: '2222222222',
+              customer_name: 'David Smith',
+              business_name: 'David\'s Farm',
+              business_email: 'business@email.com',
+              business_address: 'Some Road, London, MK55 7ES',
+              last_updated_at: undefined,
+              waiting_updated_at: undefined,
+              access_granted: false
+            }
+          ])}`,
+          'Eligible customer not found'
+        ]
       }
     },
     {
+      toString: () => 'when sbi already registered',
       given: {
-        sbi: 123456789,
-        crn: '1234567890',
+        sbi: 111111111,
+        crn: '1111111111',
         businessEmail: 'business@email.com',
-        foundBusinesses: [
+      },
+      when: {
+        foundCustomers: [
           {
-            sbi: 111456789,
-            crn: '1114567890',
+            sbi: 111111111,
+            crn: '1111111111',
             customer_name: 'David Smith',
             business_name: 'David\'s Farm',
             business_email: 'business@email.com',
@@ -173,34 +174,144 @@ describe('checkEligibility', () => {
             access_granted: false
           },
           {
-            sbi: 123456789,
-            crn: '1234567890',
+            sbi: 111111111,
+            crn: '2222222222',
+            customer_name: 'Susan Smith',
+            business_name: 'David\'s Farm',
+            business_email: 'business2@email.com',
+            business_address: 'Some Road, London, MK55 7ES',
+            last_updated_at: undefined,
+            waiting_updated_at: new Date(),
+            access_granted: false
+          }
+        ]
+      },
+      expect: {
+        sbiAlreadyRegistered: true,
+        isEligible: false,
+        businessEmailHasMultipleDistinctSbi: false,
+        alreadyOnWaitingList: false,
+        hasAccessGranted: false,
+        consoleLogs: [
+          `Checking eligibility: ${JSON.stringify({ sbi: 111111111, crn: '1111111111', businessEmail: 'business@email.com' })}`,
+          `Finding all by sbi or business_email: ${JSON.stringify({ sbi: 111111111, businessEmail: 'business@email.com' })}`,
+          `Found customers: ${JSON.stringify([
+            {
+              sbi: 111111111,
+              crn: '1111111111',
+              customer_name: 'David Smith',
+              business_name: 'David\'s Farm',
+              business_email: 'business@email.com',
+              business_address: 'Some Road, London, MK55 7ES',
+              last_updated_at: undefined,
+              waiting_updated_at: undefined,
+              access_granted: false
+            },
+            {
+              sbi: 111111111,
+              crn: '2222222222',
+              customer_name: 'Susan Smith',
+              business_name: 'David\'s Farm',
+              business_email: 'business2@email.com',
+              business_address: 'Some Road, London, MK55 7ES',
+              last_updated_at: undefined,
+              waiting_updated_at: new Date(),
+              access_granted: false
+            }
+          ])}`,
+          `Sbi already registered: ${JSON.stringify({ sbi: 111111111 })}`
+        ]
+      }
+    },
+    {
+      toString: () => 'when eligible customer was found with a business email that had multiple distinct sbi',
+      given: {
+        sbi: 222222222,
+        crn: '2222222222',
+        businessEmail: 'business@email.com',
+      },
+      when: {
+        foundCustomers: [
+          {
+            sbi: 111111111,
+            crn: '1111111111',
             customer_name: 'David Smith',
             business_name: 'David\'s Farm',
             business_email: 'business@email.com',
             business_address: 'Some Road, London, MK55 7ES',
             last_updated_at: undefined,
-            waiting_updated_at: new Date(),
-            access_granted: true
+            waiting_updated_at: undefined,
+            access_granted: false
+          },
+          {
+            sbi: 222222222,
+            crn: '2222222222',
+            customer_name: 'Susan Smith',
+            business_name: 'David\'s Farm',
+            business_email: 'business@email.com',
+            business_address: 'Some Road, London, MK55 7ES',
+            last_updated_at: undefined,
+            waiting_updated_at: undefined,
+            access_granted: false
           }
         ]
       },
-      when: 'multiple businesses were found and the eligible one was already on the waiting list',
       expect: {
+        sbiAlreadyRegistered: false,
         isEligible: true,
-        hasMultipleSbiNumbersAttachedToBusinessEmail: true,
-        isAlreadyOnWaitingList: true,
-        hasAccessGranted: true
+        businessEmailHasMultipleDistinctSbi: true,
+        alreadyOnWaitingList: false,
+        hasAccessGranted: false,
+        consoleLogs: [
+          `Checking eligibility: ${JSON.stringify({ sbi: 222222222, crn: '2222222222', businessEmail: 'business@email.com' })}`,
+          `Finding all by sbi or business_email: ${JSON.stringify({ sbi: 222222222, businessEmail: 'business@email.com' })}`,
+          `Found customers: ${JSON.stringify([
+            {
+              sbi: 111111111,
+              crn: '1111111111',
+              customer_name: 'David Smith',
+              business_name: 'David\'s Farm',
+              business_email: 'business@email.com',
+              business_address: 'Some Road, London, MK55 7ES',
+              last_updated_at: undefined,
+              waiting_updated_at: undefined,
+              access_granted: false
+            },
+            {
+              sbi: 222222222,
+              crn: '2222222222',
+              customer_name: 'Susan Smith',
+              business_name: 'David\'s Farm',
+              business_email: 'business@email.com',
+              business_address: 'Some Road, London, MK55 7ES',
+              last_updated_at: undefined,
+              waiting_updated_at: undefined,
+              access_granted: false
+            }
+          ])}`,
+          `Eligible customer found: ${JSON.stringify({
+            sbi: 222222222,
+            crn: '2222222222',
+            customer_name: 'Susan Smith',
+            business_name: 'David\'s Farm',
+            business_email: 'business@email.com',
+            business_address: 'Some Road, London, MK55 7ES',
+            access_granted: false
+          })}`
+        ]
       }
     }
-  ])('when $when for given sbi and crn and businessEmail', async (testCase) => {
+  ])(`%s`, async (testCase) => {
     when(db.eligibility.findAll)
       .calledWith({
         where: {
-          business_email: testCase.given.businessEmail
+          [Op.or]: [
+            { sbi: testCase.given.sbi },
+            { business_email: testCase.given.businessEmail }
+          ]
         }
       })
-      .mockResolvedValue(testCase.given.foundBusinesses)
+      .mockResolvedValue(testCase.when.foundCustomers)
 
     const business = await checkEligibility(
       testCase.given.sbi,
@@ -208,20 +319,19 @@ describe('checkEligibility', () => {
       testCase.given.businessEmail
     )
 
-    expect(logSpy).toHaveBeenCalledWith(`Checking eligibility: ${JSON.stringify({
-      sbi: testCase.given.sbi,
-      crn: testCase.given.crn,
-      businessEmail: testCase.given.businessEmail
-    })}`)
+    testCase.expect.consoleLogs.forEach(
+      (consoleLog, idx) => expect(logSpy).toHaveBeenNthCalledWith(idx+1, consoleLog)
+    )
     expect(business.sbi).toEqual(testCase.given.sbi)
     expect(business.crn).toEqual(testCase.given.crn)
     expect(business.businessEmail).toEqual(testCase.given.businessEmail)
+    expect(business.sbiAlreadyRegistered()).toEqual(testCase.expect.sbiAlreadyRegistered)
     expect(business.isEligible()).toEqual(testCase.expect.isEligible)
-    expect(business.hasMultipleSbiNumbersAttachedToBusinessEmail()).toEqual(
-      testCase.expect.hasMultipleSbiNumbersAttachedToBusinessEmail
+    expect(business.businessEmailHasMultipleDistinctSbi()).toEqual(
+      testCase.expect.businessEmailHasMultipleDistinctSbi
     )
-    expect(business.isAlreadyOnWaitingList()).toEqual(
-      testCase.expect.isAlreadyOnWaitingList
+    expect(business.alreadyOnWaitingList()).toEqual(
+      testCase.expect.alreadyOnWaitingList
     )
     expect(business.hasAccessGranted()).toEqual(testCase.expect.hasAccessGranted)
   })

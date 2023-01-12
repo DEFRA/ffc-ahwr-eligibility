@@ -8,11 +8,11 @@ const processRegisterYourInterestRequest = async (request) => {
     throw new Error(req.error)
   }
   const { sbi, crn, email: businessEmail } = req.value
-  const business = await autoEligibility.checkEligibility(sbi, crn, businessEmail)
-  if (business.isEligible()) {
-    await autoEligibility.processEligible(business)
+  const customer = await autoEligibility.checkEligibility(sbi, crn, businessEmail)
+  if (customer.isEligible()) {
+    await autoEligibility.processEligibleCustomer(customer)
   } else {
-    await autoEligibility.processIneligible(business)
+    await autoEligibility.processIneligibleCustomer(customer)
   }
 }
 

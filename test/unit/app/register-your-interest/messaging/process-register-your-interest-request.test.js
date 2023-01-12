@@ -19,7 +19,7 @@ describe('Process register your interest request', () => {
     checkEligibility = require('../../../../../app/auto-eligibility/processing/check-eligibility')
 
     jest.mock('../../../../../app/auto-eligibility/processing/process-eligible')
-    processEligible = require('../../../../../app/auto-eligibility/processing/process-eligible')
+    processEligible = require('../../../../../app/auto-eligibility/processing/process-eligible-customer')
 
     jest.mock('../../../../../app/auto-eligibility/processing/process-ineligible')
     processIneligible = require('../../../../../app/auto-eligibility/processing/process-ineligible')

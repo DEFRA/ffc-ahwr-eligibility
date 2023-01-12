@@ -34,18 +34,28 @@ describe('Process register your interest request', () => {
 
   test.each([
     {
+      toString: () => 'when a customer is eligible',
       given: {
         sbi: 123456789,
         crn: '1234567890',
         businessEmail: 'business@email.com',
+        sbiAlreadyRegistered: () => false,
         isEligible: () => true,
-        hasMultipleSbiNumbersAttachedToBusinessEmail: () => false,
-        isAlreadyOnWaitingList: () => false,
+        businessEmailHasMultipleDistinctSbi: () => false,
+        alreadyOnWaitingList: () => false,
         hasAccessGranted: () => false
       },
-      when: 'eligible business was found'
+      expect: {
+        consoleLogs: [
+          `Processing register your interest request: ${JSON.stringify({
+            sbi: 123456789,
+            crn: '1234567890',
+            email: 'business@email.com'
+          })}`
+        ]
+      }
     }
-  ])('when $when process it as eligible', async (testCase) => {
+  ])('%s', async (testCase) => {
     when(checkEligibility)
       .calledWith(
         testCase.given.sbi,
@@ -60,40 +70,36 @@ describe('Process register your interest request', () => {
       email: testCase.given.businessEmail
     })
 
-    expect(logSpy).toHaveBeenCalledWith(`Processing register your interest request: ${JSON.stringify({
-      sbi: testCase.given.sbi,
-      crn: testCase.given.crn,
-      email: testCase.given.businessEmail
-    })}`)
+    testCase.expect.consoleLogs.forEach(
+      (consoleLog, idx) => expect(logSpy).toHaveBeenNthCalledWith(idx+1, consoleLog)
+    )
     expect(processEligible).toHaveBeenCalledWith(testCase.given)
   })
 
   test.each([
     {
+      toString: () => 'when a customer is ineligible',
       given: {
         sbi: 123456789,
         crn: '1234567890',
         businessEmail: 'business@email.com',
+        sbiAlreadyRegistered: () => false,
         isEligible: () => false,
-        hasMultipleSbiNumbersAttachedToBusinessEmail: () => false,
-        isAlreadyOnWaitingList: () => false,
+        businessEmailHasMultipleDistinctSbi: () => false,
+        alreadyOnWaitingList: () => false,
         hasAccessGranted: () => false
       },
-      when: 'ineligible business was found'
-    },
-    {
-      given: {
-        sbi: 123456789,
-        crn: '1234567890',
-        businessEmail: 'business@email.com',
-        isEligible: () => true,
-        hasMultipleSbiNumbersAttachedToBusinessEmail: () => true,
-        isAlreadyOnWaitingList: () => false,
-        hasAccessGranted: () => false
-      },
-      when: 'eligible business was found but it had multiple sbi numbers attached to it'
+      expect: {
+        consoleLogs: [
+          `Processing register your interest request: ${JSON.stringify({
+            sbi: 123456789,
+            crn: '1234567890',
+            email: 'business@email.com'
+          })}`
+        ]
+      }
     }
-  ])('when $when process it as ineligible', async (testCase) => {
+  ])('%s', async (testCase) => {
     when(checkEligibility)
       .calledWith(
         testCase.given.sbi,
@@ -108,25 +114,23 @@ describe('Process register your interest request', () => {
       email: testCase.given.businessEmail
     })
 
-    expect(logSpy).toHaveBeenCalledWith(`Processing register your interest request: ${JSON.stringify({
-      sbi: testCase.given.sbi,
-      crn: testCase.given.crn,
-      email: testCase.given.businessEmail
-    })}`)
+    testCase.expect.consoleLogs.forEach(
+      (consoleLog, idx) => expect(logSpy).toHaveBeenNthCalledWith(idx+1, consoleLog)
+    )
     expect(processIneligible).toHaveBeenCalledWith(testCase.given)
   })
 
   test.each([
     {
+      toString: () => 'when schema validation catched wrong email',
       given: {
         sbi: 123456789,
         crn: '1234567890',
         businessEmail: 'wrong_email'
       },
-      when: 'schema validation catched wrong email',
       expect: 'ValidationError: "email" must be a valid email'
     }
-  ])('when $when throw schema validation error', async (testCase) => {
+  ])('%s', async (testCase) => {
     expect(
       async () => {
         await processRegisterYourInterestRequest({

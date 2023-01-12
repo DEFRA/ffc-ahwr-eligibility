@@ -8,7 +8,7 @@ describe('Process eligible customer', () => {
   let logSpy
   let db
   let notifyClient
-  let processEligible
+  let processEligibleCustomer
 
   beforeAll(() => {
     jest.useFakeTimers('modern')
@@ -33,7 +33,7 @@ describe('Process eligible customer', () => {
       }
     }))
 
-    processEligible = require('../../../../../app/auto-eligibility/processing/process-eligible-customer')
+    processEligibleCustomer = require('../../../../../app/auto-eligibility/processing/process-eligible-customer')
 
     logSpy = jest.spyOn(console, 'log')
   })
@@ -155,7 +155,7 @@ describe('Process eligible customer', () => {
       }
     }
   ])('%s', async (testCase) => {
-    await processEligible(testCase.given.customer)
+    await processEligibleCustomer(testCase.given.customer)
 
     testCase.expect.consoleLogs.forEach(
       (consoleLog, idx) => expect(logSpy).toHaveBeenNthCalledWith(idx + 1, consoleLog)

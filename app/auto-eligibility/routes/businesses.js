@@ -1,6 +1,6 @@
 const Joi = require('joi')
 const Boom = require('@hapi/boom')
-const eligibilityDbTable = require('../db/eligibility.db.table')
+const customerDbTable = require('../db/customer.db.table')
 
 module.exports = {
   method: 'GET',
@@ -23,7 +23,7 @@ module.exports = {
   },
   handler: async (request, h) => {
     try {
-      const farmers = await eligibilityDbTable.findAllByBusinessEmailAndAccessGranted(
+      const farmers = await customerDbTable.findAllByBusinessEmailAndAccessGranted(
         request.query.emailAddress,
         true
       )

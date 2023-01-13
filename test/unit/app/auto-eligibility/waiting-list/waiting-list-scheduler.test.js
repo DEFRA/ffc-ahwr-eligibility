@@ -19,9 +19,9 @@ describe('Waiting list plugin test', () => {
         schedule: jest.fn()
       }
     })
-    jest.mock('../../../../../app/auto-eligibility/lib/process-waiting-list', () => jest.fn())
-    require('../../../../../app/auto-eligibility/lib/process-waiting-list')
-    const waitingListScheduler = require('../../../../../app/auto-eligibility/plugins/waiting-list-scheduler')
+    jest.mock('../../../../../app/auto-eligibility/waiting-list/process-waiting-list', () => jest.fn())
+    require('../../../../../app/auto-eligibility/waiting-list/process-waiting-list')
+    const waitingListScheduler = require('../../../../../app/auto-eligibility/waiting-list/waiting-list-scheduler')
     await waitingListScheduler.plugin.register()
     expect(mockNodeCron.schedule).toHaveBeenCalledWith(
       '0 9 * * FRI', expect.any(Function), { scheduled: true }
@@ -36,10 +36,10 @@ describe('Waiting list plugin test', () => {
         schedule: jest.fn()
       }
     })
-    jest.mock('../../../../../app/auto-eligibility/lib/process-waiting-list', () => jest.fn())
-    const processWaitingList = require('../../../../../app/auto-eligibility/lib/process-waiting-list')
+    jest.mock('../../../../../app/auto-eligibility/waiting-list/process-waiting-list', () => jest.fn())
+    const processWaitingList = require('../../../../../app/auto-eligibility/waiting-list/process-waiting-list')
     mockNodeCron.schedule.mockImplementationOnce(async (frequency, callback) => await callback())
-    const waitingListScheduler = require('../../../../../app/auto-eligibility/plugins/waiting-list-scheduler')
+    const waitingListScheduler = require('../../../../../app/auto-eligibility/waiting-list/waiting-list-scheduler')
     await waitingListScheduler.plugin.register()
     expect(processWaitingList).toHaveBeenCalledWith(50)
   })

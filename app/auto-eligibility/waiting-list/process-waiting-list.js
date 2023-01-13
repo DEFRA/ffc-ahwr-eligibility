@@ -1,10 +1,10 @@
-const updateAccessGranted = require('../../auto-eligibility/processing/update-access-granted')
-const { sendApplyGuidanceEmail } = require('../../auto-eligibility/email-notifier')
+const { sendApplyGuidanceEmail } = require('../email-notifier')
+const customerDbTable = require('../db/customer.db.table')
 
 const processWaitingList = async (upperlimit) => {
   console.log(`Executing process waiting list with limit of ${upperlimit}.`)
   try {
-    const result = await updateAccessGranted()
+    const result = await customerDbTable.updateAccessGranted(upperlimit)
     const farmersCount = result[0]
     const farmers = result[1]
     console.log(`${farmersCount} farmers moved from the waiting list.`)

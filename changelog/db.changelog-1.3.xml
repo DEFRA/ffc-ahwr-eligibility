@@ -1,0 +1,28 @@
+<?xml version="1.1" encoding="utf-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.9.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+  <changeSet author="Marcin Mogiela" id="1">
+    <tagDatabase tag="v1.3.0" />
+  </changeSet>
+  <changeSet author="Marcin Mogiela" id="2">
+    <createTable tableName="vet_visits_data">
+      <column name="sbi" type="NUMBER(9)">
+        <constraints nullable="false" />
+      </column>
+      <column name="crn" type="VARCHAR2(10)">
+        <constraints nullable="false" />
+      </column>
+      <column name="customer_name" type="VARCHAR2(1283)">
+        <constraints nullable="false" />
+      </column>
+      <column name="business_name" type="VARCHAR2(160)">
+        <constraints nullable="false" />
+      </column>
+      <column name="business_email" type="VARCHAR2(254)">
+        <constraints nullable="false" />
+      </column>
+      <column name="business_address" type="VARCHAR2(4000)">
+        <constraints nullable="false" />
+      </column>
+    </createTable>
+  </changeSet>
+</databaseChangeLog>

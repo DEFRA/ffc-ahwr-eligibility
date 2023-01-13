@@ -1,6 +1,6 @@
 const cron = require('node-cron')
 const config = require('../config')
-const processWaitingList = require('../lib/process-waiting-list')
+const processWaitingList = require('./process-waiting-list')
 
 module.exports = {
   plugin: {

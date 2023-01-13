@@ -1,3 +1,3 @@
-const waitingListSchedulerPlugin = require('../auto-eligibility/plugins/waiting-list-scheduler')
+const waitingListSchedulerPlugin = require('../auto-eligibility/waiting-list/waiting-list-scheduler')
 
 module.exports = { waitingListSchedulerPlugin }

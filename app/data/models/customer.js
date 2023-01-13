@@ -1,10 +1,13 @@
 module.exports = (sequelize, DataTypes) => {
-  const eligibility = sequelize.define('eligibility', {
+  const customer = sequelize.define('customer', {
     sbi: {
       type: DataTypes.INTEGER,
       primaryKey: true
     },
-    crn: DataTypes.STRING,
+    crn: {
+      type: DataTypes.STRING,
+      primaryKey: true
+    },
     customer_name: DataTypes.STRING,
     business_name: DataTypes.STRING,
     business_email: DataTypes.STRING,
@@ -14,9 +17,9 @@ module.exports = (sequelize, DataTypes) => {
     access_granted: DataTypes.BOOLEAN
   },
   {
-    tableName: 'eligibility',
+    tableName: 'customer',
     freezeTableName: true,
     timestamps: false
   })
-  return eligibility
+  return customer
 }

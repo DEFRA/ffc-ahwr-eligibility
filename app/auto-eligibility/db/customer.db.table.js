@@ -48,12 +48,12 @@ const updateWaitingUpdatedAt = async (sbi, crn) => {
 }
 
 const updateAccessGranted = async (upperLimit) => {
-  const waitingListQuery = `(SELECT sbi FROM customer WHERE waiting_updated_at IS NOT NULL AND access_granted = false ORDER BY waiting_updated_at ASC LIMIT ${upperLimit})`
+  const waitingListQuery = `(SELECT crn FROM customer WHERE waiting_updated_at IS NOT NULL AND access_granted = false ORDER BY waiting_updated_at ASC LIMIT ${upperLimit})`
   return await db.customer.update({ access_granted: true, last_updated_at: new Date() }, {
     lock: true,
     returning: true,
     where: {
-      sbi: {
+      crn: {
         [Op.in]: literal(waitingListQuery)
       }
     }

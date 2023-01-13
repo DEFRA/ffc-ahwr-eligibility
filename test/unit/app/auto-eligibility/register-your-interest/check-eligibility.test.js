@@ -38,7 +38,6 @@ describe('checkEligibility', () => {
         foundCustomers: []
       },
       expect: {
-        sbiAlreadyRegistered: false,
         isEligible: false,
         businessEmailHasMultipleDistinctSbi: false,
         consoleLogs: [
@@ -52,7 +51,7 @@ describe('checkEligibility', () => {
     {
       toString: () => 'when one eligible customer was found',
       given: {
-        sbi: 111111111,
+        sbi: '111111111',
         crn: '1111111111',
         businessEmail: 'business@email.com'
       },
@@ -72,12 +71,11 @@ describe('checkEligibility', () => {
         ]
       },
       expect: {
-        sbiAlreadyRegistered: false,
         isEligible: true,
         businessEmailHasMultipleDistinctSbi: false,
         consoleLogs: [
-          `Checking eligibility: ${JSON.stringify({ sbi: 111111111, crn: '1111111111', businessEmail: 'business@email.com' })}`,
-          `Finding all by sbi or business_email: ${JSON.stringify({ sbi: 111111111, businessEmail: 'business@email.com' })}`,
+          `Checking eligibility: ${JSON.stringify({ sbi: '111111111', crn: '1111111111', businessEmail: 'business@email.com' })}`,
+          `Finding all by sbi or business_email: ${JSON.stringify({ sbi: '111111111', businessEmail: 'business@email.com' })}`,
           `Found customers: ${JSON.stringify([
             {
               sbi: 111111111,
@@ -106,7 +104,7 @@ describe('checkEligibility', () => {
     {
       toString: () => 'when one ineligible customer was found',
       given: {
-        sbi: 111111111,
+        sbi: '111111111',
         crn: '1111111111',
         businessEmail: 'business@email.com'
       },
@@ -126,12 +124,11 @@ describe('checkEligibility', () => {
         ]
       },
       expect: {
-        sbiAlreadyRegistered: false,
         isEligible: false,
         businessEmailHasMultipleDistinctSbi: false,
         consoleLogs: [
-          `Checking eligibility: ${JSON.stringify({ sbi: 111111111, crn: '1111111111', businessEmail: 'business@email.com' })}`,
-          `Finding all by sbi or business_email: ${JSON.stringify({ sbi: 111111111, businessEmail: 'business@email.com' })}`,
+          `Checking eligibility: ${JSON.stringify({ sbi: '111111111', crn: '1111111111', businessEmail: 'business@email.com' })}`,
+          `Finding all by sbi or business_email: ${JSON.stringify({ sbi: '111111111', businessEmail: 'business@email.com' })}`,
           `Found customers: ${JSON.stringify([
             {
               sbi: 222222222,
@@ -152,7 +149,7 @@ describe('checkEligibility', () => {
     {
       toString: () => 'when sbi already registered',
       given: {
-        sbi: 111111111,
+        sbi: '111111111',
         crn: '1111111111',
         businessEmail: 'business@email.com'
       },
@@ -183,12 +180,11 @@ describe('checkEligibility', () => {
         ]
       },
       expect: {
-        sbiAlreadyRegistered: true,
         isEligible: false,
         businessEmailHasMultipleDistinctSbi: false,
         consoleLogs: [
-          `Checking eligibility: ${JSON.stringify({ sbi: 111111111, crn: '1111111111', businessEmail: 'business@email.com' })}`,
-          `Finding all by sbi or business_email: ${JSON.stringify({ sbi: 111111111, businessEmail: 'business@email.com' })}`,
+          `Checking eligibility: ${JSON.stringify({ sbi: '111111111', crn: '1111111111', businessEmail: 'business@email.com' })}`,
+          `Finding all by sbi or business_email: ${JSON.stringify({ sbi: '111111111', businessEmail: 'business@email.com' })}`,
           `Found customers: ${JSON.stringify([
             {
               sbi: 111111111,
@@ -213,14 +209,14 @@ describe('checkEligibility', () => {
               access_granted: false
             }
           ])}`,
-          `Sbi already registered: ${JSON.stringify({ sbi: 111111111 })}`
+          `SBI already registered: ${JSON.stringify({ sbi: '111111111' })}`
         ]
       }
     },
     {
       toString: () => 'when eligible customer was found with a business email that had multiple distinct sbi',
       given: {
-        sbi: 222222222,
+        sbi: '222222222',
         crn: '2222222222',
         businessEmail: 'business@email.com'
       },
@@ -251,12 +247,11 @@ describe('checkEligibility', () => {
         ]
       },
       expect: {
-        sbiAlreadyRegistered: false,
         isEligible: true,
         businessEmailHasMultipleDistinctSbi: true,
         consoleLogs: [
-          `Checking eligibility: ${JSON.stringify({ sbi: 222222222, crn: '2222222222', businessEmail: 'business@email.com' })}`,
-          `Finding all by sbi or business_email: ${JSON.stringify({ sbi: 222222222, businessEmail: 'business@email.com' })}`,
+          `Checking eligibility: ${JSON.stringify({ sbi: '222222222', crn: '2222222222', businessEmail: 'business@email.com' })}`,
+          `Finding all by sbi or business_email: ${JSON.stringify({ sbi: '222222222', businessEmail: 'business@email.com' })}`,
           `Found customers: ${JSON.stringify([
             {
               sbi: 111111111,
@@ -317,7 +312,6 @@ describe('checkEligibility', () => {
     expect(business.sbi).toEqual(testCase.given.sbi)
     expect(business.crn).toEqual(testCase.given.crn)
     expect(business.businessEmail).toEqual(testCase.given.businessEmail)
-    expect(business.sbiAlreadyRegistered()).toEqual(testCase.expect.sbiAlreadyRegistered)
     expect(business.isEligible()).toEqual(testCase.expect.isEligible)
     expect(business.businessEmailHasMultipleDistinctSbi()).toEqual(
       testCase.expect.businessEmailHasMultipleDistinctSbi

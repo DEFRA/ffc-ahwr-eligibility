@@ -21,10 +21,6 @@ const processEligibleCustomer = async (customer) => {
       customer.businessEmail
     )
   }
-  if (customer.alreadyOnWaitingList()) {
-    console.log('The customer is already on the waiting list')
-    return
-  }
   await customerDbTable.updateWaitingUpdatedAt(customer.sbi, customer.crn)
   await emailNotifier.sendWaitingListEmail(customer.businessEmail)
 }

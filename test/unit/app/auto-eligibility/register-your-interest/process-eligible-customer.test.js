@@ -105,29 +105,6 @@ describe('Process eligible customer', () => {
       }
     },
     {
-      toString: () => 'given a customer is already on the waiting list',
-      given: {
-        customer: {
-          sbi: 123456789,
-          crn: '1234567890',
-          businessEmail: 'business@email.com',
-          sbiAlreadyRegistered: () => false,
-          businessEmailHasMultipleDistinctSbi: () => false,
-          alreadyOnWaitingList: () => true
-        }
-      },
-      expect: {
-        consoleLogs: [
-          `Processing eligible customer: ${JSON.stringify({
-            sbi: 123456789,
-            crn: '1234567890',
-            businessEmail: 'business@email.com'
-          })}`,
-          'The customer is already on the waiting list'
-        ]
-      }
-    },
-    {
       toString: () => 'given a customer ready to be moved to the waiting list',
       given: {
         customer: {

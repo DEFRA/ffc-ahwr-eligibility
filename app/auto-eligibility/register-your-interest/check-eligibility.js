@@ -14,9 +14,7 @@ const checkEligibility = async (sbi, crn, businessEmail) => {
       businessEmail,
       sbiAlreadyRegistered: () => true,
       isEligible: () => false,
-      businessEmailHasMultipleDistinctSbi: () => false,
-      alreadyOnWaitingList: () => false,
-      hasAccessGranted: () => false
+      businessEmailHasMultipleDistinctSbi: () => false
     }
   }
   const eligibleCustomer = customers
@@ -34,9 +32,7 @@ const checkEligibility = async (sbi, crn, businessEmail) => {
     isEligible: () => typeof eligibleCustomer !== 'undefined',
     businessEmailHasMultipleDistinctSbi: () => [
       ...new Set(customers.map(customer => customer.sbi))
-    ].length > 1,
-    alreadyOnWaitingList: () => typeof eligibleCustomer !== 'undefined' && typeof eligibleCustomer.waiting_updated_at !== 'undefined',
-    hasAccessGranted: () => typeof eligibleCustomer !== 'undefined' && eligibleCustomer.access_granted
+    ].length > 1
   }
 }
 

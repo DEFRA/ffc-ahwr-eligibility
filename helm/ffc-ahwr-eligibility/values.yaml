@@ -51,6 +51,7 @@ container:
   port: 3000
   requestCpu: 60m
   requestMemory: 100Mi
+  eventQueueAddress: ffc-ahwr-event
 
 postgresService:
   postgresDb: ffc_ahwr_eligibility

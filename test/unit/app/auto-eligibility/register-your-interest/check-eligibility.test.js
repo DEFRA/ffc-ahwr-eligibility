@@ -1,5 +1,5 @@
 const { when, resetAllWhenMocks } = require('jest-when')
-const { Op } = require('sequelize')
+const { Op, fn, col } = require('sequelize')
 
 const MOCK_NOW = new Date()
 
@@ -291,6 +291,17 @@ describe('checkEligibility', () => {
   ])('%s', async (testCase) => {
     when(db.customer.findAll)
       .calledWith({
+        attributes: [
+          [fn('NUMBER', col('sbi')), 'sbi'],
+          'crn',
+          'customer_name',
+          'business_name',
+          [fn('LOWER', col('business_email')), 'business_email'],
+          'business_address',
+          'last_updated_at',
+          'waiting_updated_at',
+          'access_granted'
+        ],
         where: {
           [Op.or]: [
             { sbi: testCase.given.sbi },

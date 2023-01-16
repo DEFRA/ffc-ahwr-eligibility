@@ -1,4 +1,5 @@
 const { when, resetAllWhenMocks } = require('jest-when')
+const { fn, col } = require('sequelize')
 
 const API_URL = '/api/eligibility'
 
@@ -48,6 +49,17 @@ describe('Eligibility Api - /api/eligibility', () => {
       }
       when(db.customer.findOne)
         .calledWith({
+          attributes: [
+            [fn('NUMBER', col('sbi')), 'sbi'],
+            'crn',
+            'customer_name',
+            'business_name',
+            [fn('LOWER', col('business_email')), 'business_email'],
+            'business_address',
+            'last_updated_at',
+            'waiting_updated_at',
+            'access_granted'
+          ],
           where: {
             business_email: testCase.emailAddress
           }
@@ -98,6 +110,17 @@ describe('Eligibility Api - /api/eligibility', () => {
       }
       when(db.customer.findOne)
         .calledWith({
+          attributes: [
+            [fn('NUMBER', col('sbi')), 'sbi'],
+            'crn',
+            'customer_name',
+            'business_name',
+            [fn('LOWER', col('business_email')), 'business_email'],
+            'business_address',
+            'last_updated_at',
+            'waiting_updated_at',
+            'access_granted'
+          ],
           where: {
             business_email: testCase.emailAddress
           }
@@ -127,6 +150,17 @@ describe('Eligibility Api - /api/eligibility', () => {
       }
       when(db.customer.findOne)
         .calledWith({
+          attributes: [
+            [fn('NUMBER', col('sbi')), 'sbi'],
+            'crn',
+            'customer_name',
+            'business_name',
+            [fn('LOWER', col('business_email')), 'business_email'],
+            'business_address',
+            'last_updated_at',
+            'waiting_updated_at',
+            'access_granted'
+          ],
           where: {
             business_email: testCase.emailAddress
           }

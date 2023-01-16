@@ -10,7 +10,9 @@ module.exports = (sequelize, DataTypes) => {
     },
     customer_name: DataTypes.STRING,
     business_name: DataTypes.STRING,
-    business_email: DataTypes.STRING,
+    business_email: {
+      type: DataTypes.CITEXT
+    },
     business_address: DataTypes.STRING,
     last_updated_at: DataTypes.DATE,
     waiting_updated_at: DataTypes.DATE,

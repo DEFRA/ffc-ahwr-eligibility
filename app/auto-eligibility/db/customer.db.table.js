@@ -1,9 +1,20 @@
-const { Op, literal } = require('sequelize')
+const { Op, literal, fn, col } = require('sequelize')
 const db = require('../../data')
 
 const findByBusinessEmail = async (businessEmail) => {
   console.log(`Finding by business_email: ${JSON.stringify({ businessEmail })}`)
   return await db.customer.findOne({
+    attributes: [
+      [fn('NUMBER', col('sbi')), 'sbi'],
+      'crn',
+      'customer_name',
+      'business_name',
+      [fn('LOWER', col('business_email')), 'business_email'],
+      'business_address',
+      'last_updated_at',
+      'waiting_updated_at',
+      'access_granted'
+    ],
     where: {
       business_email: businessEmail
     }
@@ -13,6 +24,17 @@ const findByBusinessEmail = async (businessEmail) => {
 const findAllBySbiOrBusinessEmail = async (sbi, businessEmail) => {
   console.log(`Finding all by sbi or business_email: ${JSON.stringify({ sbi, businessEmail })}`)
   const result = await db.customer.findAll({
+    attributes: [
+      [fn('NUMBER', col('sbi')), 'sbi'],
+      'crn',
+      'customer_name',
+      'business_name',
+      [fn('LOWER', col('business_email')), 'business_email'],
+      'business_address',
+      'last_updated_at',
+      'waiting_updated_at',
+      'access_granted'
+    ],
     where: {
       [Op.or]: [
         { sbi: sbi },
@@ -27,6 +49,17 @@ const findAllBySbiOrBusinessEmail = async (sbi, businessEmail) => {
 const findAllByBusinessEmailAndAccessGranted = async (businessEmail, accessGranted) => {
   console.log(`Finding all by business_email and access_granted: ${JSON.stringify({ businessEmail, accessGranted })}`)
   return await db.customer.findAll({
+    attributes: [
+      [fn('NUMBER', col('sbi')), 'sbi'],
+      'crn',
+      'customer_name',
+      'business_name',
+      [fn('LOWER', col('business_email')), 'business_email'],
+      'business_address',
+      'last_updated_at',
+      'waiting_updated_at',
+      'access_granted'
+    ],
     where: {
       [Op.and]: [
         { business_email: businessEmail },
@@ -41,6 +74,17 @@ const updateWaitingUpdatedAt = async (sbi, crn) => {
   const now = new Date()
   await db.customer.update({ waiting_updated_at: now, last_updated_at: now }, {
     lock: true,
+    attributes: [
+      [fn('NUMBER', col('sbi')), 'sbi'],
+      'crn',
+      'customer_name',
+      'business_name',
+      [fn('LOWER', col('business_email')), 'business_email'],
+      'business_address',
+      'last_updated_at',
+      'waiting_updated_at',
+      'access_granted'
+    ],
     where: {
       sbi,
       crn
@@ -56,6 +100,17 @@ const updateAccessGranted = async (upperLimit) => {
   return await db.customer.update({ access_granted: true, last_updated_at: new Date() }, {
     lock: true,
     returning: true,
+    attributes: [
+      [fn('NUMBER', col('sbi')), 'sbi'],
+      'crn',
+      'customer_name',
+      'business_name',
+      [fn('LOWER', col('business_email')), 'business_email'],
+      'business_address',
+      'last_updated_at',
+      'waiting_updated_at',
+      'access_granted'
+    ],
     where: {
       crn: {
         [Op.in]: literal(`(

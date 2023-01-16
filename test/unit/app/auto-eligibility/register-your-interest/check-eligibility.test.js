@@ -9,6 +9,9 @@ describe('checkEligibility', () => {
   let checkEligibility
 
   beforeAll(async () => {
+    jest.useFakeTimers('modern')
+    jest.setSystemTime(MOCK_NOW)
+
     jest.mock('../../../../../app/data')
     db = require('../../../../../app/data')
 
@@ -18,8 +21,9 @@ describe('checkEligibility', () => {
   })
 
   afterAll(async () => {
-    jest.resetModules()
     resetAllWhenMocks()
+    jest.resetModules()
+    jest.useRealTimers()
   })
 
   afterEach(() => {
@@ -41,10 +45,10 @@ describe('checkEligibility', () => {
         isRegisteringForEligibleSbi: false,
         businessEmailHasMultipleDistinctSbi: false,
         consoleLogs: [
-          `Checking eligibility: ${JSON.stringify({ sbi: 123456789, crn: '1234567890', businessEmail: 'business@email.com' })}`,
-          `Finding all by sbi or business_email: ${JSON.stringify({ sbi: 123456789, businessEmail: 'business@email.com' })}`,
-          `Found customers: ${JSON.stringify([])}`,
-          'Eligible SBI not found'
+          `${MOCK_NOW.toISOString()} Checking eligibility: ${JSON.stringify({ sbi: 123456789, crn: '1234567890', businessEmail: 'business@email.com' })}`,
+          `${MOCK_NOW.toISOString()} Finding all by sbi or business_email: ${JSON.stringify({ sbi: 123456789, businessEmail: 'business@email.com' })}`,
+          `${MOCK_NOW.toISOString()} Found customers: ${JSON.stringify([])}`,
+          `${MOCK_NOW.toISOString()} Eligible SBI not found`
         ]
       }
     },
@@ -74,9 +78,9 @@ describe('checkEligibility', () => {
         isRegisteringForEligibleSbi: true,
         businessEmailHasMultipleDistinctSbi: false,
         consoleLogs: [
-          `Checking eligibility: ${JSON.stringify({ sbi: '111111111', crn: '1111111111', businessEmail: 'business@email.com' })}`,
-          `Finding all by sbi or business_email: ${JSON.stringify({ sbi: '111111111', businessEmail: 'business@email.com' })}`,
-          `Found customers: ${JSON.stringify([
+          `${MOCK_NOW.toISOString()} Checking eligibility: ${JSON.stringify({ sbi: '111111111', crn: '1111111111', businessEmail: 'business@email.com' })}`,
+          `${MOCK_NOW.toISOString()} Finding all by sbi or business_email: ${JSON.stringify({ sbi: '111111111', businessEmail: 'business@email.com' })}`,
+          `${MOCK_NOW.toISOString()} Found customers: ${JSON.stringify([
             {
               sbi: 111111111,
               crn: '1111111111',
@@ -89,7 +93,7 @@ describe('checkEligibility', () => {
               access_granted: false
             }
           ])}`,
-          `Eligible SBI found: ${JSON.stringify({
+          `${MOCK_NOW.toISOString()} Eligible SBI found: ${JSON.stringify({
             sbi: 111111111,
             crn: '1111111111',
             customer_name: 'David Smith',
@@ -127,9 +131,9 @@ describe('checkEligibility', () => {
         isRegisteringForEligibleSbi: false,
         businessEmailHasMultipleDistinctSbi: false,
         consoleLogs: [
-          `Checking eligibility: ${JSON.stringify({ sbi: '111111111', crn: '1111111111', businessEmail: 'business@email.com' })}`,
-          `Finding all by sbi or business_email: ${JSON.stringify({ sbi: '111111111', businessEmail: 'business@email.com' })}`,
-          `Found customers: ${JSON.stringify([
+          `${MOCK_NOW.toISOString()} Checking eligibility: ${JSON.stringify({ sbi: '111111111', crn: '1111111111', businessEmail: 'business@email.com' })}`,
+          `${MOCK_NOW.toISOString()} Finding all by sbi or business_email: ${JSON.stringify({ sbi: '111111111', businessEmail: 'business@email.com' })}`,
+          `${MOCK_NOW.toISOString()} Found customers: ${JSON.stringify([
             {
               sbi: 222222222,
               crn: '2222222222',
@@ -142,7 +146,7 @@ describe('checkEligibility', () => {
               access_granted: false
             }
           ])}`,
-          'Eligible SBI not found'
+          `${MOCK_NOW.toISOString()} Eligible SBI not found`
         ]
       }
     },
@@ -183,9 +187,9 @@ describe('checkEligibility', () => {
         isRegisteringForEligibleSbi: false,
         businessEmailHasMultipleDistinctSbi: false,
         consoleLogs: [
-          `Checking eligibility: ${JSON.stringify({ sbi: '111111111', crn: '1111111111', businessEmail: 'business@email.com' })}`,
-          `Finding all by sbi or business_email: ${JSON.stringify({ sbi: '111111111', businessEmail: 'business@email.com' })}`,
-          `Found customers: ${JSON.stringify([
+          `${MOCK_NOW.toISOString()} Checking eligibility: ${JSON.stringify({ sbi: '111111111', crn: '1111111111', businessEmail: 'business@email.com' })}`,
+          `${MOCK_NOW.toISOString()} Finding all by sbi or business_email: ${JSON.stringify({ sbi: '111111111', businessEmail: 'business@email.com' })}`,
+          `${MOCK_NOW.toISOString()} Found customers: ${JSON.stringify([
             {
               sbi: 111111111,
               crn: '1111111111',
@@ -209,7 +213,7 @@ describe('checkEligibility', () => {
               access_granted: false
             }
           ])}`,
-          `SBI already registered: ${JSON.stringify({ sbi: '111111111' })}`
+          `${MOCK_NOW.toISOString()} SBI already registered: ${JSON.stringify({ sbi: '111111111' })}`
         ]
       }
     },
@@ -250,9 +254,9 @@ describe('checkEligibility', () => {
         isRegisteringForEligibleSbi: true,
         businessEmailHasMultipleDistinctSbi: true,
         consoleLogs: [
-          `Checking eligibility: ${JSON.stringify({ sbi: '222222222', crn: '2222222222', businessEmail: 'business@email.com' })}`,
-          `Finding all by sbi or business_email: ${JSON.stringify({ sbi: '222222222', businessEmail: 'business@email.com' })}`,
-          `Found customers: ${JSON.stringify([
+          `${MOCK_NOW.toISOString()} Checking eligibility: ${JSON.stringify({ sbi: '222222222', crn: '2222222222', businessEmail: 'business@email.com' })}`,
+          `${MOCK_NOW.toISOString()} Finding all by sbi or business_email: ${JSON.stringify({ sbi: '222222222', businessEmail: 'business@email.com' })}`,
+          `${MOCK_NOW.toISOString()} Found customers: ${JSON.stringify([
             {
               sbi: 111111111,
               crn: '1111111111',
@@ -276,7 +280,7 @@ describe('checkEligibility', () => {
               access_granted: false
             }
           ])}`,
-          `Eligible SBI found: ${JSON.stringify({
+          `${MOCK_NOW.toISOString()} Eligible SBI found: ${JSON.stringify({
             sbi: 222222222,
             crn: '2222222222',
             customer_name: 'Susan Smith',

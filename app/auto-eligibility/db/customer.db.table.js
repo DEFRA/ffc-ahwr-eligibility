@@ -2,7 +2,7 @@ const { Op, literal, fn, col } = require('sequelize')
 const db = require('../../data')
 
 const findByBusinessEmail = async (businessEmail) => {
-  console.log(`Finding by business_email: ${JSON.stringify({ businessEmail })}`)
+  console.log(`${new Date().toISOString()} Finding by business_email: ${JSON.stringify({ businessEmail })}`)
   return await db.customer.findOne({
     attributes: [
       'sbi',
@@ -22,7 +22,7 @@ const findByBusinessEmail = async (businessEmail) => {
 }
 
 const findAllBySbiOrBusinessEmail = async (sbi, businessEmail) => {
-  console.log(`Finding all by sbi or business_email: ${JSON.stringify({ sbi, businessEmail })}`)
+  console.log(`${new Date().toISOString()} Finding all by sbi or business_email: ${JSON.stringify({ sbi, businessEmail })}`)
   const result = await db.customer.findAll({
     attributes: [
       'sbi',
@@ -42,12 +42,12 @@ const findAllBySbiOrBusinessEmail = async (sbi, businessEmail) => {
       ]
     }
   })
-  console.log(`Found customers: ${JSON.stringify(result)}`)
+  console.log(`${new Date().toISOString()} Found customers: ${JSON.stringify(result)}`)
   return result
 }
 
 const findAllByBusinessEmailAndAccessGranted = async (businessEmail, accessGranted) => {
-  console.log(`Finding all by business_email and access_granted: ${JSON.stringify({ businessEmail, accessGranted })}`)
+  console.log(`${new Date().toISOString()} Finding all by business_email and access_granted: ${JSON.stringify({ businessEmail, accessGranted })}`)
   return await db.customer.findAll({
     attributes: [
       'sbi',
@@ -70,7 +70,7 @@ const findAllByBusinessEmailAndAccessGranted = async (businessEmail, accessGrant
 }
 
 const updateWaitingUpdatedAt = async (sbi, crn) => {
-  console.log(`Updating waiting updated timestamp ${JSON.stringify({ sbi, crn })}`)
+  console.log(`${new Date().toISOString()} Updating waiting updated at: ${JSON.stringify({ sbi, crn })}`)
   const now = new Date()
   await db.customer.update({ waiting_updated_at: now, last_updated_at: now }, {
     lock: true,
@@ -93,7 +93,7 @@ const updateWaitingUpdatedAt = async (sbi, crn) => {
 }
 
 const updateAccessGranted = async (upperLimit) => {
-  console.log(`Updating access granted with ${JSON.stringify({ upperLimit })}`)
+  console.log(`${new Date().toISOString()} Updating access granted: ${JSON.stringify({ upperLimit })}`)
   if (typeof upperLimit === 'undefined') {
     throw new Error(`Invalid argument: ${JSON.stringify(upperLimit)}`)
   }

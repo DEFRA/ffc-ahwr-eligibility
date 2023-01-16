@@ -1,6 +1,6 @@
 const { fn, col } = require('sequelize')
 
-const MOCK_NOW = new Date(2020, 3, 1, 13, 30, 45)
+const MOCK_NOW = new Date()
 
 const MOCK_WAITING_LIST_EMAIL_TEMPLATE_ID = '9d9fb4dc-93f8-44b0-be28-a53524535db7'
 const MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION = '7a0ce567-d908-4f35-a858-de9e8f5445ec'
@@ -67,12 +67,12 @@ describe('Process eligible SBI', () => {
           emailAddressTo: MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS
         },
         consoleLogs: [
-          `Processing eligible SBI: ${JSON.stringify({
+          `${MOCK_NOW.toISOString()} Processing eligible SBI: ${JSON.stringify({
             sbi: 123456789,
             crn: '1234567890',
             businessEmail: 'business@email.com'
           })}`,
-          'The customer`s business email has multiple SBI which as of now the system does not support',
+          `${MOCK_NOW.toISOString()} The customer's business email has multiple distinct SBI`,
           `Attempting to send email with template ID ${MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION} to email ${MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS}`,
           `Successfully sent email with template ID ${MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION} to email ${MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS}`
         ]
@@ -94,12 +94,12 @@ describe('Process eligible SBI', () => {
           now: MOCK_NOW
         },
         consoleLogs: [
-          `Processing eligible SBI: ${JSON.stringify({
+          `${MOCK_NOW.toISOString()} Processing eligible SBI: ${JSON.stringify({
             sbi: 123456789,
             crn: '1234567890',
             businessEmail: 'business@email.com'
           })}`,
-          `Updating waiting updated timestamp ${JSON.stringify({
+          `${MOCK_NOW.toISOString()} Updating waiting updated at: ${JSON.stringify({
             sbi: 123456789,
             crn: '1234567890'
           })}`,

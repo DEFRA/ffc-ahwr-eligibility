@@ -57,6 +57,11 @@ describe('Process register your interest request', () => {
             sbi: 123456789,
             crn: '1234567890',
             email: 'business@email.com'
+          })}`,
+          `${MOCK_NOW.toISOString()} Register your interest has been processed successfully: ${JSON.stringify({
+            sbi: 123456789,
+            crn: '1234567890',
+            email: 'business@email.com'
           })}`
         ]
       }
@@ -98,6 +103,11 @@ describe('Process register your interest request', () => {
       expect: {
         consoleLogs: [
           `${MOCK_NOW.toISOString()} Processing register your interest: ${JSON.stringify({
+            sbi: 123456789,
+            crn: '1234567890',
+            email: 'business@email.com'
+          })}`,
+          `${MOCK_NOW.toISOString()} Register your interest has been processed successfully: ${JSON.stringify({
             sbi: 123456789,
             crn: '1234567890',
             email: 'business@email.com'

@@ -13,7 +13,7 @@ describe(('Consume register your interest message tests'), () => {
     const { MessageReceiver } = require('ffc-messaging')
     MessageReceiver.prototype.subscribe = mocksubscribe
     MessageReceiver.prototype.closeConnection = mockClose
-    require('../../../../../app/auto-eligibility/register-your-interest/process-register-your-interest-request')
+    require('../../../../../app/auto-eligibility/register-your-interest/process-register-your-interest')
     service = require('../../../../../app/auto-eligibility/register-your-interest/service')
   })
 

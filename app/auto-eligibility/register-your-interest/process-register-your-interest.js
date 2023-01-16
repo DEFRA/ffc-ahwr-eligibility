@@ -1,10 +1,10 @@
-const schema = require('./register-your-interest-request.schema')
+const schema = require('./register-your-interest.schema')
 const checkEligibility = require('./check-eligibility')
 const processEligibleCustomer = require('./process-eligible-customer')
 const processIneligibleCustomer = require('./process-ineligible-customer')
 
-const processRegisterYourInterestRequest = async (request) => {
-  console.log(`Processing register your interest request: ${JSON.stringify(request)}`)
+const processRegisterYourInterest = async (request) => {
+  console.log(`Processing register your interest: ${JSON.stringify(request)}`)
   const req = schema.validate(request)
   if (req.error) {
     throw new Error(req.error)
@@ -18,4 +18,4 @@ const processRegisterYourInterestRequest = async (request) => {
   }
 }
 
-module.exports = processRegisterYourInterestRequest
+module.exports = processRegisterYourInterest

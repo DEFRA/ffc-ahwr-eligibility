@@ -1,3 +1,5 @@
+const { fn, col } = require('sequelize')
+
 const MOCK_NOW = new Date(2020, 3, 1, 13, 30, 45)
 
 const MOCK_WAITING_LIST_EMAIL_TEMPLATE_ID = '9d9fb4dc-93f8-44b0-be28-a53524535db7'
@@ -118,6 +120,17 @@ describe('Process eligible customer', () => {
         waiting_updated_at: testCase.expect.db.now
       }, {
         lock: true,
+        attributes: [
+          [fn('NUMBER', col('sbi')), 'sbi'],
+          'crn',
+          'customer_name',
+          'business_name',
+          [fn('LOWER', col('business_email')), 'business_email'],
+          'business_address',
+          'last_updated_at',
+          'waiting_updated_at',
+          'access_granted'
+        ],
         where: {
           sbi: testCase.given.customer.sbi,
           crn: testCase.given.customer.crn

@@ -50,7 +50,7 @@ describe('Eligibility Api - /api/eligibility', () => {
       when(db.customer.findOne)
         .calledWith({
           attributes: [
-            [fn('TO_NUMBER', col('sbi')), 'sbi'],
+            'sbi',
             'crn',
             'customer_name',
             'business_name',
@@ -111,7 +111,7 @@ describe('Eligibility Api - /api/eligibility', () => {
       when(db.customer.findOne)
         .calledWith({
           attributes: [
-            [fn('TO_NUMBER', col('sbi')), 'sbi'],
+            'sbi',
             'crn',
             'customer_name',
             'business_name',
@@ -151,7 +151,7 @@ describe('Eligibility Api - /api/eligibility', () => {
       when(db.customer.findOne)
         .calledWith({
           attributes: [
-            [fn('TO_NUMBER', col('sbi')), 'sbi'],
+            'sbi',
             'crn',
             'customer_name',
             'business_name',

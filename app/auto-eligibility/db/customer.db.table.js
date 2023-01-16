@@ -5,7 +5,7 @@ const findByBusinessEmail = async (businessEmail) => {
   console.log(`Finding by business_email: ${JSON.stringify({ businessEmail })}`)
   return await db.customer.findOne({
     attributes: [
-      [fn('TO_NUMBER', col('sbi')), 'sbi'],
+      'sbi',
       'crn',
       'customer_name',
       'business_name',
@@ -25,7 +25,7 @@ const findAllBySbiOrBusinessEmail = async (sbi, businessEmail) => {
   console.log(`Finding all by sbi or business_email: ${JSON.stringify({ sbi, businessEmail })}`)
   const result = await db.customer.findAll({
     attributes: [
-      [fn('TO_NUMBER', col('sbi')), 'sbi'],
+      'sbi',
       'crn',
       'customer_name',
       'business_name',
@@ -50,7 +50,7 @@ const findAllByBusinessEmailAndAccessGranted = async (businessEmail, accessGrant
   console.log(`Finding all by business_email and access_granted: ${JSON.stringify({ businessEmail, accessGranted })}`)
   return await db.customer.findAll({
     attributes: [
-      [fn('TO_NUMBER', col('sbi')), 'sbi'],
+      'sbi',
       'crn',
       'customer_name',
       'business_name',
@@ -75,7 +75,7 @@ const updateWaitingUpdatedAt = async (sbi, crn) => {
   await db.customer.update({ waiting_updated_at: now, last_updated_at: now }, {
     lock: true,
     attributes: [
-      [fn('TO_NUMBER', col('sbi')), 'sbi'],
+      'sbi',
       'crn',
       'customer_name',
       'business_name',
@@ -101,7 +101,7 @@ const updateAccessGranted = async (upperLimit) => {
     lock: true,
     returning: true,
     attributes: [
-      [fn('TO_NUMBER', col('sbi')), 'sbi'],
+      'sbi',
       'crn',
       'customer_name',
       'business_name',

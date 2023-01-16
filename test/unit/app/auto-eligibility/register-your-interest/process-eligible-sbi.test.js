@@ -121,7 +121,7 @@ describe('Process eligible SBI', () => {
       }, {
         lock: true,
         attributes: [
-          [fn('TO_NUMBER', col('sbi')), 'sbi'],
+          'sbi',
           'crn',
           'customer_name',
           'business_name',

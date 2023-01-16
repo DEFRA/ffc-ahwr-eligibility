@@ -4,7 +4,7 @@ const processEligibleSbi = require('./process-eligible-sbi')
 const processIneligibleSbi = require('./process-ineligible-sbi')
 
 const processRegisterYourInterest = async (request) => {
-  console.log(`Processing register your interest: ${JSON.stringify(request)}`)
+  console.log(`${new Date().toISOString()} Processing register your interest: ${JSON.stringify(request)}`)
   const req = schema.validate(request)
   if (req.error) {
     throw new Error(req.error)

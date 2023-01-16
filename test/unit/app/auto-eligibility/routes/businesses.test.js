@@ -79,7 +79,7 @@ describe(`Eligibility Api - ${API_URL}`, () => {
       when(db.customer.findAll)
         .calledWith({
           attributes: [
-            [fn('TO_NUMBER', col('sbi')), 'sbi'],
+            'sbi',
             'crn',
             'customer_name',
             'business_name',
@@ -131,7 +131,7 @@ describe(`Eligibility Api - ${API_URL}`, () => {
       when(db.customer.findAll)
         .calledWith({
           attributes: [
-            [fn('TO_NUMBER', col('sbi')), 'sbi'],
+            'sbi',
             'crn',
             'customer_name',
             'business_name',
@@ -174,7 +174,7 @@ describe(`Eligibility Api - ${API_URL}`, () => {
       when(db.customer.findAll)
         .calledWith({
           attributes: [
-            [fn('TO_NUMBER', col('sbi')), 'sbi'],
+            'sbi',
             'crn',
             'customer_name',
             'business_name',

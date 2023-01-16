@@ -97,6 +97,10 @@ describe('Process eligible customer', () => {
             crn: '1234567890',
             businessEmail: 'business@email.com'
           })}`,
+          `Updating waiting updated timestamp ${JSON.stringify({
+            sbi: 123456789,
+            crn: '1234567890'
+          })}`,
           `Attempting to send email with template ID ${MOCK_WAITING_LIST_EMAIL_TEMPLATE_ID} to email business@email.com`,
           `Successfully sent email with template ID ${MOCK_WAITING_LIST_EMAIL_TEMPLATE_ID} to email business@email.com`
         ]

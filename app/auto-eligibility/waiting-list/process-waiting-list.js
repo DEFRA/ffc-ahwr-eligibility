@@ -7,7 +7,7 @@ const processWaitingList = async (upperlimit) => {
     const result = await customerDbTable.updateAccessGranted(upperlimit)
     const farmersCount = result[0]
     const farmers = result[1]
-    console.log(`${farmersCount} farmers moved from the waiting list.`)
+    console.log(`${farmersCount} customers moved from the waiting list.`)
     farmers.forEach(farmer => {
       sendApplyGuidanceEmail(farmer.business_email)
     })

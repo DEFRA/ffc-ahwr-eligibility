@@ -1,6 +1,6 @@
 const startServer = require('./server/start-server')
 const unhandledRejection = require('./exception/unhandled-rejection')
-const { start: startMessageService, stop: stopMessageService } = require('./auto-eligibility/register-your-interest/service')
+const { start: startMessageService, stop: stopMessageService } = require('./auto-eligibility/register-your-interest/message-receiver')
 
 process.on('unhandledRejection', async (err) => {
   await stopMessageService()

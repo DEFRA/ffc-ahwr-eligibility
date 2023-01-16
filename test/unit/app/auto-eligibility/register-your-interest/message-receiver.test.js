@@ -7,14 +7,14 @@ describe(('Consume register your interest message tests'), () => {
     jest.resetModules()
     jest.resetAllMocks()
     jest.mock('ffc-messaging')
-    jest.mock('../../../../../app/auto-eligibility/register-your-interest/process-register-your-interest-request', () => ({}))
+    jest.mock('../../../../../app/auto-eligibility/register-your-interest/process-register-your-interest', () => ({}))
     mocksubscribe = jest.fn().mockImplementation(() => {})
     mockClose = jest.fn().mockImplementation(() => {})
     const { MessageReceiver } = require('ffc-messaging')
     MessageReceiver.prototype.subscribe = mocksubscribe
     MessageReceiver.prototype.closeConnection = mockClose
     require('../../../../../app/auto-eligibility/register-your-interest/process-register-your-interest')
-    service = require('../../../../../app/auto-eligibility/register-your-interest/service')
+    service = require('../../../../../app/auto-eligibility/register-your-interest/message-receiver')
   })
 
   test('successfully fetched register your interest message', async () => {

@@ -12,22 +12,22 @@ const checkEligibility = async (sbi, crn, businessEmail) => {
       sbi,
       crn,
       businessEmail,
-      isEligible: () => false,
+      isRegisteringForEligibleSbi: () => false,
       businessEmailHasMultipleDistinctSbi: () => false
     }
   }
-  const eligibleCustomer = customers
+  const eligibleSbi = customers
     .filter(customer => customer.business_email === businessEmail)
     .find(customer => customer.sbi.toString() === sbi.toString() && customer.crn === crn)
-  console.log(typeof eligibleCustomer !== 'undefined'
-    ? `Eligible customer found: ${JSON.stringify({ ...eligibleCustomer })}`
-    : 'Eligible customer not found'
+  console.log(typeof eligibleSbi !== 'undefined'
+    ? `Eligible SBI found: ${JSON.stringify({ ...eligibleSbi })}`
+    : 'Eligible SBI not found'
   )
   return {
     sbi,
     crn,
     businessEmail,
-    isEligible: () => typeof eligibleCustomer !== 'undefined',
+    isRegisteringForEligibleSbi: () => typeof eligibleSbi !== 'undefined',
     businessEmailHasMultipleDistinctSbi: () => [
       ...new Set(customers.map(customer => customer.sbi))
     ].length > 1

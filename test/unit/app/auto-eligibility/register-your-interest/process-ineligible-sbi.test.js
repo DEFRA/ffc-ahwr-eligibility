@@ -1,7 +1,7 @@
 const MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION = '7a0ce567-d908-4f35-a858-de9e8f5445ec'
 const MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS = 'eat@email.com'
 
-describe('Process ineligible customer', () => {
+describe('Process ineligible SBI', () => {
   let logSpy
   let notifyClient
   let processIneligibleCustomer
@@ -23,7 +23,7 @@ describe('Process ineligible customer', () => {
       }
     }))
 
-    processIneligibleCustomer = require('../../../../../app/auto-eligibility/register-your-interest/process-ineligible-customer')
+    processIneligibleCustomer = require('../../../../../app/auto-eligibility/register-your-interest/process-ineligible-sbi')
 
     logSpy = jest.spyOn(console, 'log')
   })
@@ -49,7 +49,7 @@ describe('Process ineligible customer', () => {
           emailAddressTo: MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS
         },
         consoleLogs: [
-          `Processing ineligible customer: ${JSON.stringify({
+          `Processing ineligible SBI: ${JSON.stringify({
             sbi: 123456789,
             crn: '1234567890',
             businessEmail: 'business@email.com'

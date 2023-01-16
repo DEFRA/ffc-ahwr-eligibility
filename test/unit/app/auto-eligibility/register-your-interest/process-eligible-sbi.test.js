@@ -6,7 +6,7 @@ const MOCK_WAITING_LIST_EMAIL_TEMPLATE_ID = '9d9fb4dc-93f8-44b0-be28-a53524535db
 const MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION = '7a0ce567-d908-4f35-a858-de9e8f5445ec'
 const MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS = 'eat@email.com'
 
-describe('Process eligible customer', () => {
+describe('Process eligible SBI', () => {
   let logSpy
   let db
   let notifyClient
@@ -35,7 +35,7 @@ describe('Process eligible customer', () => {
       }
     }))
 
-    processEligibleCustomer = require('../../../../../app/auto-eligibility/register-your-interest/process-eligible-customer')
+    processEligibleCustomer = require('../../../../../app/auto-eligibility/register-your-interest/process-eligible-sbi')
 
     logSpy = jest.spyOn(console, 'log')
   })
@@ -67,12 +67,12 @@ describe('Process eligible customer', () => {
           emailAddressTo: MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS
         },
         consoleLogs: [
-          `Processing eligible customer: ${JSON.stringify({
+          `Processing eligible SBI: ${JSON.stringify({
             sbi: 123456789,
             crn: '1234567890',
             businessEmail: 'business@email.com'
           })}`,
-          'The customer`s business email has multiple sbi which as of now the system does not support',
+          'The customer`s business email has multiple SBI which as of now the system does not support',
           `Attempting to send email with template ID ${MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION} to email ${MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS}`,
           `Successfully sent email with template ID ${MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION} to email ${MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS}`
         ]
@@ -94,7 +94,7 @@ describe('Process eligible customer', () => {
           now: MOCK_NOW
         },
         consoleLogs: [
-          `Processing eligible customer: ${JSON.stringify({
+          `Processing eligible SBI: ${JSON.stringify({
             sbi: 123456789,
             crn: '1234567890',
             businessEmail: 'business@email.com'

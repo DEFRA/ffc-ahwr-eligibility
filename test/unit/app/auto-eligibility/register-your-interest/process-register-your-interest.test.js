@@ -18,11 +18,11 @@ describe('Process register your interest request', () => {
     jest.mock('../../../../../app/auto-eligibility/register-your-interest/check-eligibility')
     checkEligibility = require('../../../../../app/auto-eligibility/register-your-interest/check-eligibility')
 
-    jest.mock('../../../../../app/auto-eligibility/register-your-interest/process-eligible-customer')
-    processEligible = require('../../../../../app/auto-eligibility/register-your-interest/process-eligible-customer')
+    jest.mock('../../../../../app/auto-eligibility/register-your-interest/process-eligible-sbi')
+    processEligible = require('../../../../../app/auto-eligibility/register-your-interest/process-eligible-sbi')
 
-    jest.mock('../../../../../app/auto-eligibility/register-your-interest/process-ineligible-customer')
-    processIneligible = require('../../../../../app/auto-eligibility/register-your-interest/process-ineligible-customer')
+    jest.mock('../../../../../app/auto-eligibility/register-your-interest/process-ineligible-sbi')
+    processIneligible = require('../../../../../app/auto-eligibility/register-your-interest/process-ineligible-sbi')
 
     processRegisterYourInterestRequest = require('../../../../../app/auto-eligibility/register-your-interest/process-register-your-interest')
   })
@@ -40,14 +40,14 @@ describe('Process register your interest request', () => {
         crn: '1234567890',
         businessEmail: 'business@email.com',
         sbiAlreadyRegistered: () => false,
-        isEligible: () => true,
+        isRegisteringForEligibleSbi: () => true,
         businessEmailHasMultipleDistinctSbi: () => false,
         alreadyOnWaitingList: () => false,
         hasAccessGranted: () => false
       },
       expect: {
         consoleLogs: [
-          `Processing register your interest request: ${JSON.stringify({
+          `Processing register your interest: ${JSON.stringify({
             sbi: 123456789,
             crn: '1234567890',
             email: 'business@email.com'
@@ -84,14 +84,14 @@ describe('Process register your interest request', () => {
         crn: '1234567890',
         businessEmail: 'business@email.com',
         sbiAlreadyRegistered: () => false,
-        isEligible: () => false,
+        isRegisteringForEligibleSbi: () => false,
         businessEmailHasMultipleDistinctSbi: () => false,
         alreadyOnWaitingList: () => false,
         hasAccessGranted: () => false
       },
       expect: {
         consoleLogs: [
-          `Processing register your interest request: ${JSON.stringify({
+          `Processing register your interest: ${JSON.stringify({
             sbi: 123456789,
             crn: '1234567890',
             email: 'business@email.com'

@@ -94,7 +94,7 @@ const updateWaitingUpdatedAt = async (sbi, crn) => {
 
 const updateAccessGranted = async (upperLimit) => {
   console.log(`Updating access granted with ${JSON.stringify({ upperLimit })}`)
-  if (upperLimit < 1) {
+  if (typeof upperLimit === 'undefined') {
     throw new Error(`Invalid argument: ${JSON.stringify(upperLimit)}`)
   }
   return await db.customer.update({ access_granted: true, last_updated_at: new Date() }, {

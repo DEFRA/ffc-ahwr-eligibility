@@ -1,7 +1,7 @@
 const emailNotifier = require('../email-notifier')
 
 const processIneligibleSbi = async (customer) => {
-  console.log(`Processing ineligible SBI: ${JSON.stringify({
+  console.log(`${new Date().toISOString()} Processing ineligible SBI: ${JSON.stringify({
     ...customer
   })}`)
   await emailNotifier.sendIneligibleApplicationEmail(

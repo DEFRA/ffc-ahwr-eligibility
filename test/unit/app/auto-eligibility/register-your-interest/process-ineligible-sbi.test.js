@@ -1,12 +1,17 @@
 const MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION = '7a0ce567-d908-4f35-a858-de9e8f5445ec'
 const MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS = 'eat@email.com'
 
+const MOCK_NOW = new Date()
+
 describe('Process ineligible SBI', () => {
   let logSpy
   let notifyClient
   let processIneligibleCustomer
 
   beforeAll(() => {
+    jest.useFakeTimers('modern')
+    jest.setSystemTime(MOCK_NOW)
+
     jest.mock('../../../../../app/client/notify-client')
     jest.mock('../../../../../app/config/notify', () => ({
       apiKey: 'mockApiKey'
@@ -30,6 +35,7 @@ describe('Process ineligible SBI', () => {
 
   afterAll(() => {
     jest.resetModules()
+    jest.useRealTimers()
   })
 
   test.each([
@@ -49,7 +55,7 @@ describe('Process ineligible SBI', () => {
           emailAddressTo: MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS
         },
         consoleLogs: [
-          `Processing ineligible SBI: ${JSON.stringify({
+          `${MOCK_NOW.toISOString()} Processing ineligible SBI: ${JSON.stringify({
             sbi: 123456789,
             crn: '1234567890',
             businessEmail: 'business@email.com'

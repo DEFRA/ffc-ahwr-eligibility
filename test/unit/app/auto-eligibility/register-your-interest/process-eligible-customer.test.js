@@ -50,40 +50,12 @@ describe('Process eligible customer', () => {
 
   test.each([
     {
-      toString: () => 'given a customer\'s sbi is already registered',
-      given: {
-        customer: {
-          sbi: 123456789,
-          crn: '1234567890',
-          businessEmail: 'business@email.com',
-          sbiAlreadyRegistered: () => true
-        }
-      },
-      expect: {
-        emailNotifier: {
-          emailTemplateId: MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION,
-          emailAddressTo: MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS
-        },
-        consoleLogs: [
-          `Processing eligible customer: ${JSON.stringify({
-            sbi: 123456789,
-            crn: '1234567890',
-            businessEmail: 'business@email.com'
-          })}`,
-          'The customer`s sbi has already been registered',
-          `Attempting to send email with template ID ${MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION} to email ${MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS}`,
-          `Successfully sent email with template ID ${MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION} to email ${MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS}`
-        ]
-      }
-    },
-    {
       toString: () => 'given a customer\'s business email has multiple distinct sbi',
       given: {
         customer: {
           sbi: 123456789,
           crn: '1234567890',
           businessEmail: 'business@email.com',
-          sbiAlreadyRegistered: () => false,
           businessEmailHasMultipleDistinctSbi: () => true
         }
       },
@@ -111,7 +83,6 @@ describe('Process eligible customer', () => {
           sbi: 123456789,
           crn: '1234567890',
           businessEmail: 'business@email.com',
-          sbiAlreadyRegistered: () => false,
           businessEmailHasMultipleDistinctSbi: () => false,
           alreadyOnWaitingList: () => false
         }
@@ -125,6 +96,10 @@ describe('Process eligible customer', () => {
             sbi: 123456789,
             crn: '1234567890',
             businessEmail: 'business@email.com'
+          })}`,
+          `Updating waiting updated timestamp ${JSON.stringify({
+            sbi: 123456789,
+            crn: '1234567890'
           })}`,
           `Attempting to send email with template ID ${MOCK_WAITING_LIST_EMAIL_TEMPLATE_ID} to email business@email.com`,
           `Successfully sent email with template ID ${MOCK_WAITING_LIST_EMAIL_TEMPLATE_ID} to email business@email.com`

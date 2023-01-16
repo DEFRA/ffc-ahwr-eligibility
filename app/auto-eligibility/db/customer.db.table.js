@@ -37,6 +37,7 @@ const findAllByBusinessEmailAndAccessGranted = async (businessEmail, accessGrant
 }
 
 const updateWaitingUpdatedAt = async (sbi, crn) => {
+  console.log(`Updating waiting updated timestamp ${JSON.stringify({ sbi, crn })}`)
   const now = new Date()
   await db.customer.update({ waiting_updated_at: now, last_updated_at: now }, {
     lock: true,
@@ -48,13 +49,22 @@ const updateWaitingUpdatedAt = async (sbi, crn) => {
 }
 
 const updateAccessGranted = async (upperLimit) => {
-  const waitingListQuery = `(SELECT sbi FROM customer WHERE waiting_updated_at IS NOT NULL AND access_granted = false ORDER BY waiting_updated_at ASC LIMIT ${upperLimit})`
+  console.log(`Updating access granted with ${JSON.stringify({ upperLimit })}`)
+  if (upperLimit < 1) {
+    throw new Error(`Invalid argument: ${JSON.stringify(upperLimit)}`)
+  }
   return await db.customer.update({ access_granted: true, last_updated_at: new Date() }, {
     lock: true,
     returning: true,
     where: {
-      sbi: {
-        [Op.in]: literal(waitingListQuery)
+      crn: {
+        [Op.in]: literal(`(
+          SELECT crn 
+          FROM customer 
+          WHERE waiting_updated_at IS NOT NULL AND access_granted = false 
+          ORDER BY waiting_updated_at ASC 
+          LIMIT ${upperLimit}
+        )`)
       }
     }
   })

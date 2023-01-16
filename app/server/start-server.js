@@ -1,10 +1,10 @@
 const server = require('./server')
-const waitingListSchedulerPlugin = require('../plugins').waitingListSchedulerPlugin
+const waitingListScheduler = require('../auto-eligibility/waiting-list/waiting-list-scheduler')
 
 const startServer = async () => {
   await server.start()
-  await server.register(waitingListSchedulerPlugin)
-  console.log('Server running on %s', server.info.uri)
+  await server.register(waitingListScheduler)
+  console.log(`${new Date().toISOString()} Server running on %s`, server.info.uri)
 }
 
 module.exports = startServer

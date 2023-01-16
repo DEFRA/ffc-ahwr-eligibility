@@ -12,9 +12,9 @@ const start = async () => {
     }
     registerYourInterestReceiver = new MessageReceiver(registerYourInterestConfig.registerYourInterestRequestQueue, registerYourInterestMessageHandler)
     await registerYourInterestReceiver.subscribe()
-    console.info('Ready to receive messages')
+    console.info(`${new Date().toISOString()} Ready to receive messages...`)
   } catch (e) {
-    console.error('Error starting message receiver.', e)
+    console.error(`${new Date().toISOString()} Error starting message receiver`, e)
   }
 }
 

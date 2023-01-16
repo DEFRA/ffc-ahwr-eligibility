@@ -292,7 +292,7 @@ describe('checkEligibility', () => {
     when(db.customer.findAll)
       .calledWith({
         attributes: [
-          [fn('NUMBER', col('sbi')), 'sbi'],
+          [fn('TO_NUMBER', col('sbi')), 'sbi'],
           'crn',
           'customer_name',
           'business_name',

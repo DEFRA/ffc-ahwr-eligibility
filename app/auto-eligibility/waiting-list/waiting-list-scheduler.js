@@ -7,7 +7,7 @@ module.exports = {
     name: 'waitingListScheduler',
     register: async () => {
       cron.schedule(config.waitingListScheduler.schedule, async () => {
-        console.log(`Running waiting list scheduler with config - ${JSON.stringify(config.waitingListScheduler)}.`)
+        console.log(`${new Date().toISOString()} Running waiting list scheduler... ${JSON.stringify({ schedule: config.waitingListScheduler })}`)
         await processWaitingList(config.waitingListScheduler.upperLimit)
       }, {
         scheduled: config.waitingListScheduler.enabled

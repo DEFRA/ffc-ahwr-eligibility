@@ -1,4 +1,4 @@
-const sendEmail = require('../../lib/send-email')
+const sendEmail = require('../../notify/send-email')
 const config = require('../config')
 
 const sendIneligibleApplicationEmail = async (sbi, crn, businessEmail) => {

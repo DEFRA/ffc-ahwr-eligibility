@@ -4,13 +4,9 @@
     <tagDatabase tag="v1.4.0" />
   </changeSet>
   <changeSet author="Marcin Mogiela" id="2">
-    <sql
-      dbms="postgresql"
-      endDelimiter=";"
-      splitStatements="true"
-      stripComments="true">
-      CREATE EXTENSION IF NOT EXISTS "citext";
-      <comment>Install CITEXT Extension</comment>
-    </sql>
+    <modifyDataType
+      columnName="business_email"
+      newDataType="CITEXT"  
+      tableName="customer"/>
   </changeSet>
 </databaseChangeLog>

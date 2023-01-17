@@ -9,8 +9,7 @@
       endDelimiter=";"
       splitStatements="true"
       stripComments="true">
-      DROP EXTENSION "citext";
-      CREATE EXTENSION "citext" with schema "abc";
+      CREATE EXTENSION IF NOT EXISTS "citext";
       <comment>Install CITEXT Extension</comment>
     </sql>
   </changeSet>

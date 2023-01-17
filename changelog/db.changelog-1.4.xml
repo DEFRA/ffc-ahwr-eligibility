@@ -3,7 +3,7 @@
   <changeSet author="Marcin Mogiela" id="1">
     <tagDatabase tag="v1.4.0" />
   </changeSet>
-   <changeSet author="Steve Dickinson" id="2">
+   <changeSet author="Marcin Mogiela" id="2">
     <sql
       dbms="postgresql"
       endDelimiter=";"
@@ -12,5 +12,11 @@
       CREATE EXTENSION IF NOT EXISTS "citext"
       <comment>Install CITEXT Extension</comment>
     </sql>
+  </changeSet>
+  <changeSet author="Marcin Mogiela" id="3">
+    <modifyDataType
+      columnName="business_email"
+      newDataType="CITEXT"  
+      tableName="customer"/>
   </changeSet>
 </databaseChangeLog>

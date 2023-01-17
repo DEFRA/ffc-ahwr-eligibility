@@ -11,6 +11,7 @@ module.exports = {
         emailAddress: Joi
           .string()
           .trim()
+          .lowercase()
           .required()
           .email()
       }).options({

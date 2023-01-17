@@ -9,7 +9,7 @@
       endDelimiter=";"
       splitStatements="true"
       stripComments="true">
-      CREATE EXTENSION IF NOT EXISTS "citext" WITH SCHEMA ffc_ahwr_eligibility32;
+      CREATE EXTENSION IF NOT EXISTS "CITEXT" WITH SCHEMA "ffc_ahwr_eligibility32";
       <comment>Install CITEXT Extension</comment>
     </sql>
   </changeSet>

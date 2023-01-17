@@ -18,11 +18,11 @@ describe('Process eligible SBI', () => {
 
     jest.mock('../../../../app/data')
     db = require('../../../../app/data')
-    jest.mock('../../../../app/client/notify-client')
+    jest.mock('../../../../app/notify/notify-client')
     jest.mock('../../../../app/config/notify', () => ({
       apiKey: 'mockApiKey'
     }))
-    notifyClient = require('../../../../app/client/notify-client')
+    notifyClient = require('../../../../app/notify/notify-client')
     jest.mock('../../../../app/auto-eligibility/config', () => ({
       emailNotifier: {
         emailTemplateIds: {

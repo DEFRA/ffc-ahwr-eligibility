@@ -12,8 +12,8 @@ describe('Send email test', () => {
   beforeAll(() => {
     jest.resetModules()
     jest.resetAllMocks()
-    sendEmail = require('../../../app/lib/send-email')
-    notifyClient = require('../../../app/client/notify-client')
+    sendEmail = require('../../../app/notify/send-email')
+    notifyClient = require('../../../app/notify/notify-client')
     notifyClient.sendEmail = jest.fn().mockResolvedValueOnce(true).mockRejectedValueOnce(error)
     jest.mock('../../../app/config/notify', () => mockNotifyConfig)
     require('../../../app/config/notify')

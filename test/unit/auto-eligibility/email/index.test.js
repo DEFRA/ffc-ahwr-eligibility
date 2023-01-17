@@ -21,12 +21,12 @@ describe('Send email test', () => {
   }
 
   beforeAll(() => {
-    jest.mock('../../../../app/lib/send-email')
+    jest.mock('../../../../app/notify/send-email')
     jest.mock('../../../../app/config/notify', () => mockNotifyConfig)
     jest.mock('../../../../app/auto-eligibility/config', () => mockAutoEligibilityConfig)
     require('../../../../app/config/notify')
     autoEligibilityEmail = require('../../../../app/auto-eligibility/email-notifier')
-    mockSendEmail = require('../../../../app/lib/send-email')
+    mockSendEmail = require('../../../../app/notify/send-email')
     require('../../../../app/auto-eligibility/config')
   })
 

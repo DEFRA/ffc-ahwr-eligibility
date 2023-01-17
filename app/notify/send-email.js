@@ -1,4 +1,4 @@
-const notifyClient = require('../client/notify-client')
+const notifyClient = require('./notify-client')
 
 module.exports = async (templateId, email, options) => {
   try {

@@ -12,11 +12,11 @@ describe('Process ineligible SBI', () => {
     jest.useFakeTimers('modern')
     jest.setSystemTime(MOCK_NOW)
 
-    jest.mock('../../../../app/client/notify-client')
+    jest.mock('../../../../app/notify/notify-client')
     jest.mock('../../../../app/config/notify', () => ({
       apiKey: 'mockApiKey'
     }))
-    notifyClient = require('../../../../app/client/notify-client')
+    notifyClient = require('../../../../app/notify/notify-client')
     jest.mock('../../../../app/auto-eligibility/config', () => ({
       emailNotifier: {
         earlyAdoptionTeam: {

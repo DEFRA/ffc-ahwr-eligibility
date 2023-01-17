@@ -1,4 +1,4 @@
-const { Op, literal, fn, col } = require('sequelize')
+const { Op, literal, fn, col, where } = require('sequelize')
 const db = require('../../data')
 
 const findByBusinessEmail = async (businessEmail) => {
@@ -16,7 +16,7 @@ const findByBusinessEmail = async (businessEmail) => {
       'access_granted'
     ],
     where: {
-      business_email: businessEmail
+      business_email: where(fn('LOWER', col('business_email')), businessEmail)
     }
   })
 }
@@ -38,7 +38,7 @@ const findAllBySbiOrBusinessEmail = async (sbi, businessEmail) => {
     where: {
       [Op.or]: [
         { sbi: sbi },
-        { business_email: businessEmail }
+        { business_email: where(fn('LOWER', col('business_email')), businessEmail) }
       ]
     }
   })
@@ -62,7 +62,7 @@ const findAllByBusinessEmailAndAccessGranted = async (businessEmail, accessGrant
     ],
     where: {
       [Op.and]: [
-        { business_email: businessEmail },
+        { business_email: where(fn('LOWER', col('business_email')), businessEmail) },
         { access_granted: accessGranted }
       ]
     }

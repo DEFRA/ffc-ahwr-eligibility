@@ -1,5 +1,5 @@
 const { when, resetAllWhenMocks } = require('jest-when')
-const { Op, fn, col } = require('sequelize')
+const { Op, fn, col, where } = require('sequelize')
 
 const API_URL = '/api/businesses'
 
@@ -91,7 +91,7 @@ describe(`Eligibility Api - ${API_URL}`, () => {
           ],
           where: {
             [Op.and]: [
-              { business_email: testCase.emailAddress },
+              { business_email: where(fn('LOWER', col('business_email')), testCase.emailAddress) },
               { access_granted: true }
             ]
           }
@@ -143,7 +143,7 @@ describe(`Eligibility Api - ${API_URL}`, () => {
           ],
           where: {
             [Op.and]: [
-              { business_email: testCase.emailAddress },
+              { business_email: where(fn('LOWER', col('business_email')), testCase.emailAddress) },
               { access_granted: true }
             ]
           }
@@ -186,7 +186,7 @@ describe(`Eligibility Api - ${API_URL}`, () => {
           ],
           where: {
             [Op.and]: [
-              { business_email: testCase.emailAddress },
+              { business_email: where(fn('LOWER', col('business_email')), testCase.emailAddress) },
               { access_granted: true }
             ]
           }

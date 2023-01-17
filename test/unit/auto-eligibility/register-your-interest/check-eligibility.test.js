@@ -1,5 +1,5 @@
 const { when, resetAllWhenMocks } = require('jest-when')
-const { Op, fn, col } = require('sequelize')
+const { Op, fn, col, where } = require('sequelize')
 
 const MOCK_NOW = new Date()
 
@@ -309,7 +309,7 @@ describe('checkEligibility', () => {
         where: {
           [Op.or]: [
             { sbi: testCase.given.sbi },
-            { business_email: testCase.given.businessEmail }
+            { business_email: where(fn('LOWER', col('business_email')), testCase.given.businessEmail) }
           ]
         }
       })

@@ -1,5 +1,5 @@
 const { when, resetAllWhenMocks } = require('jest-when')
-const { fn, col } = require('sequelize')
+const { fn, col, where } = require('sequelize')
 
 const API_URL = '/api/eligibility'
 
@@ -61,7 +61,7 @@ describe('Eligibility Api - /api/eligibility', () => {
             'access_granted'
           ],
           where: {
-            business_email: testCase.emailAddress
+            business_email: where(fn('LOWER', col('business_email')), testCase.emailAddress)
           }
         })
         .mockResolvedValue(testCase.farmer)
@@ -122,7 +122,7 @@ describe('Eligibility Api - /api/eligibility', () => {
             'access_granted'
           ],
           where: {
-            business_email: testCase.emailAddress
+            business_email: where(fn('LOWER', col('business_email')), testCase.emailAddress)
           }
         })
         .mockResolvedValue(testCase.farmer)
@@ -162,7 +162,7 @@ describe('Eligibility Api - /api/eligibility', () => {
             'access_granted'
           ],
           where: {
-            business_email: testCase.emailAddress
+            business_email: where(fn('LOWER', col('business_email')), testCase.emailAddress)
           }
         })
         .mockRejectedValue(testCase.error)

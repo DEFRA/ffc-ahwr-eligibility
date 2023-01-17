@@ -7,7 +7,6 @@
     <modifyDataType
       columnName="business_email"
       newDataType="CITEXT"  
-      tableName="customer"
-      schema="public" />
+      tableName="customer" />
   </changeSet>
 </databaseChangeLog>

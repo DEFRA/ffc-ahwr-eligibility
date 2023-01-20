@@ -77,8 +77,9 @@ describe('Process waiting list function test.', () => {
       .calledWith(expect.anything(), expect.anything())
       .mockRejectedValue(new Error('Some DB error'))
     const processWaitingList = require('../../../../app/auto-eligibility/waiting-list/process-waiting-list')
-    await processWaitingList(50)
-    expect(spyConsole).toHaveBeenCalledWith(`${MOCK_NOW.toISOString()} Error processing waiting list`, expect.anything())
+    expect(async () => 
+      await processWaitingList(50)
+    ).rejects.toThrowError('Some DB error')
     expect(db.customer.update).toHaveBeenCalledTimes(1)
     expect(mockEmailNotifier.sendApplyGuidanceEmail).not.toHaveBeenCalled()
   })

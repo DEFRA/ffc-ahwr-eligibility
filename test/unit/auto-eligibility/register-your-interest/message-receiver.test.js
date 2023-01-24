@@ -3,6 +3,24 @@ let mockClose
 let service
 
 describe(('Consume register your interest message tests'), () => {
+  const MOCK_TRACK_EXCEPTION = jest.fn(() => {})
+
+  beforeAll(() => {
+    jest.mock('applicationinsights', () => {
+      const original = jest.requireActual('applicationinsights')
+      return {
+        ...original,
+        defaultClient: {
+          trackException: MOCK_TRACK_EXCEPTION
+        }
+      }
+    })
+  })
+
+  afterAll(() => {
+    jest.resetModules()
+  })
+
   beforeEach(() => {
     jest.resetModules()
     jest.resetAllMocks()
@@ -29,11 +47,15 @@ describe(('Consume register your interest message tests'), () => {
   })
 
   test('catch error starting message receiver', async () => {
+    const expectedError = new Error('Some Error')
     const consoleErrorSpy = jest.spyOn(console, 'error')
     mocksubscribe.mockImplementation(() => {
-      throw new Error('Some Error')
+      throw expectedError
     })
     await service.start()
     expect(consoleErrorSpy).toHaveBeenCalledTimes(1)
+    expect(MOCK_TRACK_EXCEPTION).toHaveBeenCalledWith({
+      exception: expectedError
+    })
   })
 })

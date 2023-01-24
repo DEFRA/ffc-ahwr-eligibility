@@ -1,5 +1,7 @@
-require('../insights').setup()
 const Hapi = require('@hapi/hapi')
+const setup = require('../app-insights/setup')
+
+setup()
 
 const server = Hapi.server({
   port: process.env.PORT

@@ -16,7 +16,6 @@ const processRegisterYourInterest = async (request) => {
   } else {
     await processIneligibleSbi(customer)
   }
-  console.log(`${new Date().toISOString()} Register your interest has been processed successfully: ${JSON.stringify(request)}`)
 }
 
 module.exports = processRegisterYourInterest

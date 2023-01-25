@@ -108,7 +108,9 @@ describe('"register your interest" message receiver', () => {
     testCase.expect.consoleLogs.forEach(
       (consoleLog, idx) => expect(logSpy).toHaveBeenNthCalledWith(idx + 1, consoleLog)
     )
+    expect(mockProcessRegisterYourInterest).toHaveBeenCalledTimes(1)
     expect(mockProcessRegisterYourInterest).toHaveBeenCalledWith(testCase.given.message.body)
+    expect(mockCompleteMessage).toHaveBeenCalledTimes(1)
     expect(mockCompleteMessage).toHaveBeenCalledWith(testCase.given.message)
   })
 
@@ -165,7 +167,9 @@ describe('"register your interest" message receiver', () => {
         testCase.when.error
       )
     )
+    expect(mockProcessRegisterYourInterest).toHaveBeenCalledTimes(1)
     expect(mockProcessRegisterYourInterest).toHaveBeenCalledWith(testCase.given.message.body)
+    expect(mockDeadLetterMessage).toHaveBeenCalledTimes(1)
     expect(mockDeadLetterMessage).toHaveBeenCalledWith(testCase.given.message)
     expect(mockTrackException).toHaveBeenCalledWith({
       exception: testCase.when.error

@@ -89,6 +89,34 @@ describe('Register your interest schema', () => {
       }
     },
     {
+      toString: () => 'an invalid register your interest - sbi null',
+      given: {
+        registerYourInterest: {
+          crn: '1100000000',
+          email: 'business@email.com'
+        }
+      },
+      expect: {
+        error: {
+          message: '"sbi" is required'
+        }
+      }
+    },
+    {
+      toString: () => 'an invalid register your interest - crn null',
+      given: {
+        registerYourInterest: {
+          sbi: 105321000,
+          email: 'business@email.com'
+        }
+      },
+      expect: {
+        error: {
+          message: '"crn" is required'
+        }
+      }
+    },
+    {
       toString: () => 'an invalid register your interest - email empty',
       given: {
         registerYourInterest: {

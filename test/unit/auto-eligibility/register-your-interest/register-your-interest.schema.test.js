@@ -192,17 +192,47 @@ describe('Register your interest schema', () => {
       }
     },
     {
-      toString: () => 'an invalid register your interest - sbi too short',
+      toString: () => 'an invalid register your interest - sbi not an int',
       given: {
         registerYourInterest: {
-          sbi: 99999999,
-          crn: '1100000000',
+          sbi: 105000000.123,
+          crn: 1100000000,
           email: 'business@email.com'
         }
       },
       expect: {
         error: {
-          message: '"sbi" must be greater than or equal to 105000000'
+          message: '"sbi" must be an integer'
+        }
+      }
+    },
+    {
+      toString: () => 'an invalid register your interest - crn not an int',
+      given: {
+        registerYourInterest: {
+          sbi: 210000000,
+          crn: 1100000000.123,
+          email: 'business@email.com'
+        }
+      },
+      expect: {
+        error: {
+          message: '"crn" must be an integer'
+        }
+      }
+    },
+    {
+      toString: () => 'an invalid register your interest - sbi too short',
+      given: {
+        registerYourInterest: {
+          sbi: 99999999,
+          crn: 1100000000,
+          email: 'business@email.com'
+        }
+      },
+      expect: {
+        error: {
+          message: '"sbi" must be greater than 99999999.9'
         }
       }
     },
@@ -217,7 +247,37 @@ describe('Register your interest schema', () => {
       },
       expect: {
         error: {
-          message: '"crn" must be greater than or equal to 1100000000'
+          message: '"crn" must be greater than 999999999.9'
+        }
+      }
+    },
+    {
+      toString: () => 'an invalid register your interest - sbi too long',
+      given: {
+        registerYourInterest: {
+          sbi: 1000000000,
+          crn: 1100000000,
+          email: 'business@email.com'
+        }
+      },
+      expect: {
+        error: {
+          message: '"sbi" must be less than 1000000000'
+        }
+      }
+    },
+    {
+      toString: () => 'an invalid register your interest - crn too long',
+      given: {
+        registerYourInterest: {
+          sbi: 105000000,
+          crn: 10000000000,
+          email: 'business@email.com'
+        }
+      },
+      expect: {
+        error: {
+          message: '"crn" must be less than 10000000000'
         }
       }
     },

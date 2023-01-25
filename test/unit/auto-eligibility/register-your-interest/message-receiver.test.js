@@ -171,6 +171,7 @@ describe('"register your interest" message receiver', () => {
     expect(mockProcessRegisterYourInterest).toHaveBeenCalledWith(testCase.given.message.body)
     expect(mockDeadLetterMessage).toHaveBeenCalledTimes(1)
     expect(mockDeadLetterMessage).toHaveBeenCalledWith(testCase.given.message)
+    expect(mockTrackException).toHaveBeenCalledTimes(1)
     expect(mockTrackException).toHaveBeenCalledWith({
       exception: testCase.when.error
     })
@@ -226,6 +227,7 @@ describe('"register your interest" message receiver', () => {
         testCase.when.error
       )
     )
+    expect(mockTrackException).toHaveBeenCalledTimes(1)
     expect(mockTrackException).toHaveBeenCalledWith({
       exception: testCase.when.error
     })

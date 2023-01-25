@@ -6,8 +6,8 @@ describe('Register your interest schema', () => {
       toString: () => 'a valid register your interest',
       given: {
         registerYourInterest: {
-          sbi: 111111111,
-          crn: '1111111111',
+          sbi: 105321000,
+          crn: 1100000000,
           email: 'business@email.com'
         }
       },
@@ -19,8 +19,8 @@ describe('Register your interest schema', () => {
       toString: () => 'a valid register your interest - uppercase email',
       given: {
         registerYourInterest: {
-          sbi: 111111111,
-          crn: '1111111111',
+          sbi: 105321000,
+          crn: 1100000000,
           email: 'Business@email.com'
         }
       },
@@ -29,17 +29,152 @@ describe('Register your interest schema', () => {
       }
     },
     {
-      toString: () => 'an invalid register your interest - sbi too short',
+      toString: () => 'an invalid register your interest - sbi not a number',
       given: {
         registerYourInterest: {
-          sbi: 11111111,
-          crn: '1111111111',
+          sbi: 'ABCDEFGHI',
+          crn: '1100000000',
           email: 'business@email.com'
         }
       },
       expect: {
         error: {
-          message: '"sbi" must be greater than or equal to 100000000'
+          message: '"sbi" must be a number'
+        }
+      }
+    },
+    {
+      toString: () => 'an invalid register your interest - crn not a number',
+      given: {
+        registerYourInterest: {
+          sbi: 105321000,
+          crn: 'ABCDEFJHIJ',
+          email: 'business@email.com'
+        }
+      },
+      expect: {
+        error: {
+          message: '"crn" must be a number'
+        }
+      }
+    },
+    {
+      toString: () => 'an invalid register your interest - sbi empty',
+      given: {
+        registerYourInterest: {
+          sbi: '',
+          crn: '1100000000',
+          email: 'business@email.com'
+        }
+      },
+      expect: {
+        error: {
+          message: '"sbi" must be a number'
+        }
+      }
+    },
+    {
+      toString: () => 'an invalid register your interest - crn empty',
+      given: {
+        registerYourInterest: {
+          sbi: 105321000,
+          crn: '',
+          email: 'business@email.com'
+        }
+      },
+      expect: {
+        error: {
+          message: '"crn" must be a number'
+        }
+      }
+    },
+    {
+      toString: () => 'an invalid register your interest - email empty',
+      given: {
+        registerYourInterest: {
+          sbi: 105321000,
+          crn: 1100000000,
+          email: ''
+        }
+      },
+      expect: {
+        error: {
+          message: '"email" is not allowed to be empty'
+        }
+      }
+    },
+    {
+      toString: () => 'an invalid register your interest - sbi too low',
+      given: {
+        registerYourInterest: {
+          sbi: 104999999,
+          crn: 1100000000,
+          email: 'business@email.com'
+        }
+      },
+      expect: {
+        error: {
+          message: '"sbi" must be greater than or equal to 105000000'
+        }
+      }
+    },
+    {
+      toString: () => 'an invalid register your interest - crn too low',
+      given: {
+        registerYourInterest: {
+          sbi: 105321000,
+          crn: 1099999999,
+          email: 'business@email.com'
+        }
+      },
+      expect: {
+        error: {
+          message: '"crn" must be greater than or equal to 1100000000'
+        }
+      }
+    },
+    {
+      toString: () => 'an invalid register your interest - sbi too high',
+      given: {
+        registerYourInterest: {
+          sbi: 210000001,
+          crn: 1100000000,
+          email: 'business@email.com'
+        }
+      },
+      expect: {
+        error: {
+          message: '"sbi" must be less than or equal to 210000000'
+        }
+      }
+    },
+    {
+      toString: () => 'an invalid register your interest - crn too high',
+      given: {
+        registerYourInterest: {
+          sbi: 210000000,
+          crn: 1110000001,
+          email: 'business@email.com'
+        }
+      },
+      expect: {
+        error: {
+          message: '"crn" must be less than or equal to 1110000000'
+        }
+      }
+    },
+    {
+      toString: () => 'an invalid register your interest - sbi too short',
+      given: {
+        registerYourInterest: {
+          sbi: 99999999,
+          crn: '1100000000',
+          email: 'business@email.com'
+        }
+      },
+      expect: {
+        error: {
+          message: '"sbi" must be greater than or equal to 105000000'
         }
       }
     },
@@ -47,14 +182,14 @@ describe('Register your interest schema', () => {
       toString: () => 'an invalid register your interest - crn too short',
       given: {
         registerYourInterest: {
-          sbi: 111111111,
-          crn: '111111111',
+          sbi: 105000000,
+          crn: 111111111,
           email: 'business@email.com'
         }
       },
       expect: {
         error: {
-          message: '"crn" with value "111111111" fails to match the required pattern: /^\\d{10}$/'
+          message: '"crn" must be greater than or equal to 1100000000'
         }
       }
     },
@@ -62,8 +197,8 @@ describe('Register your interest schema', () => {
       toString: () => 'an invalid register your interest - email wrong format',
       given: {
         registerYourInterest: {
-          sbi: 111111111,
-          crn: '1111111111',
+          sbi: 105000000,
+          crn: 1100000000,
           email: 'businessemail.com'
         }
       },

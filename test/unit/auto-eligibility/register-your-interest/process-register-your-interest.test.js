@@ -42,8 +42,8 @@ describe('Process register your interest request', () => {
     {
       toString: () => 'when a customer is eligible',
       given: {
-        sbi: 123456789,
-        crn: '1234567890',
+        sbi: 105000000,
+        crn: 1100000000,
         businessEmail: 'business@email.com',
         sbiAlreadyRegistered: () => false,
         isRegisteringForEligibleSbi: () => true,
@@ -54,8 +54,8 @@ describe('Process register your interest request', () => {
       expect: {
         consoleLogs: [
           `${MOCK_NOW.toISOString()} Processing register your interest: ${JSON.stringify({
-            sbi: 123456789,
-            crn: '1234567890',
+            sbi: 105000000,
+            crn: 1100000000,
             email: 'business@email.com'
           })}`
         ]
@@ -86,8 +86,8 @@ describe('Process register your interest request', () => {
     {
       toString: () => 'when a customer is ineligible',
       given: {
-        sbi: 123456789,
-        crn: '1234567890',
+        sbi: 105000000,
+        crn: 1100000000,
         businessEmail: 'business@email.com',
         sbiAlreadyRegistered: () => false,
         isRegisteringForEligibleSbi: () => false,
@@ -98,8 +98,8 @@ describe('Process register your interest request', () => {
       expect: {
         consoleLogs: [
           `${MOCK_NOW.toISOString()} Processing register your interest: ${JSON.stringify({
-            sbi: 123456789,
-            crn: '1234567890',
+            sbi: 105000000,
+            crn: 1100000000,
             email: 'business@email.com'
           })}`
         ]
@@ -130,8 +130,8 @@ describe('Process register your interest request', () => {
     {
       toString: () => 'when schema validation catched wrong email',
       given: {
-        sbi: 123456789,
-        crn: '1234567890',
+        sbi: 105000000,
+        crn: 1100000000,
         businessEmail: 'wrong_email'
       },
       expect: 'ValidationError: "email" must be a valid email'

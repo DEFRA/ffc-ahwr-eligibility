@@ -1,39 +1,211 @@
-let mocksubscribe
-let mockClose
-let service
+const { when, resetAllWhenMocks } = require('jest-when')
 
-describe(('Consume register your interest message tests'), () => {
-  beforeEach(() => {
-    jest.resetModules()
-    jest.resetAllMocks()
-    jest.mock('ffc-messaging')
-    jest.mock('../../../../app/auto-eligibility/register-your-interest/process-register-your-interest', () => ({}))
-    mocksubscribe = jest.fn().mockImplementation(() => {})
-    mockClose = jest.fn().mockImplementation(() => {})
-    const { MessageReceiver } = require('ffc-messaging')
-    MessageReceiver.prototype.subscribe = mocksubscribe
-    MessageReceiver.prototype.closeConnection = mockClose
-    require('../../../../app/auto-eligibility/register-your-interest/process-register-your-interest')
-    service = require('../../../../app/auto-eligibility/register-your-interest/message-receiver')
-  })
+const MOCK_NOW = new Date()
 
-  test('successfully fetched register your interest message', async () => {
-    await service.start()
-    expect(mocksubscribe).toHaveBeenCalledTimes(1)
-  })
+describe('"register your interest" message receiver', () => {
+  let messageReceiver
+  let processMessage
 
-  test('successfully closed session', async () => {
-    await service.start()
-    await service.stop()
-    expect(mockClose).toHaveBeenCalledTimes(1)
-  })
+  let mockProcessRegisterYourInterest = jest.fn(() => {})
+  const mockCompleteMessage = jest.fn(() => {})
+  const mockDeadLetterMessage = jest.fn(() => {})
+  const mockClose = jest.fn(() => {})
+  let mockTrackException = jest.fn(() => {})
+  
+  let logSpy
+  let errorSpy
 
-  test('catch error starting message receiver', async () => {
-    const consoleErrorSpy = jest.spyOn(console, 'error')
-    mocksubscribe.mockImplementation(() => {
-      throw new Error('Some Error')
+  beforeAll(async () => {
+    jest.useFakeTimers('modern')
+    jest.setSystemTime(MOCK_NOW)
+
+    jest.mock('../../../../app/config/notify', () => ({
+      apiKey: 'mockApiKey'
+    }))
+
+    jest.mock('../../../../app/auto-eligibility/register-your-interest/process-register-your-interest')
+    mockProcessRegisterYourInterest = require(
+      '../../../../app/auto-eligibility/register-your-interest/process-register-your-interest'
+    )
+
+    jest.mock('../../../../app/app-insights/telemetry-client', () => ({
+      trackException: mockTrackException
+    }))
+
+    jest.mock('@azure/service-bus', () => {
+      return {
+        ServiceBusClient: jest.fn().mockImplementation(() => {
+          return {
+            createReceiver: () => ({
+              subscribe: async (handlers) => {
+                processMessage = handlers.processMessage
+              },
+              completeMessage: mockCompleteMessage,
+              deadLetterMessage: mockDeadLetterMessage,
+              close: mockClose
+            }),
+            close: mockClose
+          }
+        })
+      }
     })
-    await service.start()
-    expect(consoleErrorSpy).toHaveBeenCalledTimes(1)
+
+    messageReceiver = require('../../../../app/auto-eligibility/register-your-interest/message-receiver')
+
+    logSpy = jest.spyOn(console, 'log')
+    errorSpy = jest.spyOn(console, 'error')
+  })
+
+  afterAll(() => {
+    jest.useRealTimers()
+  })
+
+  afterEach(async () => {
+    await messageReceiver.stop()
+    expect(mockClose).toHaveBeenCalledTimes(2)
+  })
+
+  afterEach(() => {
+    jest.clearAllMocks()
+    jest.resetModules()
+    resetAllWhenMocks()
+  })
+
+  test.each([
+    {
+      toString: () => 'when a "register your interest" message is processed successfuly',
+      given: {
+        message: {
+          body: {
+            sbi: '123456789',
+            crn: '1234567890',
+            email: 'business@email.com'
+          }
+        }
+      },
+      expect: {
+        consoleLogs: [
+          `${MOCK_NOW.toISOString()} Ready to receive "register your interest" messages...`,
+          `${MOCK_NOW.toISOString()} Register your interest message has been processed`
+        ]
+      }
+    }
+  ])('%s', async (testCase) => {
+    await messageReceiver.start()
+    await processMessage(testCase.given.message)
+
+    testCase.expect.consoleLogs.forEach(
+      (consoleLog, idx) => expect(logSpy).toHaveBeenNthCalledWith(idx + 1, consoleLog)
+    )
+    expect(mockProcessRegisterYourInterest).toHaveBeenCalledWith(testCase.given.message.body)
+    expect(mockCompleteMessage).toHaveBeenCalledWith(testCase.given.message)
+  })
+
+  test.each([
+    {
+      toString: () => 'when a "register your interest" message fails to be processed',
+      given: {
+        message: {
+          body: {
+            sbi: '123456789',
+            crn: '1234567890',
+            email: 'business@email.com'
+          }
+        }
+      },
+      when: {
+        error: new Error('fail')
+      },
+      expect: {
+        consoleLogs: [
+          `${MOCK_NOW.toISOString()} Ready to receive "register your interest" messages...`
+        ],
+        errorLogs: [
+          `${MOCK_NOW.toISOString()} Error while processing register your interest message`
+        ]
+      }
+    }
+  ])('%s', async (testCase) => {
+    when(mockProcessRegisterYourInterest)
+      .calledWith({
+        sbi: '123456789',
+        crn: '1234567890',
+        email: 'business@email.com'
+      })
+      .mockRejectedValue(testCase.when.error)
+
+    await messageReceiver.start()
+    await processMessage(testCase.given.message)
+
+    testCase.expect.consoleLogs.forEach(
+      (consoleLog, idx) => expect(logSpy).toHaveBeenNthCalledWith(
+        idx + 1,
+        consoleLog
+      )
+    )
+    testCase.expect.errorLogs.forEach(
+      (errorLog, idx) => expect(errorSpy).toHaveBeenNthCalledWith(
+        idx + 1,
+        errorLog,
+        testCase.when.error
+      )
+    )
+    expect(mockProcessRegisterYourInterest).toHaveBeenCalledWith(testCase.given.message.body)
+    expect(mockDeadLetterMessage).toHaveBeenCalledWith(testCase.given.message)
+    expect(mockTrackException).toHaveBeenCalledWith({
+      exception: testCase.when.error
+    })
+  })
+
+  test.each([
+    {
+      toString: () => 'when the message receiver fails to start',
+      given: {
+        message: {
+          body: {
+            sbi: '123456789',
+            crn: '1234567890',
+            email: 'business@email.com'
+          }
+        }
+      },
+      when: {
+        error: new Error('unable to start')
+      },
+      expect: {
+        errorLogs: [
+          `${MOCK_NOW.toISOString()} Error starting message receiver`
+        ]
+      }
+    }
+  ])('%s', async (testCase) => {
+    const mockSubscribe = async () => {
+      throw testCase.when.error
+    }
+    jest.mock('@azure/service-bus', () => {
+      return {
+        ServiceBusClient: jest.fn().mockImplementation(() => {
+          return {
+            createReceiver: () => ({
+              subscribe: mockSubscribe
+            })
+          }
+        })
+      }
+    })
+
+    const messageReceiver = require('../../../../app/auto-eligibility/register-your-interest/message-receiver')
+    await messageReceiver.start()
+
+    testCase.expect.errorLogs.forEach(
+      (errorLog, idx) => expect(errorSpy).toHaveBeenNthCalledWith(
+        idx + 1,
+        errorLog,
+        testCase.when.error
+      )
+    )
+    expect(mockTrackException).toHaveBeenCalledWith({
+      exception: testCase.when.error
+    })
   })
 })

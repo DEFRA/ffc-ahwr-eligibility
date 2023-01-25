@@ -1,25 +1,39 @@
 const { MessageReceiver } = require('ffc-messaging')
 const registerYourInterestConfig = require('../../config').registerYourInterestConfig
-const processRegisterYourInterestRequest = require('./process-register-your-interest')
+const processRegisterYourInterest = require('./process-register-your-interest')
 
-let registerYourInterestReceiver
+let messageReceiver
 
 const start = async () => {
   try {
-    const registerYourInterestMessageHandler = message => {
-      processRegisterYourInterestRequest(message.body)
-      registerYourInterestReceiver.completeMessage(message)
-    }
-    registerYourInterestReceiver = new MessageReceiver(registerYourInterestConfig.registerYourInterestRequestQueue, registerYourInterestMessageHandler)
-    await registerYourInterestReceiver.subscribe()
-    console.info(`${new Date().toISOString()} Ready to receive messages...`)
-  } catch (e) {
-    console.error(`${new Date().toISOString()} Error starting message receiver`, e)
+    messageReceiver = new MessageReceiver(
+      registerYourInterestConfig.registerYourInterestRequestQueue,
+      async (message) => {
+        try {
+          await processRegisterYourInterest(message.body)
+          await messageReceiver.completeMessage(message)
+          console.log(`${new Date().toISOString()} Register your interest message has been processed`)
+        } catch (error) {
+          await messageReceiver.deadLetterMessage(message)
+          console.error(`${new Date().toISOString()} Error while processing register your interest message`, error)
+          telemetryClient.trackException({
+            exception: error
+          })
+        }
+      }
+    )
+    await messageReceiver.subscribe()
+    console.log(`${new Date().toISOString()} Ready to receive "register your interest" messages...`)
+  } catch (error) {
+    console.error(`${new Date().toISOString()} Error starting message receiver`, error)
+    telemetryClient.trackException({
+      exception: error
+    })
   }
 }
 
 const stop = async () => {
-  await registerYourInterestReceiver.closeConnection()
+  await messageReceiver.closeConnection()
 }
 
 module.exports = { start, stop }

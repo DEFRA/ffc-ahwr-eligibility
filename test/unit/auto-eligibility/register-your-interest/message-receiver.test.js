@@ -19,6 +19,13 @@ describe('"register your interest" message receiver', () => {
     jest.useFakeTimers('modern')
     jest.setSystemTime(MOCK_NOW)
 
+    jest.mock('../../../../app/auto-eligibility/register-your-interest/register-your-interest.config', () => ({
+      registerYourInterestRequestQueue: {
+        address: 'mockQueueAddress',
+        type: 'queue'
+      }
+    }))
+
     jest.mock('../../../../app/config/notify', () => ({
       apiKey: 'mockApiKey'
     }))
@@ -182,7 +189,12 @@ describe('"register your interest" message receiver', () => {
       },
       expect: {
         errorLogs: [
-          `${MOCK_NOW.toISOString()} Error while starting message receiver`
+          `${MOCK_NOW.toISOString()} Error while starting "register your interest" message receiver: ${JSON.stringify({
+            config: {
+              address: 'mockQueueAddress',
+              type: 'queue'
+            }
+          })}`
         ]
       }
     }

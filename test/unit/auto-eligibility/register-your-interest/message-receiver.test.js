@@ -190,10 +190,8 @@ describe('"register your interest" message receiver', () => {
       expect: {
         errorLogs: [
           `${MOCK_NOW.toISOString()} Error while starting "register your interest" message receiver: ${JSON.stringify({
-            config: {
-              address: 'mockQueueAddress',
-              type: 'queue'
-            }
+            address: 'mockQueueAddress',
+            type: 'queue'
           })}`
         ]
       }

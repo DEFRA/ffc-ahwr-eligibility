@@ -31,7 +31,7 @@ const start = async () => {
     console.log(`${new Date().toISOString()} Ready to receive "register your interest" messages...`)
   } catch (error) {
     console.error(`${new Date().toISOString()} Error while starting "register your interest" message receiver: ${JSON.stringify({
-      config: registerYourInterestConfig.registerYourInterestRequestQueue
+      ...registerYourInterestConfig.registerYourInterestRequestQueue
     })}`, error)
     telemetryClient.trackException({
       exception: error

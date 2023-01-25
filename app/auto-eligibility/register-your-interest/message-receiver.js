@@ -13,10 +13,19 @@ const start = async () => {
         try {
           await processRegisterYourInterest(message.body)
           await messageReceiver.completeMessage(message)
-          console.log(`${new Date().toISOString()} Register your interest message has been processed`)
+          console.log(
+            `${new Date().toISOString()} "register your interest" message has been successfully processed: ${JSON.stringify(
+              { ...message.body }
+            )}`
+          )
         } catch (error) {
           await messageReceiver.deadLetterMessage(message)
-          console.error(`${new Date().toISOString()} Error while processing register your interest message`, error)
+          console.error(
+            `${new Date().toISOString()} Error while processing "register your interest" message: ${JSON.stringify(
+              { ...message.body }
+            )}`,
+            error
+          )
           telemetryClient.trackException({
             exception: error
           })
@@ -26,7 +35,7 @@ const start = async () => {
     await messageReceiver.subscribe()
     console.log(`${new Date().toISOString()} Ready to receive "register your interest" messages...`)
   } catch (error) {
-    console.error(`${new Date().toISOString()} Error starting message receiver`, error)
+    console.error(`${new Date().toISOString()} Error while starting message receiver`, error)
     telemetryClient.trackException({
       exception: error
     })

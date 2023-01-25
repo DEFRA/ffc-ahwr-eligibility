@@ -86,7 +86,11 @@ describe('"register your interest" message receiver', () => {
       expect: {
         consoleLogs: [
           `${MOCK_NOW.toISOString()} Ready to receive "register your interest" messages...`,
-          `${MOCK_NOW.toISOString()} Register your interest message has been processed`
+          `${MOCK_NOW.toISOString()} "register your interest" message has been successfully processed: ${JSON.stringify({
+            sbi: '123456789',
+            crn: '1234567890',
+            email: 'business@email.com'
+          })}`
         ]
       }
     }
@@ -121,7 +125,11 @@ describe('"register your interest" message receiver', () => {
           `${MOCK_NOW.toISOString()} Ready to receive "register your interest" messages...`
         ],
         errorLogs: [
-          `${MOCK_NOW.toISOString()} Error while processing register your interest message`
+          `${MOCK_NOW.toISOString()} Error while processing "register your interest" message: ${JSON.stringify({
+            sbi: '123456789',
+            crn: '1234567890',
+            email: 'business@email.com'
+          })}`
         ]
       }
     }
@@ -174,7 +182,7 @@ describe('"register your interest" message receiver', () => {
       },
       expect: {
         errorLogs: [
-          `${MOCK_NOW.toISOString()} Error starting message receiver`
+          `${MOCK_NOW.toISOString()} Error while starting message receiver`
         ]
       }
     }

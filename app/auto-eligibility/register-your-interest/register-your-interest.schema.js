@@ -1,20 +1,10 @@
 const Joi = require('joi')
+const SBI_SCHEMA = require('./sbi.schema')
+const CRN_SCHEMA = require('./crn.schema')
+const BUSINESS_EMAIL_SCHEMA = require('./business-email.schema')
 
 module.exports = Joi.object({
-  sbi: Joi
-    .number()
-    .min(100000000)
-    .max(999999999)
-    .required(),
-  crn: Joi
-    .string()
-    .trim()
-    .regex(/^\d{10}$/)
-    .required(),
-  email: Joi
-    .string()
-    .trim()
-    .lowercase()
-    .email()
-    .required()
+  sbi: SBI_SCHEMA,
+  crn: CRN_SCHEMA,
+  email: BUSINESS_EMAIL_SCHEMA
 })

@@ -1,4 +1,4 @@
-const schema = require('../../../../app/auto-eligibility/schema/register-your-interest.schema')
+const schema = require('../../../../app/auto-eligibility/schemas/register-your-interest.schema')
 
 describe('Register your interest schema', () => {
   test.each([

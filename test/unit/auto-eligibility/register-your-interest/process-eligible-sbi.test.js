@@ -5,6 +5,11 @@ const MOCK_NOW = new Date()
 const MOCK_WAITING_LIST_EMAIL_TEMPLATE_ID = '9d9fb4dc-93f8-44b0-be28-a53524535db7'
 const MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION = '7a0ce567-d908-4f35-a858-de9e8f5445ec'
 const MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS = 'eat@email.com'
+const MOCK_SBI = 123456789
+const MOCK_CRN = 123456789
+const MOCK_BUSINESS_EMAIL = 'business@email.com'
+
+const mockCheckEmailLinkedToMultipleSbiEnabled = false
 
 describe('Process eligible SBI', () => {
   let logSpy
@@ -23,6 +28,11 @@ describe('Process eligible SBI', () => {
       apiKey: 'mockApiKey'
     }))
     notifyClient = require('../../../../app/notify/notify-client')
+
+    logSpy = jest.spyOn(console, 'log')
+  })
+
+  beforeEach(() => {
     jest.mock('../../../../app/auto-eligibility/config', () => ({
       emailNotifier: {
         emailTemplateIds: {
@@ -32,12 +42,11 @@ describe('Process eligible SBI', () => {
         earlyAdoptionTeam: {
           emailAddress: MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS
         }
-      }
+      },
+      checkEmailLinkedToMultipleSbiEnabled: mockCheckEmailLinkedToMultipleSbiEnabled
     }))
 
     processEligibleCustomer = require('../../../../app/auto-eligibility/register-your-interest/process-eligible-sbi')
-
-    logSpy = jest.spyOn(console, 'log')
   })
 
   afterAll(() => {
@@ -52,29 +61,29 @@ describe('Process eligible SBI', () => {
 
   test.each([
     {
-      toString: () => 'given a customer\'s business email has multiple distinct sbi',
+      toString: () => 'given a customer\'s business email has multiple distinct sbi with feature toggle off',
       given: {
         customer: {
-          sbi: 123456789,
-          crn: '1234567890',
-          businessEmail: 'business@email.com',
+          sbi: MOCK_SBI,
+          crn: MOCK_CRN,
+          businessEmail: MOCK_BUSINESS_EMAIL,
           businessEmailHasMultipleDistinctSbi: () => true
         }
       },
       expect: {
         emailNotifier: {
-          emailTemplateId: MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION,
-          emailAddressTo: MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS
+          emailTemplateId: MOCK_WAITING_LIST_EMAIL_TEMPLATE_ID,
+          emailAddressTo: MOCK_BUSINESS_EMAIL
         },
         consoleLogs: [
           `${MOCK_NOW.toISOString()} Processing eligible SBI: ${JSON.stringify({
-            sbi: 123456789,
-            crn: '1234567890',
-            businessEmail: 'business@email.com'
+            sbi: MOCK_SBI,
+            crn: MOCK_CRN,
+            businessEmail: MOCK_BUSINESS_EMAIL
           })}`,
-          `${MOCK_NOW.toISOString()} The customer's business email has multiple distinct SBI`,
-          `${MOCK_NOW.toISOString()} Attempting to send email with template ID ${MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION} to email ${MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS}`,
-          `${MOCK_NOW.toISOString()} Successfully sent email with template ID ${MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION} to email ${MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS}`
+          `${MOCK_NOW.toISOString()} Updating waiting updated at: ${JSON.stringify({ sbi: MOCK_SBI, crn: MOCK_CRN })}`,
+          `${MOCK_NOW.toISOString()} Attempting to send email with template ID ${MOCK_WAITING_LIST_EMAIL_TEMPLATE_ID} to email ${MOCK_BUSINESS_EMAIL}`,
+          `${MOCK_NOW.toISOString()} Successfully sent email with template ID ${MOCK_WAITING_LIST_EMAIL_TEMPLATE_ID} to email ${MOCK_BUSINESS_EMAIL}`
         ]
       }
     },
@@ -138,17 +147,25 @@ describe('Process eligible SBI', () => {
       })
     }
     if (typeof testCase.expect.emailNotifier !== 'undefined') {
-      expect(notifyClient.sendEmail).toHaveBeenCalledWith(
-        testCase.expect.emailNotifier.emailTemplateId,
-        testCase.expect.emailNotifier.emailAddressTo,
-        {
-          personalisation: {
-            sbi: testCase.given.customer.sbi,
-            crn: testCase.given.customer.crn,
-            businessEmail: testCase.given.customer.businessEmail
+      if (testCase.expect.emailNotifier.emailTemplateId === MOCK_WAITING_LIST_EMAIL_TEMPLATE_ID && testCase.expect.emailNotifier.emailAddressTo === MOCK_BUSINESS_EMAIL) {
+        expect(notifyClient.sendEmail).toHaveBeenCalledWith(
+          testCase.expect.emailNotifier.emailTemplateId,
+          testCase.expect.emailNotifier.emailAddressTo,
+          undefined
+        )
+      } else {
+        expect(notifyClient.sendEmail).toHaveBeenCalledWith(
+          testCase.expect.emailNotifier.emailTemplateId,
+          testCase.expect.emailNotifier.emailAddressTo,
+          {
+            personalisation: {
+              sbi: testCase.given.customer.sbi,
+              crn: testCase.given.customer.crn,
+              businessEmail: testCase.given.customer.businessEmail
+            }
           }
-        }
-      )
+        )
+      }
     }
   })
 })

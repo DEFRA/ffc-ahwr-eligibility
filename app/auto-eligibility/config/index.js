@@ -7,7 +7,7 @@ const schema = Joi.object({
     schedule: Joi.string().default('0 9 * * TUE'), // At 09:00 AM, only on Tuesday
     upperLimit: Joi.number().default(50)
   },
-  checkEmailLinkedToMultipleSbiEnabled: Joi.bool().default(true)
+  selectYourBusinessEnabled: Joi.bool().default(true)
 })
 
 const config = {
@@ -17,7 +17,7 @@ const config = {
     schedule: process.env.WAITING_LIST_SCHEDULE,
     upperLimit: process.env.WAITING_LIST_THRESHOLD_UPPER_LIMIT
   },
-  checkEmailLinkedToMultipleSbiEnabled: process.env.CHECK_EMAIL_LINKED_TO_MULTIPLE_SBI_ENABLED
+  selectYourBusinessEnabled: process.env.SELECT_YOUR_BUSINESS_ENABLED
 }
 
 const { error, value } = schema.validate(config, { abortEarly: false })

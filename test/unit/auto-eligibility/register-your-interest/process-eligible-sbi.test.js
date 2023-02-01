@@ -9,7 +9,7 @@ const MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS = 'eat@email.com'
 // const MOCK_CRN = 123456789
 const MOCK_BUSINESS_EMAIL = 'business@email.com'
 
-let mockCheckEmailLinkedToMultipleSbiEnabled = false
+let mockselectYourBusinessEnabled = false
 
 describe('Process eligible SBI', () => {
   let logSpy
@@ -43,7 +43,7 @@ describe('Process eligible SBI', () => {
           emailAddress: MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS
         }
       },
-      checkEmailLinkedToMultipleSbiEnabled: mockCheckEmailLinkedToMultipleSbiEnabled
+      selectYourBusinessEnabled: mockselectYourBusinessEnabled
     }))
     processEligibleCustomer = require('../../../../app/auto-eligibility/register-your-interest/process-eligible-sbi')
   })
@@ -91,7 +91,7 @@ describe('Process eligible SBI', () => {
     }
   ])('%s', async (testCase) => {
     await processEligibleCustomer(testCase.given.customer)
-    mockCheckEmailLinkedToMultipleSbiEnabled = true
+    mockselectYourBusinessEnabled = true
 
     testCase.expect.consoleLogs.forEach(
       (consoleLog, idx) => expect(logSpy).toHaveBeenNthCalledWith(idx + 1, consoleLog)

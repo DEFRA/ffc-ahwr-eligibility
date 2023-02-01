@@ -53,7 +53,7 @@ describe('Process eligble sbi feature toggle', () => {
       },
       when: {
         config: {
-          checkEmailLinkedToMultipleSbiEnabled: true
+          selectYourBusinessEnabled: true
         }
       },
       expect: {
@@ -75,7 +75,7 @@ describe('Process eligble sbi feature toggle', () => {
     }
   ])('Checks for multiple SBI linked to an email', async (testCase) => {
     jest.isolateModules(async () => {
-      const mockEnabled = testCase.when.config.checkEmailLinkedToMultipleSbiEnabled
+      const mockEnabled = testCase.when.config.selectYourBusinessEnabled
       jest.mock('../../../../app/auto-eligibility/config', () => ({
         emailNotifier: {
           emailTemplateIds: {
@@ -86,7 +86,7 @@ describe('Process eligble sbi feature toggle', () => {
             emailAddress: MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS
           }
         },
-        checkEmailLinkedToMultipleSbiEnabled: mockEnabled
+        selectYourBusinessEnabled: mockEnabled
       }))
     })
 

@@ -21,5 +21,5 @@ data:
   WAITING_LIST_THRESHOLD_UPPER_LIMIT: {{ quote .Values.container.waitingListThresholdUpperLimit }}
   APPLY_SERVICE_URI: {{ quote .Values.container.applyServiceUri }}
   EVENT_QUEUE_ADDRESS: {{ .Values.container.eventQueueAddress }}
-  CHECK_EMAIL_LINKED_TO_MULTIPLE_SBI_ENABLED: {{ .Values.container.checkEmailLinkedToMultipleSbiEnabled }}
+  SELECT_YOUR_BUSINESS_ENABLED: {{ .Values.container.selectYourBusinessEnabled }}
 {{- end -}}

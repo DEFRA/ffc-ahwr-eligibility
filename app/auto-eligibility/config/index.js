@@ -7,7 +7,9 @@ const schema = Joi.object({
     schedule: Joi.string().default('0 9 * * TUE'), // At 09:00 AM, only on Tuesday
     upperLimit: Joi.number().default(50)
   },
-  selectYourBusinessEnabled: Joi.bool().default(true)
+  selectYourBusiness: {
+    enabled: Joi.bool().default(false)
+  }
 })
 
 const config = {
@@ -17,7 +19,9 @@ const config = {
     schedule: process.env.WAITING_LIST_SCHEDULE,
     upperLimit: process.env.WAITING_LIST_THRESHOLD_UPPER_LIMIT
   },
-  selectYourBusinessEnabled: process.env.SELECT_YOUR_BUSINESS_ENABLED
+  selectYourBusiness: {
+    enabled: process.env.SELECT_YOUR_BUSINESS_ENABLED
+  }
 }
 
 const { error, value } = schema.validate(config, { abortEarly: false })

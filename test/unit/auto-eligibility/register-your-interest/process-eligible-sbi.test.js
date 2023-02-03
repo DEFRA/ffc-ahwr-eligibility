@@ -5,14 +5,10 @@ const MOCK_NOW = new Date()
 const MOCK_WAITING_LIST_EMAIL_TEMPLATE_ID = '9d9fb4dc-93f8-44b0-be28-a53524535db7'
 const MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION = '7a0ce567-d908-4f35-a858-de9e8f5445ec'
 const MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS = 'eat@email.com'
-const MOCK_BUSINESS_EMAIL = 'business@email.com'
-
-const mockselectYourBusinessEnabled = false
 
 describe('Process eligible SBI', () => {
   let logSpy
   let db
-  let notifyClient
   let processEligibleCustomer
 
   beforeAll(() => {
@@ -22,15 +18,6 @@ describe('Process eligible SBI', () => {
     jest.mock('../../../../app/data')
     db = require('../../../../app/data')
     jest.mock('../../../../app/notify/notify-client')
-    jest.mock('../../../../app/config/notify', () => ({
-      apiKey: 'mockApiKey'
-    }))
-    notifyClient = require('../../../../app/notify/notify-client')
-
-    logSpy = jest.spyOn(console, 'log')
-  })
-
-  beforeEach(() => {
     jest.mock('../../../../app/auto-eligibility/config', () => ({
       emailNotifier: {
         emailTemplateIds: {
@@ -40,12 +27,11 @@ describe('Process eligible SBI', () => {
         earlyAdoptionTeam: {
           emailAddress: MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS
         }
-      },
-      selectYourBusiness: {
-        enabled: mockselectYourBusinessEnabled
       }
     }))
     processEligibleCustomer = require('../../../../app/auto-eligibility/register-your-interest/process-eligible-sbi')
+
+    logSpy = jest.spyOn(console, 'log')
   })
 
   afterAll(() => {
@@ -95,49 +81,26 @@ describe('Process eligible SBI', () => {
     testCase.expect.consoleLogs.forEach(
       (consoleLog, idx) => expect(logSpy).toHaveBeenNthCalledWith(idx + 1, consoleLog)
     )
-    if (typeof testCase.expect.db !== 'undefined') {
-      expect(db.customer.update).toHaveBeenCalledWith({
-        last_updated_at: testCase.expect.db.now,
-        waiting_updated_at: testCase.expect.db.now
-      }, {
-        lock: true,
-        attributes: [
-          'sbi',
-          'crn',
-          'customer_name',
-          'business_name',
-          [fn('LOWER', col('business_email')), 'business_email'],
-          'business_address',
-          'last_updated_at',
-          'waiting_updated_at',
-          'access_granted'
-        ],
-        where: {
-          sbi: testCase.given.customer.sbi,
-          crn: testCase.given.customer.crn
-        }
-      })
-    }
-    if (typeof testCase.expect.emailNotifier !== 'undefined') {
-      if (testCase.expect.emailNotifier.emailTemplateId === MOCK_WAITING_LIST_EMAIL_TEMPLATE_ID && testCase.expect.emailNotifier.emailAddressTo === MOCK_BUSINESS_EMAIL) {
-        expect(notifyClient.sendEmail).toHaveBeenCalledWith(
-          testCase.expect.emailNotifier.emailTemplateId,
-          testCase.expect.emailNotifier.emailAddressTo,
-          undefined
-        )
-      } else {
-        expect(notifyClient.sendEmail).toHaveBeenCalledWith(
-          testCase.expect.emailNotifier.emailTemplateId,
-          testCase.expect.emailNotifier.emailAddressTo,
-          {
-            personalisation: {
-              sbi: testCase.given.customer.sbi,
-              crn: testCase.given.customer.crn,
-              businessEmail: testCase.given.customer.businessEmail
-            }
-          }
-        )
+    expect(db.customer.update).toHaveBeenCalledWith({
+      last_updated_at: testCase.expect.db.now,
+      waiting_updated_at: testCase.expect.db.now
+    }, {
+      lock: true,
+      attributes: [
+        'sbi',
+        'crn',
+        'customer_name',
+        'business_name',
+        [fn('LOWER', col('business_email')), 'business_email'],
+        'business_address',
+        'last_updated_at',
+        'waiting_updated_at',
+        'access_granted'
+      ],
+      where: {
+        sbi: testCase.given.customer.sbi,
+        crn: testCase.given.customer.crn
       }
-    }
+    })
   })
 })

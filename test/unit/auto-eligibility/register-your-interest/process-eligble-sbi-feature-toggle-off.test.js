@@ -7,7 +7,7 @@ const MOCK_SBI = 123456789
 const MOCK_CRN = '1234567890'
 const MOCK_BUSINESS_EMAIL = 'business@email.com'
 
-describe('Process eligble sbi feature toggle', () => {
+describe('Process eligble sbi feature toggle off', () => {
   let logSpy
   let notifyClient
   let processEligibleCustomer
@@ -24,11 +24,6 @@ describe('Process eligble sbi feature toggle', () => {
     notifyClient = require('../../../../app/notify/notify-client')
 
     logSpy = jest.spyOn(console, 'log')
-  })
-
-  beforeEach(() => {
-    jest.resetAllMocks()
-    jest.clearAllMocks()
   })
 
   afterAll(() => {
@@ -101,24 +96,10 @@ describe('Process eligble sbi feature toggle', () => {
       (consoleLog, idx) => expect(logSpy).toHaveBeenNthCalledWith(idx + 1, consoleLog)
     )
 
-    if (testCase.expect.emailNotifier.emailTemplateId === MOCK_WAITING_LIST_EMAIL_TEMPLATE_ID && testCase.expect.emailNotifier.emailAddressTo === MOCK_BUSINESS_EMAIL) {
-      expect(notifyClient.sendEmail).toHaveBeenCalledWith(
-        testCase.expect.emailNotifier.emailTemplateId,
-        testCase.expect.emailNotifier.emailAddressTo,
-        undefined
-      )
-    } else {
-      expect(notifyClient.sendEmail).toHaveBeenCalledWith(
-        testCase.expect.emailNotifier.emailTemplateId,
-        testCase.expect.emailNotifier.emailAddressTo,
-        {
-          personalisation: {
-            sbi: testCase.given.customer.sbi,
-            crn: testCase.given.customer.crn,
-            businessEmail: testCase.given.customer.businessEmail
-          }
-        }
-      )
-    }
+    expect(notifyClient.sendEmail).toHaveBeenCalledWith(
+      testCase.expect.emailNotifier.emailTemplateId,
+      testCase.expect.emailNotifier.emailAddressTo,
+      undefined
+    )
   })
 })

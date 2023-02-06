@@ -1,4 +1,4 @@
-const schema = require('./register-your-interest.schema')
+const schema = require('../schemas/register-your-interest.schema')
 const checkEligibility = require('./check-eligibility')
 const processEligibleSbi = require('./process-eligible-sbi')
 const processIneligibleSbi = require('./process-ineligible-sbi')

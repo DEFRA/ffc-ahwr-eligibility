@@ -20,5 +20,6 @@ data:
   WAITING_LIST_SCHEDULER_ENABLED: {{ quote .Values.container.waitingListSchedulerEnabled }}
   WAITING_LIST_THRESHOLD_UPPER_LIMIT: {{ quote .Values.container.waitingListThresholdUpperLimit }}
   APPLY_SERVICE_URI: {{ quote .Values.container.applyServiceUri }}
-  EVENT_QUEUE_ADDRESS: {{ .Values.container.eventQueueAddress }}
+  EVENT_QUEUE_ADDRESS: {{ quote .Values.container.eventQueueAddress }}
+  SELECT_YOUR_BUSINESS_ENABLED: {{ quote .Values.container.selectYourBusinessEnabled }}
 {{- end -}}

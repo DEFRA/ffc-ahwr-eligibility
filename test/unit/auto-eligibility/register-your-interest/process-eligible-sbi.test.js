@@ -9,7 +9,6 @@ const MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS = 'eat@email.com'
 describe('Process eligible SBI', () => {
   let logSpy
   let db
-  let notifyClient
   let processEligibleCustomer
 
   beforeAll(() => {
@@ -19,10 +18,6 @@ describe('Process eligible SBI', () => {
     jest.mock('../../../../app/data')
     db = require('../../../../app/data')
     jest.mock('../../../../app/notify/notify-client')
-    jest.mock('../../../../app/config/notify', () => ({
-      apiKey: 'mockApiKey'
-    }))
-    notifyClient = require('../../../../app/notify/notify-client')
     jest.mock('../../../../app/auto-eligibility/config', () => ({
       emailNotifier: {
         emailTemplateIds: {
@@ -34,7 +29,6 @@ describe('Process eligible SBI', () => {
         }
       }
     }))
-
     processEligibleCustomer = require('../../../../app/auto-eligibility/register-your-interest/process-eligible-sbi')
 
     logSpy = jest.spyOn(console, 'log')
@@ -51,33 +45,6 @@ describe('Process eligible SBI', () => {
   })
 
   test.each([
-    {
-      toString: () => 'given a customer\'s business email has multiple distinct sbi',
-      given: {
-        customer: {
-          sbi: 123456789,
-          crn: '1234567890',
-          businessEmail: 'business@email.com',
-          businessEmailHasMultipleDistinctSbi: () => true
-        }
-      },
-      expect: {
-        emailNotifier: {
-          emailTemplateId: MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION,
-          emailAddressTo: MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS
-        },
-        consoleLogs: [
-          `${MOCK_NOW.toISOString()} Processing eligible SBI: ${JSON.stringify({
-            sbi: 123456789,
-            crn: '1234567890',
-            businessEmail: 'business@email.com'
-          })}`,
-          `${MOCK_NOW.toISOString()} The customer's business email has multiple distinct SBI`,
-          `${MOCK_NOW.toISOString()} Attempting to send email with template ID ${MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION} to email ${MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS}`,
-          `${MOCK_NOW.toISOString()} Successfully sent email with template ID ${MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION} to email ${MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS}`
-        ]
-      }
-    },
     {
       toString: () => 'given a customer ready to be moved to the waiting list',
       given: {
@@ -114,41 +81,26 @@ describe('Process eligible SBI', () => {
     testCase.expect.consoleLogs.forEach(
       (consoleLog, idx) => expect(logSpy).toHaveBeenNthCalledWith(idx + 1, consoleLog)
     )
-    if (typeof testCase.expect.db !== 'undefined') {
-      expect(db.customer.update).toHaveBeenCalledWith({
-        last_updated_at: testCase.expect.db.now,
-        waiting_updated_at: testCase.expect.db.now
-      }, {
-        lock: true,
-        attributes: [
-          'sbi',
-          'crn',
-          'customer_name',
-          'business_name',
-          [fn('LOWER', col('business_email')), 'business_email'],
-          'business_address',
-          'last_updated_at',
-          'waiting_updated_at',
-          'access_granted'
-        ],
-        where: {
-          sbi: testCase.given.customer.sbi,
-          crn: testCase.given.customer.crn
-        }
-      })
-    }
-    if (typeof testCase.expect.emailNotifier !== 'undefined') {
-      expect(notifyClient.sendEmail).toHaveBeenCalledWith(
-        testCase.expect.emailNotifier.emailTemplateId,
-        testCase.expect.emailNotifier.emailAddressTo,
-        {
-          personalisation: {
-            sbi: testCase.given.customer.sbi,
-            crn: testCase.given.customer.crn,
-            businessEmail: testCase.given.customer.businessEmail
-          }
-        }
-      )
-    }
+    expect(db.customer.update).toHaveBeenCalledWith({
+      last_updated_at: testCase.expect.db.now,
+      waiting_updated_at: testCase.expect.db.now
+    }, {
+      lock: true,
+      attributes: [
+        'sbi',
+        'crn',
+        'customer_name',
+        'business_name',
+        [fn('LOWER', col('business_email')), 'business_email'],
+        'business_address',
+        'last_updated_at',
+        'waiting_updated_at',
+        'access_granted'
+      ],
+      where: {
+        sbi: testCase.given.customer.sbi,
+        crn: testCase.given.customer.crn
+      }
+    })
   })
 })

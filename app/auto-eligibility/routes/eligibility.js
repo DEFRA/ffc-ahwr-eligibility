@@ -33,7 +33,7 @@ module.exports = {
       const farmer = await customerDbTable.findByBusinessEmail(
         request.query.emailAddress
       )
-      if (!farmer || !farmer.access_granted) {
+      if (!farmer) {
         return Boom.notFound('Farmer not found')
       }
       return h

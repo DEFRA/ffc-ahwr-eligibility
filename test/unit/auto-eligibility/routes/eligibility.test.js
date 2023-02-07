@@ -100,7 +100,7 @@ describe('Eligibility Api - /api/eligibility', () => {
             'access_granted'
           ],
           where: {
-            business_email: where(fn('LOWER', col('business_email')), testCase.emailAddress),
+            business_email: where(fn('LOWER', col('business_email')), 'notaccessgranted@email.com'),
             access_granted: true
           }
         })

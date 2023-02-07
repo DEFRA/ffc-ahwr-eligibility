@@ -90,10 +90,10 @@ describe('Eligibility Api - /api/eligibility', () => {
         emailAddress: 'notaccessgranted@email.com',
         dbResponse: undefined
       }
-    ])(('Returns 404 if a farmer is not found or is not granted access'), async (testcase) => {
+    ])(('Returns 404 if a farmer is not found or is not granted access'), async (testCase) => {
       const options = {
         method: 'GET',
-        url: `${API_URL}?emailAddress=${testcase.emailAddress}`
+        url: `${API_URL}?emailAddress=${testCase.emailAddress}`
       }
       when(db.customer.findOne)
         .calledWith({
@@ -113,7 +113,7 @@ describe('Eligibility Api - /api/eligibility', () => {
             access_granted: true
           }
         })
-        .mockResolvedValueOnce(testcase.dbResponse)
+        .mockResolvedValueOnce(testCase.dbResponse)
 
       const response = await server.inject(options)
       const payload = JSON.parse(response.payload)

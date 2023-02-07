@@ -16,7 +16,8 @@ const findByBusinessEmail = async (businessEmail) => {
       'access_granted'
     ],
     where: {
-      business_email: where(fn('LOWER', col('business_email')), businessEmail)
+      business_email: where(fn('LOWER', col('business_email')), businessEmail),
+      access_granted: true
     }
   })
 }

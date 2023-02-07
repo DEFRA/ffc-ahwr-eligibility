@@ -61,7 +61,8 @@ describe('Eligibility Api - /api/eligibility', () => {
             'access_granted'
           ],
           where: {
-            business_email: where(fn('LOWER', col('business_email')), testCase.emailAddress)
+            business_email: where(fn('LOWER', col('business_email')), testCase.emailAddress),
+            access_granted: true
           }
         })
         .mockResolvedValue(testCase.farmer)
@@ -82,28 +83,14 @@ describe('Eligibility Api - /api/eligibility', () => {
 
     test.each([
       {
-        emailAddress: 'business@email.com',
-        farmer: {
-          sbi: 123456789,
-          crn: '1234567890',
-          customer_name: 'David Smith',
-          business_name: 'David\'s Farm',
-          business_email: 'business@email.com',
-          business_address: 'Some Road, London, MK55 7ES',
-          last_updated_at: undefined,
-          waiting_updated_at: undefined,
-          access_granted: false
-        }
+        emailAddress: 'notaccessgranted@email.com',
+        dbResponse: null
       },
       {
-        emailAddress: 'business@email.com',
-        farmer: {}
-      },
-      {
-        emailAddress: 'business@email.com',
-        farmer: undefined
+        emailAddress: 'notaccessgranted@email.com',
+        dbResponse: undefined
       }
-    ])('Returns 404 if a farmer is not found or is not granted access', async (testCase) => {
+    ])(('Returns 404 if a farmer is not found or is not granted access'), async (testCase) => {
       const options = {
         method: 'GET',
         url: `${API_URL}?emailAddress=${testCase.emailAddress}`
@@ -122,10 +109,11 @@ describe('Eligibility Api - /api/eligibility', () => {
             'access_granted'
           ],
           where: {
-            business_email: where(fn('LOWER', col('business_email')), testCase.emailAddress)
+            business_email: where(fn('LOWER', col('business_email')), testCase.emailAddress),
+            access_granted: true
           }
         })
-        .mockResolvedValue(testCase.farmer)
+        .mockResolvedValueOnce(testCase.dbResponse)
 
       const response = await server.inject(options)
       const payload = JSON.parse(response.payload)
@@ -162,7 +150,8 @@ describe('Eligibility Api - /api/eligibility', () => {
             'access_granted'
           ],
           where: {
-            business_email: where(fn('LOWER', col('business_email')), testCase.emailAddress)
+            business_email: where(fn('LOWER', col('business_email')), testCase.emailAddress),
+            access_granted: true
           }
         })
         .mockRejectedValue(testCase.error)

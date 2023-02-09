@@ -63,7 +63,8 @@ describe('Process eligible SBI', () => {
           `${MOCK_NOW.toISOString()} Processing eligible SBI: ${JSON.stringify({
             sbi: 123456789,
             crn: '1234567890',
-            businessEmail: 'business@email.com'
+            businessEmail: 'business@email.com',
+            businessEmailHasMultipleDistinctSbi: false
           })}`,
           `${MOCK_NOW.toISOString()} Updating waiting updated at: ${JSON.stringify({
             sbi: 123456789,

@@ -63,7 +63,8 @@ describe('Process eligble sbi feature toggle on', () => {
             customer: {
               sbi: MOCK_SBI,
               crn: MOCK_CRN,
-              businessEmail: MOCK_BUSINESS_EMAIL
+              businessEmail: MOCK_BUSINESS_EMAIL,
+              businessEmailHasMultipleDistinctSbi: true
             },
             selectYourBusinessEnabled: true
           })}`,

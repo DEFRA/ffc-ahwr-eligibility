@@ -40,13 +40,12 @@ describe('Process ineligible SBI', () => {
 
   test.each([
     {
-      toString: () => 'given a customer\'s sbi is already registered',
+      toString: () => 'an ineligible customer',
       given: {
         customer: {
           sbi: 123456789,
           crn: '1234567890',
           businessEmail: 'business@email.com',
-          sbiAlreadyRegistered: () => true
         }
       },
       expect: {

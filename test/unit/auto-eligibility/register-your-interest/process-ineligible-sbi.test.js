@@ -45,7 +45,7 @@ describe('Process ineligible SBI', () => {
         customer: {
           sbi: 123456789,
           crn: '1234567890',
-          businessEmail: 'business@email.com',
+          businessEmail: 'business@email.com'
         }
       },
       expect: {

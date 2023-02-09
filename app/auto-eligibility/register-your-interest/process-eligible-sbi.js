@@ -4,18 +4,24 @@ const { selectYourBusiness } = require('../config/index.js')
 
 const processEligibleSbi = async (customer) => {
   console.log(`${new Date().toISOString()} Processing eligible SBI: ${JSON.stringify({
-     ...customer
+     customer,
+     selectYourBusinessEnabled: selectYourBusiness.enabled
   })}`)
-  if (!selectYourBusiness.enabled && customer.businessEmailHasMultipleDistinctSbi()) {
-    console.log(`${new Date().toISOString()} The customer's business email has multiple distinct SBI`)
-    return await emailNotifier.sendIneligibleApplicationEmail(
-      customer.sbi,
-      customer.crn,
-      customer.businessEmail
-    )
+  if (selectYourBusiness.enabled) {
+    await customerDbTable.updateWaitingUpdatedAt(customer.sbi, customer.crn)
+    await emailNotifier.sendWaitingListEmail(customer.businessEmail)
+  } else {
+    if (customer.businessEmailHasMultipleDistinctSbi()) {
+      console.log(`${new Date().toISOString()} The customer's business email has multiple distinct SBI`)
+      return await emailNotifier.sendIneligibleApplicationEmail(
+        customer.sbi,
+        customer.crn,
+        customer.businessEmail
+      )
+    }
+    await customerDbTable.updateWaitingUpdatedAt(customer.sbi, customer.crn)
+    await emailNotifier.sendWaitingListEmail(customer.businessEmail)
   }
-  await customerDbTable.updateWaitingUpdatedAt(customer.sbi, customer.crn)
-  await emailNotifier.sendWaitingListEmail(customer.businessEmail)
 }
 
 module.exports = processEligibleSbi

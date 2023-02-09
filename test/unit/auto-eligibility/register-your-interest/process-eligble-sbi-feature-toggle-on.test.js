@@ -59,14 +59,17 @@ describe('Process eligble sbi feature toggle on', () => {
           emailAddressTo: MOCK_BUSINESS_EMAIL
         },
         consoleLogs: [
-              `${MOCK_NOW.toISOString()} Processing eligible SBI: ${JSON.stringify({
+          `${MOCK_NOW.toISOString()} Processing eligible SBI: ${JSON.stringify({
+            customer: {
               sbi: MOCK_SBI,
               crn: MOCK_CRN,
               businessEmail: MOCK_BUSINESS_EMAIL
-              })}`,
-              `${MOCK_NOW.toISOString()} Updating waiting updated at: ${JSON.stringify({ sbi: MOCK_SBI, crn: MOCK_CRN })}`,
-              `${MOCK_NOW.toISOString()} Attempting to send email with template ID ${MOCK_WAITING_LIST_EMAIL_TEMPLATE_ID} to email ${MOCK_BUSINESS_EMAIL}`,
-              `${MOCK_NOW.toISOString()} Successfully sent email with template ID ${MOCK_WAITING_LIST_EMAIL_TEMPLATE_ID} to email ${MOCK_BUSINESS_EMAIL}`
+            },
+            selectYourBusinessEnabled: true
+          })}`,
+          `${MOCK_NOW.toISOString()} Updating waiting updated at: ${JSON.stringify({ sbi: MOCK_SBI, crn: MOCK_CRN })}`,
+          `${MOCK_NOW.toISOString()} Attempting to send email with template ID ${MOCK_WAITING_LIST_EMAIL_TEMPLATE_ID} to email ${MOCK_BUSINESS_EMAIL}`,
+          `${MOCK_NOW.toISOString()} Successfully sent email with template ID ${MOCK_WAITING_LIST_EMAIL_TEMPLATE_ID} to email ${MOCK_BUSINESS_EMAIL}`
         ]
       }
     }

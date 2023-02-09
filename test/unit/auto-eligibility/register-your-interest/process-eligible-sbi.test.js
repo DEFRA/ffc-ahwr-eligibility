@@ -26,10 +26,10 @@ describe('Process eligible SBI', () => {
         },
         earlyAdoptionTeam: {
           emailAddress: MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS
-        },
-        selectYourBusiness: {
-          enabled: false
         }
+      },
+      selectYourBusiness: {
+        enabled: false
       }
     }))
     processEligibleCustomer = require('../../../../app/auto-eligibility/register-your-interest/process-eligible-sbi')

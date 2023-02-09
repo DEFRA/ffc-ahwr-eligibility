@@ -12,8 +12,8 @@ const checkEligibility = async (sbi, crn, businessEmail) => {
       sbi,
       crn,
       businessEmail,
-      isRegisteringForEligibleSbi: () => false,
-      businessEmailHasMultipleDistinctSbi: () => false
+      isRegisteringForEligibleSbi: false,
+      businessEmailHasMultipleDistinctSbi: false
     }
   }
   const eligibleSbi = customers
@@ -27,8 +27,8 @@ const checkEligibility = async (sbi, crn, businessEmail) => {
     sbi,
     crn,
     businessEmail,
-    isRegisteringForEligibleSbi: () => typeof eligibleSbi !== 'undefined',
-    businessEmailHasMultipleDistinctSbi: () => [
+    isRegisteringForEligibleSbi: typeof eligibleSbi !== 'undefined',
+    businessEmailHasMultipleDistinctSbi: [
       ...new Set(customers.map(customer => customer.sbi))
     ].length > 1
   }

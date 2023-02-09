@@ -27,6 +27,9 @@ describe('Process eligible SBI', () => {
         earlyAdoptionTeam: {
           emailAddress: MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS
         }
+      },
+      selectYourBusiness: {
+        enabled: false
       }
     }))
     processEligibleCustomer = require('../../../../app/auto-eligibility/register-your-interest/process-eligible-sbi')
@@ -52,8 +55,7 @@ describe('Process eligible SBI', () => {
           sbi: 123456789,
           crn: '1234567890',
           businessEmail: 'business@email.com',
-          businessEmailHasMultipleDistinctSbi: () => false,
-          alreadyOnWaitingList: () => false
+          businessEmailHasMultipleDistinctSbi: false
         }
       },
       expect: {
@@ -62,9 +64,13 @@ describe('Process eligible SBI', () => {
         },
         consoleLogs: [
           `${MOCK_NOW.toISOString()} Processing eligible SBI: ${JSON.stringify({
-            sbi: 123456789,
-            crn: '1234567890',
-            businessEmail: 'business@email.com'
+            customer: {
+              sbi: 123456789,
+              crn: '1234567890',
+              businessEmail: 'business@email.com',
+              businessEmailHasMultipleDistinctSbi: false
+            },
+            selectYourBusinessEnabled: false
           })}`,
           `${MOCK_NOW.toISOString()} Updating waiting updated at: ${JSON.stringify({
             sbi: 123456789,

@@ -11,7 +11,7 @@ const processRegisterYourInterest = async (request) => {
   }
   const { sbi, crn, email: businessEmail } = req.value
   const customer = await checkEligibility(sbi, crn.toString(), businessEmail)
-  if (customer.isRegisteringForEligibleSbi()) {
+  if (customer.isRegisteringForEligibleSbi) {
     await processEligibleSbi(customer)
   } else {
     await processIneligibleSbi(customer)

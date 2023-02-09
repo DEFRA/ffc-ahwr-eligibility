@@ -43,7 +43,7 @@ describe('Process eligble sbi feature toggle on', () => {
           sbi: MOCK_SBI,
           crn: MOCK_CRN,
           businessEmail: MOCK_BUSINESS_EMAIL,
-          businessEmailHasMultipleDistinctSbi: () => true
+          businessEmailHasMultipleDistinctSbi: true
         }
       },
       when: {
@@ -55,18 +55,22 @@ describe('Process eligble sbi feature toggle on', () => {
       },
       expect: {
         emailNotifier: {
-          emailTemplateId: MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION,
-          emailAddressTo: MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS
+          emailTemplateId: MOCK_WAITING_LIST_EMAIL_TEMPLATE_ID,
+          emailAddressTo: MOCK_BUSINESS_EMAIL
         },
         consoleLogs: [
-            `${MOCK_NOW.toISOString()} Processing eligible SBI: ${JSON.stringify({
-            sbi: 123456789,
-            crn: '1234567890',
-            businessEmail: 'business@email.com'
-            })}`,
-            `${MOCK_NOW.toISOString()} The customer's business email has multiple distinct SBI`,
-            `${MOCK_NOW.toISOString()} Attempting to send email with template ID ${MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION} to email ${MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS}`,
-            `${MOCK_NOW.toISOString()} Successfully sent email with template ID ${MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION} to email ${MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS}`
+          `${MOCK_NOW.toISOString()} Processing eligible SBI: ${JSON.stringify({
+            customer: {
+              sbi: MOCK_SBI,
+              crn: MOCK_CRN,
+              businessEmail: MOCK_BUSINESS_EMAIL,
+              businessEmailHasMultipleDistinctSbi: true
+            },
+            selectYourBusinessEnabled: true
+          })}`,
+          `${MOCK_NOW.toISOString()} Updating waiting updated at: ${JSON.stringify({ sbi: MOCK_SBI, crn: MOCK_CRN })}`,
+          `${MOCK_NOW.toISOString()} Attempting to send email with template ID ${MOCK_WAITING_LIST_EMAIL_TEMPLATE_ID} to email ${MOCK_BUSINESS_EMAIL}`,
+          `${MOCK_NOW.toISOString()} Successfully sent email with template ID ${MOCK_WAITING_LIST_EMAIL_TEMPLATE_ID} to email ${MOCK_BUSINESS_EMAIL}`
         ]
       }
     }
@@ -99,14 +103,7 @@ describe('Process eligble sbi feature toggle on', () => {
     expect(notifyClient.sendEmail).toHaveBeenCalledWith(
       testCase.expect.emailNotifier.emailTemplateId,
       testCase.expect.emailNotifier.emailAddressTo,
-      {
-        personalisation: {
-          sbi: testCase.given.customer.sbi,
-          crn: testCase.given.customer.crn,
-          businessEmail: testCase.given.customer.businessEmail
-        }
-      }
+      undefined
     )
-  }
-  )
+  })
 })

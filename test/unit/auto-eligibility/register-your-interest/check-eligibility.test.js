@@ -327,8 +327,8 @@ describe('checkEligibility', () => {
     expect(business.sbi).toEqual(testCase.given.sbi)
     expect(business.crn).toEqual(testCase.given.crn)
     expect(business.businessEmail).toEqual(testCase.given.businessEmail)
-    expect(business.isRegisteringForEligibleSbi()).toEqual(testCase.expect.isRegisteringForEligibleSbi)
-    expect(business.businessEmailHasMultipleDistinctSbi()).toEqual(
+    expect(business.isRegisteringForEligibleSbi).toEqual(testCase.expect.isRegisteringForEligibleSbi)
+    expect(business.businessEmailHasMultipleDistinctSbi).toEqual(
       testCase.expect.businessEmailHasMultipleDistinctSbi
     )
   })

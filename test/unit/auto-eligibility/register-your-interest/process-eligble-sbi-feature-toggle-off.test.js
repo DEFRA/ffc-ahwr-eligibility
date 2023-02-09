@@ -43,7 +43,7 @@ describe('Process eligble sbi feature toggle off', () => {
           sbi: MOCK_SBI,
           crn: MOCK_CRN,
           businessEmail: MOCK_BUSINESS_EMAIL,
-          businessEmailHasMultipleDistinctSbi: () => true
+          businessEmailHasMultipleDistinctSbi: true
         }
       },
       when: {

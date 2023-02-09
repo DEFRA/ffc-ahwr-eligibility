@@ -45,11 +45,7 @@ describe('Process register your interest request', () => {
         sbi: 105000000,
         crn: '1100000000',
         businessEmail: 'business@email.com',
-        sbiAlreadyRegistered: () => false,
-        isRegisteringForEligibleSbi: () => true,
-        businessEmailHasMultipleDistinctSbi: () => false,
-        alreadyOnWaitingList: () => false,
-        hasAccessGranted: () => false
+        isRegisteringForEligibleSbi: true
       },
       expect: {
         consoleLogs: [
@@ -89,11 +85,7 @@ describe('Process register your interest request', () => {
         sbi: 105000000,
         crn: '1100000000',
         businessEmail: 'business@email.com',
-        sbiAlreadyRegistered: () => false,
-        isRegisteringForEligibleSbi: () => false,
-        businessEmailHasMultipleDistinctSbi: () => false,
-        alreadyOnWaitingList: () => false,
-        hasAccessGranted: () => false
+        isRegisteringForEligibleSbi: false
       },
       expect: {
         consoleLogs: [

@@ -11,7 +11,7 @@ const processEligibleSbi = async (customer) => {
     await customerDbTable.updateWaitingUpdatedAt(customer.sbi, customer.crn)
     await emailNotifier.sendWaitingListEmail(customer.businessEmail)
   } else {
-    if (customer.businessEmailHasMultipleDistinctSbi()) {
+    if (customer.businessEmailHasMultipleDistinctSbi) {
       console.log(`${new Date().toISOString()} The customer's business email has multiple distinct SBI`)
       return await emailNotifier.sendIneligibleApplicationEmail(
         customer.sbi,

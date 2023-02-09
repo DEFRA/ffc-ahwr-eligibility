@@ -52,8 +52,7 @@ describe('Process eligible SBI', () => {
           sbi: 123456789,
           crn: '1234567890',
           businessEmail: 'business@email.com',
-          businessEmailHasMultipleDistinctSbi: () => false,
-          alreadyOnWaitingList: () => false
+          businessEmailHasMultipleDistinctSbi: false
         }
       },
       expect: {

@@ -26,6 +26,9 @@ describe('Process eligible SBI', () => {
         },
         earlyAdoptionTeam: {
           emailAddress: MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS
+        },
+        selectYourBusiness: {
+          enabled: false
         }
       }
     }))
@@ -61,10 +64,13 @@ describe('Process eligible SBI', () => {
         },
         consoleLogs: [
           `${MOCK_NOW.toISOString()} Processing eligible SBI: ${JSON.stringify({
-            sbi: 123456789,
-            crn: '1234567890',
-            businessEmail: 'business@email.com',
-            businessEmailHasMultipleDistinctSbi: false
+            customer: {
+              sbi: 123456789,
+              crn: '1234567890',
+              businessEmail: 'business@email.com',
+              businessEmailHasMultipleDistinctSbi: false
+            },
+            selectYourBusinessEnabled: false
           })}`,
           `${MOCK_NOW.toISOString()} Updating waiting updated at: ${JSON.stringify({
             sbi: 123456789,

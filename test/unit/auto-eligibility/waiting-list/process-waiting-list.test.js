@@ -31,16 +31,16 @@ describe('Process waiting list function test.', () => {
       }
     })
     const mockEmailNotifier = require('../../../../app/auto-eligibility/email-notifier')
-    when(db.customer.update)
+    when(db.sequelize.query)
       .calledWith(expect.anything(), expect.anything())
       .mockResolvedValue([
-        '3', [{ business_email: 'test@email.com' }, { business_email: 'test2@email.com' }, { business_email: 'test3@email.com' }]
+        [{ business_email: 'test@email.com' }, { business_email: 'test2@email.com' }, { business_email: 'test3@email.com' }], '3'
       ])
     const processWaitingList = require('../../../../app/auto-eligibility/waiting-list/process-waiting-list')
     await processWaitingList(50)
     expect(spyConsole).toHaveBeenCalledWith(`${MOCK_NOW.toISOString()} Processing waiting list: ${JSON.stringify({ upperLimit: 50 })}`)
     expect(spyConsole).toHaveBeenCalledWith(`${MOCK_NOW.toISOString()} 3 customers moved from the waiting list.`)
-    expect(db.customer.update).toHaveBeenCalledTimes(1)
+    expect(db.sequelize.query).toHaveBeenCalledTimes(1)
     expect(mockEmailNotifier.sendApplyGuidanceEmail).toHaveBeenCalledTimes(3)
   })
 
@@ -52,16 +52,16 @@ describe('Process waiting list function test.', () => {
       }
     })
     const mockEmailNotifier = require('../../../../app/auto-eligibility/email-notifier')
-    when(db.customer.update)
+    when(db.sequelize.query)
       .calledWith(expect.anything(), expect.anything())
       .mockResolvedValue([
-        '0', []
+        [], '0'
       ])
     const processWaitingList = require('../../../../app/auto-eligibility/waiting-list/process-waiting-list')
     await processWaitingList(50)
     expect(spyConsole).toHaveBeenCalledWith(`${MOCK_NOW.toISOString()} Processing waiting list: ${JSON.stringify({ upperLimit: 50 })}`)
     expect(spyConsole).toHaveBeenCalledWith(`${MOCK_NOW.toISOString()} 0 customers moved from the waiting list.`)
-    expect(db.customer.update).toHaveBeenCalledTimes(1)
+    expect(db.sequelize.query).toHaveBeenCalledTimes(1)
     expect(mockEmailNotifier.sendApplyGuidanceEmail).not.toHaveBeenCalled()
   })
 
@@ -72,14 +72,14 @@ describe('Process waiting list function test.', () => {
       }
     })
     const mockEmailNotifier = require('../../../../app/auto-eligibility/email-notifier')
-    when(db.customer.update)
+    when(db.sequelize.query)
       .calledWith(expect.anything(), expect.anything())
       .mockRejectedValue(new Error('Some DB error'))
     const processWaitingList = require('../../../../app/auto-eligibility/waiting-list/process-waiting-list')
     expect(async () =>
       await processWaitingList(50)
     ).rejects.toThrowError('Some DB error')
-    expect(db.customer.update).toHaveBeenCalledTimes(1)
+    expect(db.sequelize.query).toHaveBeenCalledTimes(1)
     expect(mockEmailNotifier.sendApplyGuidanceEmail).not.toHaveBeenCalled()
   })
 })

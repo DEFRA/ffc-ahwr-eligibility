@@ -94,18 +94,24 @@ const updateAccessGranted = async (upperLimit) => {
     throw new Error(`Invalid argument: ${JSON.stringify(upperLimit)}`)
   }
 
-  return await db.sequelize.query(
-    `UPDATE customer 
+  return await db.sequelize.query(`
+    UPDATE customer 
     SET access_granted = true, last_updated_at = now()
-    FROM (SELECT sbi, crn, business_email FROM customer WHERE waiting_updated_at IS NOT NULL AND access_granted = false ORDER BY waiting_updated_at ASC LIMIT :limit) c 
+    FROM (
+      SELECT sbi, crn, business_email
+      FROM customer
+      WHERE waiting_updated_at IS NOT NULL
+        AND access_granted = false
+      ORDER BY waiting_updated_at ASC LIMIT :limit
+    ) c 
     WHERE customer.sbi = c.sbi 
-    AND customer.crn = c.crn 
-    AND customer.business_email = c.business_email
-    RETURNING customer.business_email`,
-    {
-      replacements: { limit: upperLimit },
-      type: QueryTypes.UPDATE
-    }
+      AND customer.crn = c.crn 
+      AND customer.business_email = c.business_email
+    RETURNING customer.sbi, customer.crn, customer.business_email`,
+  {
+    replacements: { limit: upperLimit },
+    type: QueryTypes.UPDATE
+  }
   )
 }
 module.exports = {

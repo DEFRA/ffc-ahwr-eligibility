@@ -13,7 +13,7 @@ module.exports = {
         })}`)
         try {
           await processWaitingList(config.waitingListScheduler.upperLimit)
-          console.log(`${new Date().toISOString()} Waiting list has been processed`)
+          console.log(`${new Date().toISOString()} auto-eligibility:waiting-list waiting list has been processed`)
         } catch (error) {
           console.error(`${new Date().toISOString()} Error processing waiting list`, error)
           telemetryClient.trackException({

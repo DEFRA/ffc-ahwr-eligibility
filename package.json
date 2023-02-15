@@ -1,6 +1,6 @@
 {
   "name": "ffc-ahwr-eligibility",
-  "version": "0.18.11",
+  "version": "0.18.12",
   "description": "Eligibility microservice for AHWR",
   "homepage": "https://github.com/DEFRA/ffc-ahwr-eligibility",
   "main": "app/index.js",

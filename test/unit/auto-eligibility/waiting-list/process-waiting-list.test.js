@@ -50,7 +50,7 @@ describe('Process waiting list function test.', () => {
     expect(raiseEvent).toHaveBeenNthCalledWith(1, {
       name: 'auto-eligibility:waiting-list:event',
       properties: {
-        id: `mock_sbi_mock_crn`,
+        id: 'mock_sbi_mock_crn',
         sbi: 'mock_sbi',
         cph: 'n/a',
         checkpoint: undefined,

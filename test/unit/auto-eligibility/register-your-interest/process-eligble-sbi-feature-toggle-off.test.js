@@ -130,11 +130,9 @@ describe('Process eligble sbi feature toggle off', () => {
           type: 'rejected_due_to_multiple_sbi',
           message: 'Rejected due to multiple SBI numbers',
           data: {
-            customer: {
-              sbi: testCase.given.customer.sbi,
-              crn: testCase.given.customer.crn,
-              businessEmail: testCase.given.customer.businessEmail
-            }
+            sbi: testCase.given.customer.sbi,
+            crn: testCase.given.customer.crn,
+            businessEmail: testCase.given.customer.businessEmail
           },
           raisedOn: MOCK_NOW,
           raisedBy: testCase.given.customer.businessEmail

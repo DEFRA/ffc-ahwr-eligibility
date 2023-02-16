@@ -132,11 +132,9 @@ describe('Process eligible SBI', () => {
           type: 'put_on_the_waiting_list',
           message: 'The customer has been put on the waiting list',
           data: {
-            customer: {
-              sbi: testCase.given.customer.sbi,
-              crn: testCase.given.customer.crn,
-              businessEmail: testCase.given.customer.businessEmail
-            }
+            sbi: testCase.given.customer.sbi,
+            crn: testCase.given.customer.crn,
+            businessEmail: testCase.given.customer.businessEmail
           },
           raisedOn: MOCK_NOW,
           raisedBy: testCase.given.customer.businessEmail

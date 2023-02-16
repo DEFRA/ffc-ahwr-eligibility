@@ -14,14 +14,24 @@ const processEligibleSbi = async (customer) => {
     await emailNotifier.sendWaitingListEmail(customer.businessEmail)
     await raiseTelemetryEvent(customer)(
       telemetryEvent.PUT_ON_THE_WAITING_LIT,
-      'The customer has been put on the waiting list'
+      'The customer has been put on the waiting list',
+      {
+        sbi: customer.sbi,
+        crn: customer.crn,
+        businessEmail: customer.businessEmail
+      }
     )
   } else {
     if (customer.businessEmailHasMultipleDistinctSbi) {
       console.log(`${new Date().toISOString()} The customer's business email has multiple distinct SBI`)
       await raiseTelemetryEvent(customer)(
         telemetryEvent.REJECTED_DUE_TO_MULTIPLE_SBI,
-        'Rejected due to multiple SBI numbers'
+        'Rejected due to multiple SBI numbers',
+        {
+          sbi: customer.sbi,
+          crn: customer.crn,
+          businessEmail: customer.businessEmail
+        }
       )
       return await emailNotifier.sendIneligibleApplicationEmail(
         customer.sbi,
@@ -33,7 +43,12 @@ const processEligibleSbi = async (customer) => {
     await emailNotifier.sendWaitingListEmail(customer.businessEmail)
     await raiseTelemetryEvent(customer)(
       telemetryEvent.PUT_ON_THE_WAITING_LIT,
-      'The customer has been put on the waiting list'
+      'The customer has been put on the waiting list',
+      {
+        sbi: customer.sbi,
+        crn: customer.crn,
+        businessEmail: customer.businessEmail
+      }
     )
   }
 }

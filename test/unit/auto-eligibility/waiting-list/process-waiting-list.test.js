@@ -52,21 +52,20 @@ describe('Process waiting list function test.', () => {
     expect(mockEmailNotifier.sendApplyGuidanceEmail).toHaveBeenCalledTimes(3)
     expect(raiseEvent).toHaveBeenCalledTimes(3)
     expect(raiseEvent).toHaveBeenNthCalledWith(1, {
-      name: 'auto-eligibility:waiting-list:event',
+      name: 'send-session-event',
       properties: {
         id: 'mock_sbi_mock_crn',
         sbi: 'mock_sbi',
         cph: 'n/a',
         checkpoint: 'mock_app_insights_cloud_role',
-        status: 'SUCCESS',
         action: {
-          type: 'eligible_to_apply_for_a_review.',
+          type: 'eligible_to_apply_for_a_review',
           message: 'The customer is now eligible to apply for a review',
           data: {
-            customer: { sbi: 'mock_sbi', crn: 'mock_crn', business_email: 'test@email.com' }
+            customer: { sbi: 'mock_sbi', crn: 'mock_crn', businessEmail: 'test@email.com' }
           },
           raisedOn: MOCK_NOW,
-          raisedBy: 'auto-eligibility:waiting-list'
+          raisedBy: 'test@email.com'
         }
       }
     })

@@ -126,13 +126,12 @@ describe('Process ineligible SBI', () => {
     )
     expect(raiseEvent).toHaveBeenCalledTimes(1)
     expect(raiseEvent).toHaveBeenCalledWith({
-      name: 'auto-eligibility:incoming-register-your-interest:recognised_as_ineligible',
+      name: 'send-session-event',
       properties: {
         id: `${testCase.given.customer.sbi}_${testCase.given.customer.crn}`,
         sbi: testCase.given.customer.sbi,
         cph: 'n/a',
         checkpoint: 'mock_app_insights_cloud_role',
-        status: 'SUCCESS',
         action: {
           type: 'recognised_as_ineligible',
           message: 'The customer has been recognised as ineligible',
@@ -145,7 +144,7 @@ describe('Process ineligible SBI', () => {
             reasonForIneligible: testCase.expect.reasonForIneligible
           },
           raisedOn: MOCK_NOW,
-          raisedBy: 'auto-eligibility:incoming-register-your-interest'
+          raisedBy: 'business@email.com'
         }
       }
     })

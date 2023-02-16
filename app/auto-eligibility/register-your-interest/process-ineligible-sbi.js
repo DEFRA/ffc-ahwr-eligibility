@@ -15,12 +15,10 @@ const processIneligibleSbi = async (customer) => {
     telemetryEvent.RECOGNISED_AS_INELIGIBLE,
     'The customer has been recognised as ineligible',
     {
-      customer: {
-        sbi: customer.sbi,
-        crn: customer.crn,
-        businessEmail: customer.businessEmail
-      },
-      reasonForIneligibility: customer.sbiAlreadyRegistered
+      sbi: customer.sbi,
+      crn: customer.crn,
+      businessEmail: customer.businessEmail,
+      reasonForIneligible: customer.sbiAlreadyRegistered
         ? 'Duplicate submission'
         : 'No match against data warehouse'
     }

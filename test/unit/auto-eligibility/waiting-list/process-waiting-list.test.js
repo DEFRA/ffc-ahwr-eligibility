@@ -62,7 +62,9 @@ describe('Process waiting list function test.', () => {
           type: 'eligible_to_apply_for_a_review',
           message: 'The customer is now eligible to apply for a review',
           data: {
-            customer: { sbi: 'mock_sbi', crn: 'mock_crn', businessEmail: 'test@email.com' }
+            sbi: 'mock_sbi',
+            crn: 'mock_crn',
+            businessEmail: 'test@email.com'
           },
           raisedOn: MOCK_NOW,
           raisedBy: 'test@email.com'

@@ -136,11 +136,9 @@ describe('Process ineligible SBI', () => {
           type: 'recognised_as_ineligible',
           message: 'The customer has been recognised as ineligible',
           data: {
-            customer: {
-              sbi: testCase.given.customer.sbi,
-              crn: testCase.given.customer.crn,
-              businessEmail: testCase.given.customer.businessEmail
-            },
+            sbi: testCase.given.customer.sbi,
+            crn: testCase.given.customer.crn,
+            businessEmail: testCase.given.customer.businessEmail,
             reasonForIneligible: testCase.expect.reasonForIneligible
           },
           raisedOn: MOCK_NOW,

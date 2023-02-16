@@ -7,11 +7,15 @@ describe('Process ineligible SBI', () => {
   let logSpy
   let notifyClient
   let processIneligibleCustomer
+  let raiseEvent
 
   beforeAll(() => {
     jest.useFakeTimers('modern')
     jest.setSystemTime(MOCK_NOW)
 
+    jest.mock('../../../../app/app-insights/app-insights.config', () => ({
+      appInsightsCloudRole: 'mock_app_insights_cloud_role'
+    }))
     jest.mock('../../../../app/notify/notify-client')
     jest.mock('../../../../app/config/notify', () => ({
       apiKey: 'mockApiKey'
@@ -31,6 +35,14 @@ describe('Process ineligible SBI', () => {
     processIneligibleCustomer = require('../../../../app/auto-eligibility/register-your-interest/process-ineligible-sbi')
 
     logSpy = jest.spyOn(console, 'log')
+
+    jest.mock('../../../../app/event/raise-event')
+    raiseEvent = require('../../../../app/event/raise-event')
+  })
+
+  afterEach(() => {
+    jest.clearAllMocks()
+    jest.resetAllMocks()
   })
 
   afterAll(() => {
@@ -40,12 +52,13 @@ describe('Process ineligible SBI', () => {
 
   test.each([
     {
-      toString: () => 'an ineligible customer',
+      toString: () => 'an ineligible customer - no match against data warehouse',
       given: {
         customer: {
           sbi: 123456789,
           crn: '1234567890',
-          businessEmail: 'business@email.com'
+          businessEmail: 'business@email.com',
+          sbiAlreadyRegistered: false
         }
       },
       expect: {
@@ -53,11 +66,41 @@ describe('Process ineligible SBI', () => {
           emailTemplateId: MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION,
           emailAddressTo: MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS
         },
+        reasonForIneligible: 'No match against data warehouse',
         consoleLogs: [
           `${MOCK_NOW.toISOString()} Processing ineligible SBI: ${JSON.stringify({
             sbi: 123456789,
             crn: '1234567890',
-            businessEmail: 'business@email.com'
+            businessEmail: 'business@email.com',
+            sbiAlreadyRegistered: false
+          })}`,
+          `${MOCK_NOW.toISOString()} Attempting to send email with template ID ${MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION} to email ${MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS}`,
+          `${MOCK_NOW.toISOString()} Successfully sent email with template ID ${MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION} to email ${MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS}`
+        ]
+      }
+    },
+    {
+      toString: () => 'an ineligible customer - duplicate submission',
+      given: {
+        customer: {
+          sbi: 123456789,
+          crn: '1234567890',
+          businessEmail: 'business@email.com',
+          sbiAlreadyRegistered: true
+        }
+      },
+      expect: {
+        emailNotifier: {
+          emailTemplateId: MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION,
+          emailAddressTo: MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS
+        },
+        reasonForIneligible: 'Duplicate submission',
+        consoleLogs: [
+          `${MOCK_NOW.toISOString()} Processing ineligible SBI: ${JSON.stringify({
+            sbi: 123456789,
+            crn: '1234567890',
+            businessEmail: 'business@email.com',
+            sbiAlreadyRegistered: true
           })}`,
           `${MOCK_NOW.toISOString()} Attempting to send email with template ID ${MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION} to email ${MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS}`,
           `${MOCK_NOW.toISOString()} Successfully sent email with template ID ${MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION} to email ${MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS}`
@@ -81,5 +124,30 @@ describe('Process ineligible SBI', () => {
         }
       }
     )
+    expect(raiseEvent).toHaveBeenCalledTimes(1)
+    expect(raiseEvent).toHaveBeenCalledWith({
+      name: 'auto-eligibility:incoming-register-your-interest:recognised_as_ineligible',
+      properties: {
+        id: `${testCase.given.customer.sbi}_${testCase.given.customer.crn}`,
+        sbi: testCase.given.customer.sbi,
+        cph: 'n/a',
+        checkpoint: 'mock_app_insights_cloud_role',
+        status: 'SUCCESS',
+        action: {
+          type: 'recognised_as_ineligible',
+          message: 'The customer has been recognised as ineligible',
+          data: {
+            customer: {
+              sbi: testCase.given.customer.sbi,
+              crn: testCase.given.customer.crn,
+              businessEmail: testCase.given.customer.businessEmail
+            },
+            reasonForIneligible: testCase.expect.reasonForIneligible
+          },
+          raisedOn: MOCK_NOW,
+          raisedBy: 'auto-eligibility:incoming-register-your-interest'
+        }
+      }
+    })
   })
 })

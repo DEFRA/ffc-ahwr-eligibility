@@ -114,13 +114,12 @@ describe('Process eligble sbi feature toggle on', () => {
     )
     expect(raiseEvent).toHaveBeenCalledTimes(1)
     expect(raiseEvent).toHaveBeenCalledWith({
-      name: 'auto-eligibility:incoming-register-your-interest:recognised_as_eligible',
+      name: 'send-session-event',
       properties: {
         id: `${testCase.given.customer.sbi}_${testCase.given.customer.crn}`,
         sbi: testCase.given.customer.sbi,
         cph: 'n/a',
         checkpoint: 'mock_app_insights_cloud_role',
-        status: 'SUCCESS',
         action: {
           type: 'put_on_the_waiting_list',
           message: 'The customer has been put on the waiting list',
@@ -132,7 +131,7 @@ describe('Process eligble sbi feature toggle on', () => {
             }
           },
           raisedOn: MOCK_NOW,
-          raisedBy: 'auto-eligibility:incoming-register-your-interest'
+          raisedBy: testCase.given.customer.businessEmail
         }
       }
     })

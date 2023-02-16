@@ -120,13 +120,12 @@ describe('Process eligble sbi feature toggle off', () => {
     )
     expect(raiseEvent).toHaveBeenCalledTimes(1)
     expect(raiseEvent).toHaveBeenCalledWith({
-      name: 'auto-eligibility:incoming-register-your-interest:rejected_due_to_multiple_sbi',
+      name: 'send-session-event',
       properties: {
         id: `${testCase.given.customer.sbi}_${testCase.given.customer.crn}`,
         sbi: testCase.given.customer.sbi,
         cph: 'n/a',
         checkpoint: 'mock_app_insights_cloud_role',
-        status: 'SUCCESS',
         action: {
           type: 'rejected_due_to_multiple_sbi',
           message: 'Rejected due to multiple SBI numbers',
@@ -138,7 +137,7 @@ describe('Process eligble sbi feature toggle off', () => {
             }
           },
           raisedOn: MOCK_NOW,
-          raisedBy: 'auto-eligibility:incoming-register-your-interest'
+          raisedBy: testCase.given.customer.businessEmail
         }
       }
     })

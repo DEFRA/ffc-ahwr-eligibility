@@ -4,6 +4,7 @@ const MOCK_NOW = new Date()
 
 describe('Process waiting list function test.', () => {
   let db
+  let raiseEvent
 
   beforeAll(() => {
     jest.useFakeTimers('modern')
@@ -11,6 +12,9 @@ describe('Process waiting list function test.', () => {
 
     jest.mock('../../../../app/data')
     db = require('../../../../app/data')
+
+    jest.mock('../../../../app/event/raise-event')
+    raiseEvent = require('../../../../app/event/raise-event')
   })
 
   afterAll(() => {
@@ -34,7 +38,7 @@ describe('Process waiting list function test.', () => {
     when(db.sequelize.query)
       .calledWith(expect.anything(), expect.anything())
       .mockResolvedValue([
-        [{ business_email: 'test@email.com' }, { business_email: 'test2@email.com' }, { business_email: 'test3@email.com' }], '3'
+        [{ sbi: 'mock_sbi', crn: 'mock_crn', business_email: 'test@email.com' }, { business_email: 'test2@email.com' }, { business_email: 'test3@email.com' }], '3'
       ])
     const processWaitingList = require('../../../../app/auto-eligibility/waiting-list/process-waiting-list')
     await processWaitingList(50)
@@ -42,6 +46,26 @@ describe('Process waiting list function test.', () => {
     expect(spyConsole).toHaveBeenCalledWith(`${MOCK_NOW.toISOString()} auto-eligibility:waiting-list [3] new customers are now eligible to apply for a review`)
     expect(db.sequelize.query).toHaveBeenCalledTimes(1)
     expect(mockEmailNotifier.sendApplyGuidanceEmail).toHaveBeenCalledTimes(3)
+    expect(raiseEvent).toHaveBeenCalledTimes(3)
+    expect(raiseEvent).toHaveBeenNthCalledWith(1, {
+      name: 'auto-eligibility:waiting-list:event',
+      properties: {
+        id: `mock_sbi_mock_crn`,
+        sbi: 'mock_sbi',
+        cph: 'n/a',
+        checkpoint: undefined,
+        status: 'SUCCESS',
+        action: {
+          type: 'eligible_to_apply_for_a_review.',
+          message: 'The customer is now eligible to apply for a review',
+          data: {
+            customer: { sbi: 'mock_sbi', crn: 'mock_crn', business_email: 'test@email.com' }
+          },
+          raisedOn: MOCK_NOW,
+          raisedBy: 'auto-eligibility:waiting-list'
+        }
+      }
+    })
   })
 
   test('test no records updated', async () => {
@@ -63,6 +87,7 @@ describe('Process waiting list function test.', () => {
     expect(spyConsole).toHaveBeenCalledWith(`${MOCK_NOW.toISOString()} auto-eligibility:waiting-list [0] new customers are now eligible to apply for a review`)
     expect(db.sequelize.query).toHaveBeenCalledTimes(1)
     expect(mockEmailNotifier.sendApplyGuidanceEmail).not.toHaveBeenCalled()
+    expect(raiseEvent).not.toHaveBeenCalled()
   })
 
   test('test error handled', async () => {
@@ -81,5 +106,6 @@ describe('Process waiting list function test.', () => {
     ).rejects.toThrowError('Some DB error')
     expect(db.sequelize.query).toHaveBeenCalledTimes(1)
     expect(mockEmailNotifier.sendApplyGuidanceEmail).not.toHaveBeenCalled()
+    expect(raiseEvent).not.toHaveBeenCalled()
   })
 })

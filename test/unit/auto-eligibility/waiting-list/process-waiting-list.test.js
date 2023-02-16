@@ -10,6 +10,10 @@ describe('Process waiting list function test.', () => {
     jest.useFakeTimers('modern')
     jest.setSystemTime(MOCK_NOW)
 
+    jest.mock('../../../../app/app-insights/app-insights.config', () => ({
+      appInsightsCloudRole: 'mock_app_insights_cloud_role'
+    }))
+
     jest.mock('../../../../app/data')
     db = require('../../../../app/data')
 
@@ -53,7 +57,7 @@ describe('Process waiting list function test.', () => {
         id: 'mock_sbi_mock_crn',
         sbi: 'mock_sbi',
         cph: 'n/a',
-        checkpoint: undefined,
+        checkpoint: 'mock_app_insights_cloud_role',
         status: 'SUCCESS',
         action: {
           type: 'eligible_to_apply_for_a_review.',

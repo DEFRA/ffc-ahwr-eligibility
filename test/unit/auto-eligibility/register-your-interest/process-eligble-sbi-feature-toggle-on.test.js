@@ -11,11 +11,15 @@ describe('Process eligble sbi feature toggle on', () => {
   let logSpy
   let notifyClient
   let processEligibleCustomer
+  let raiseEvent
 
   beforeAll(() => {
     jest.useFakeTimers('modern')
     jest.setSystemTime(MOCK_NOW)
 
+    jest.mock('../../../../app/app-insights/app-insights.config', () => ({
+      appInsightsCloudRole: 'mock_app_insights_cloud_role'
+    }))
     jest.mock('../../../../app/data')
     jest.mock('../../../../app/notify/notify-client')
     jest.mock('../../../../app/config/notify', () => ({
@@ -24,6 +28,9 @@ describe('Process eligble sbi feature toggle on', () => {
     notifyClient = require('../../../../app/notify/notify-client')
 
     logSpy = jest.spyOn(console, 'log')
+
+    jest.mock('../../../../app/event/raise-event')
+    raiseEvent = require('../../../../app/event/raise-event')
   })
 
   afterAll(() => {
@@ -105,5 +112,29 @@ describe('Process eligble sbi feature toggle on', () => {
       testCase.expect.emailNotifier.emailAddressTo,
       undefined
     )
+    expect(raiseEvent).toHaveBeenCalledTimes(1)
+    expect(raiseEvent).toHaveBeenCalledWith({
+      name: 'auto-eligibility:incoming-register-your-interest:recognised_as_eligible',
+      properties: {
+        id: `${testCase.given.customer.sbi}_${testCase.given.customer.crn}`,
+        sbi: testCase.given.customer.sbi,
+        cph: 'n/a',
+        checkpoint: 'mock_app_insights_cloud_role',
+        status: 'SUCCESS',
+        action: {
+          type: 'put_on_the_waiting_list',
+          message: 'The customer has been put on the waiting list',
+          data: {
+            customer: {
+              sbi: testCase.given.customer.sbi,
+              crn: testCase.given.customer.crn,
+              businessEmail: testCase.given.customer.businessEmail
+            }
+          },
+          raisedOn: MOCK_NOW,
+          raisedBy: 'auto-eligibility:incoming-register-your-interest'
+        }
+      }
+    })
   })
 })

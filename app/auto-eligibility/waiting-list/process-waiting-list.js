@@ -4,7 +4,7 @@ const raiseEvent = require('../../event/raise-event')
 const appInsightsConfig = require('../../app-insights/app-insights.config')
 
 const processWaitingList = async (upperLimit) => {
-  console.log(`${new Date().toISOString()} auto-eligibility:waiting-list processing waiting list: ${JSON.stringify({ upperLimit })}`)
+  console.log(`${new Date().toISOString()} auto-eligibility:waiting-list Processing waiting list: ${JSON.stringify({ upperLimit })}`)
   const result = await customerDbTable.updateAccessGranted(upperLimit)
   const customers = result[0]
   console.log(`${new Date().toISOString()} auto-eligibility:waiting-list [${customers.length}] new customer${customers.length !== 1 ? 's' : ''} are now eligible to apply for a review`)

@@ -42,6 +42,7 @@ describe('checkEligibility', () => {
         foundCustomers: []
       },
       expect: {
+        sbiAlreadyRegistered: false,
         isRegisteringForEligibleSbi: false,
         businessEmailHasMultipleDistinctSbi: false,
         consoleLogs: [
@@ -75,6 +76,7 @@ describe('checkEligibility', () => {
         ]
       },
       expect: {
+        sbiAlreadyRegistered: false,
         isRegisteringForEligibleSbi: true,
         businessEmailHasMultipleDistinctSbi: false,
         consoleLogs: [
@@ -128,6 +130,7 @@ describe('checkEligibility', () => {
         ]
       },
       expect: {
+        sbiAlreadyRegistered: false,
         isRegisteringForEligibleSbi: false,
         businessEmailHasMultipleDistinctSbi: false,
         consoleLogs: [
@@ -184,6 +187,7 @@ describe('checkEligibility', () => {
         ]
       },
       expect: {
+        sbiAlreadyRegistered: true,
         isRegisteringForEligibleSbi: false,
         businessEmailHasMultipleDistinctSbi: false,
         consoleLogs: [
@@ -251,6 +255,7 @@ describe('checkEligibility', () => {
         ]
       },
       expect: {
+        sbiAlreadyRegistered: false,
         isRegisteringForEligibleSbi: true,
         businessEmailHasMultipleDistinctSbi: true,
         consoleLogs: [
@@ -315,7 +320,7 @@ describe('checkEligibility', () => {
       })
       .mockResolvedValue(testCase.when.foundCustomers)
 
-    const business = await checkEligibility(
+    const customer = await checkEligibility(
       testCase.given.sbi,
       testCase.given.crn,
       testCase.given.businessEmail
@@ -324,11 +329,12 @@ describe('checkEligibility', () => {
     testCase.expect.consoleLogs.forEach(
       (consoleLog, idx) => expect(logSpy).toHaveBeenNthCalledWith(idx + 1, consoleLog)
     )
-    expect(business.sbi).toEqual(testCase.given.sbi)
-    expect(business.crn).toEqual(testCase.given.crn)
-    expect(business.businessEmail).toEqual(testCase.given.businessEmail)
-    expect(business.isRegisteringForEligibleSbi).toEqual(testCase.expect.isRegisteringForEligibleSbi)
-    expect(business.businessEmailHasMultipleDistinctSbi).toEqual(
+    expect(customer.sbi).toEqual(testCase.given.sbi)
+    expect(customer.crn).toEqual(testCase.given.crn)
+    expect(customer.businessEmail).toEqual(testCase.given.businessEmail)
+    expect(customer.sbiAlreadyRegistered).toEqual(testCase.expect.sbiAlreadyRegistered)
+    expect(customer.isRegisteringForEligibleSbi).toEqual(testCase.expect.isRegisteringForEligibleSbi)
+    expect(customer.businessEmailHasMultipleDistinctSbi).toEqual(
       testCase.expect.businessEmailHasMultipleDistinctSbi
     )
   })

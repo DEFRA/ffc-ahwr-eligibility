@@ -107,7 +107,7 @@ const updateAccessGranted = async (upperLimit) => {
     WHERE customer.sbi = c.sbi 
       AND customer.crn = c.crn 
       AND customer.business_email = c.business_email
-    RETURNING customer.sbi, customer.crn, customer.business_email`,
+    RETURNING customer.sbi, customer.crn, customer.business_email as businessEmail`,
   {
     replacements: { limit: upperLimit },
     type: QueryTypes.UPDATE

@@ -6,11 +6,7 @@ const telemetryEvent = require('../telemetry/telemetry-event')
 const processWaitingList = async (upperLimit) => {
   console.log(`${new Date().toISOString()} auto-eligibility:waiting-list Processing waiting list: ${JSON.stringify({ upperLimit })}`)
   const result = await customerDbTable.updateAccessGranted(upperLimit)
-  const customers = result[0].map(customer => ({
-    sbi: customer.sbi,
-    crn: customer.crn,
-    businessEmail: customer.business_email
-  }))
+  const customers = result[0]
   console.log(`${new Date().toISOString()} auto-eligibility:waiting-list [${customers.length}] new customer${customers.length !== 1 ? 's' : ''} are now eligible to apply for a review`)
   for (const customer of customers) {
     await sendApplyGuidanceEmail(customer.businessEmail)

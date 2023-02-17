@@ -65,6 +65,7 @@ describe('Process waiting list function test.', () => {
         sbi: 'mock_sbi',
         cph: 'n/a',
         checkpoint: 'mock_app_insights_cloud_role',
+        status: 'success',
         action: {
           type: 'eligible_to_apply_for_a_review',
           message: 'The customer is now eligible to apply for a review',

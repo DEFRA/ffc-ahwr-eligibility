@@ -135,6 +135,7 @@ describe('Process eligible SBI', () => {
         sbi: testCase.given.customer.sbi,
         cph: 'n/a',
         checkpoint: 'mock_app_insights_cloud_role',
+        status: 'success',
         action: {
           type: 'put_on_the_waiting_list',
           message: 'The customer has been put on the waiting list',

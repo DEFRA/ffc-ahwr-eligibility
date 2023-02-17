@@ -12,6 +12,7 @@ module.exports = (customer) => {
         sbi: `${customer.sbi}`,
         cph: 'n/a',
         checkpoint: appInsightsConfig.appInsightsCloudRole,
+        status: 'success',
         action: {
           type,
           message,

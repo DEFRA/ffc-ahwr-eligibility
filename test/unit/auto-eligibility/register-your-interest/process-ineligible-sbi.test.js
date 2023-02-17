@@ -138,6 +138,7 @@ describe('Process ineligible SBI', () => {
         sbi: testCase.given.customer.sbi,
         cph: 'n/a',
         checkpoint: 'mock_app_insights_cloud_role',
+        status: 'success',
         action: {
           type: 'recognised_as_ineligible',
           message: 'The customer has been recognised as ineligible',

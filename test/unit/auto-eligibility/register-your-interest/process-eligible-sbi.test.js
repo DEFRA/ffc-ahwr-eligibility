@@ -64,7 +64,7 @@ describe('Process eligible SBI', () => {
       toString: () => 'given a customer ready to be moved to the waiting list',
       given: {
         customer: {
-          sbi: 123456789,
+          sbi: '123456789',
           crn: '1234567890',
           businessEmail: 'business@email.com',
           businessEmailHasMultipleDistinctSbi: false
@@ -77,7 +77,7 @@ describe('Process eligible SBI', () => {
         consoleLogs: [
           `${MOCK_NOW.toISOString()} Processing eligible SBI: ${JSON.stringify({
             customer: {
-              sbi: 123456789,
+              sbi: '123456789',
               crn: '1234567890',
               businessEmail: 'business@email.com',
               businessEmailHasMultipleDistinctSbi: false
@@ -85,7 +85,7 @@ describe('Process eligible SBI', () => {
             selectYourBusinessEnabled: false
           })}`,
           `${MOCK_NOW.toISOString()} Updating waiting updated at: ${JSON.stringify({
-            sbi: 123456789,
+            sbi: '123456789',
             crn: '1234567890'
           })}`,
           `${MOCK_NOW.toISOString()} Attempting to send email with template ID ${MOCK_WAITING_LIST_EMAIL_TEMPLATE_ID} to email business@email.com`,

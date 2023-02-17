@@ -55,7 +55,7 @@ describe('Process ineligible SBI', () => {
       toString: () => 'an ineligible customer - no match against data warehouse',
       given: {
         customer: {
-          sbi: 123456789,
+          sbi: '123456789',
           crn: '1234567890',
           businessEmail: 'business@email.com',
           sbiAlreadyRegistered: false
@@ -69,7 +69,7 @@ describe('Process ineligible SBI', () => {
         reasonForIneligible: 'No match against data warehouse',
         consoleLogs: [
           `${MOCK_NOW.toISOString()} Processing ineligible SBI: ${JSON.stringify({
-            sbi: 123456789,
+            sbi: '123456789',
             crn: '1234567890',
             businessEmail: 'business@email.com',
             sbiAlreadyRegistered: false
@@ -83,7 +83,7 @@ describe('Process ineligible SBI', () => {
       toString: () => 'an ineligible customer - duplicate submission',
       given: {
         customer: {
-          sbi: 123456789,
+          sbi: '123456789',
           crn: '1234567890',
           businessEmail: 'business@email.com',
           sbiAlreadyRegistered: true
@@ -97,7 +97,7 @@ describe('Process ineligible SBI', () => {
         reasonForIneligible: 'Duplicate submission',
         consoleLogs: [
           `${MOCK_NOW.toISOString()} Processing ineligible SBI: ${JSON.stringify({
-            sbi: 123456789,
+            sbi: '123456789',
             crn: '1234567890',
             businessEmail: 'business@email.com',
             sbiAlreadyRegistered: true

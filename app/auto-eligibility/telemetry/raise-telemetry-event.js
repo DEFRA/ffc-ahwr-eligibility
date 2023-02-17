@@ -7,7 +7,7 @@ module.exports = (customer) => {
       name: 'send-session-event',
       properties: {
         id: `${customer.sbi}_${customer.crn}`,
-        sbi: customer.sbi,
+        sbi: `${customer.sbi}`,
         cph: 'n/a',
         checkpoint: appInsightsConfig.appInsightsCloudRole,
         action: {

@@ -42,7 +42,7 @@ describe('Process waiting list function test.', () => {
     when(db.sequelize.query)
       .calledWith(expect.anything(), expect.anything())
       .mockResolvedValue([
-        [{ sbi: 'mock_sbi', crn: 'mock_crn', business_email: 'test@email.com' }, { business_email: 'test2@email.com' }, { business_email: 'test3@email.com' }], '3'
+        [{ sbi: 'mock_sbi', crn: 'mock_crn', businessEmail: 'test@email.com' }, { businessEmail: 'test2@email.com' }, { businessEmail: 'test3@email.com' }], '3'
       ])
     const processWaitingList = require('../../../../app/auto-eligibility/waiting-list/process-waiting-list')
     await processWaitingList(50)

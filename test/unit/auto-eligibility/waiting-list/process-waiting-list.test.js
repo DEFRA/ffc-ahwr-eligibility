@@ -49,7 +49,16 @@ describe('Process waiting list function test.', () => {
     when(db.sequelize.query)
       .calledWith(expect.anything(), expect.anything())
       .mockResolvedValue([
-        [{ sbi: 'mock_sbi', crn: 'mock_crn', businessEmail: 'test@email.com' }, { businessEmail: 'test2@email.com' }, { businessEmail: 'test3@email.com' }], '3'
+        [
+          {
+            sbi: 'mock_sbi',
+            crn: 'mock_crn',
+            businessEmail: 'test@email.com',
+            waitingUpdatedAt: MOCK_NOW,
+            accessGranted: true,
+            lastUpdatedAt: MOCK_NOW
+          },
+          { businessEmail: 'test2@email.com' }, { businessEmail: 'test3@email.com' }], '3'
       ])
     const processWaitingList = require('../../../../app/auto-eligibility/waiting-list/process-waiting-list')
     await processWaitingList(50)
@@ -67,12 +76,18 @@ describe('Process waiting list function test.', () => {
         checkpoint: 'mock_app_insights_cloud_role',
         status: 'success',
         action: {
-          type: 'eligible_to_apply_for_a_review',
-          message: 'The customer is now eligible to apply for a review',
+          type: 'has_access_to_the_apply_journey',
+          message: 'The user has access to the apply journey',
           data: {
-            sbi: 'mock_sbi',
             crn: 'mock_crn',
-            businessEmail: 'test@email.com'
+            sbi: 'mock_sbi',
+            businessEmail: 'test@email.com',
+            waitingUpdatedAt: MOCK_NOW,
+            onWaitingList: false,
+            eligible: true,
+            ineligibleReason: 'n/a',
+            accessGranted: true,
+            accessGrantedAt: MOCK_NOW
           },
           raisedOn: MOCK_NOW,
           raisedBy: 'test@email.com'

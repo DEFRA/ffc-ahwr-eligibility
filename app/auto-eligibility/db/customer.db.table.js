@@ -1,5 +1,6 @@
 const { Op, fn, col, where, QueryTypes } = require('sequelize')
 const db = require('../../data')
+
 const findByBusinessEmail = async (businessEmail) => {
   console.log(`${new Date().toISOString()} Finding by business_email: ${JSON.stringify({ businessEmail })}`)
   return await db.customer.findOne({
@@ -20,6 +21,7 @@ const findByBusinessEmail = async (businessEmail) => {
     }
   })
 }
+
 const findAllBySbiOrBusinessEmail = async (sbi, businessEmail) => {
   console.log(`${new Date().toISOString()} Finding all by sbi or business_email: ${JSON.stringify({ sbi, businessEmail })}`)
   const result = await db.customer.findAll({
@@ -44,6 +46,7 @@ const findAllBySbiOrBusinessEmail = async (sbi, businessEmail) => {
   console.log(`${new Date().toISOString()} Found customers: ${JSON.stringify(result)}`)
   return result
 }
+
 const findAllByBusinessEmailAndAccessGranted = async (businessEmail, accessGranted) => {
   console.log(`${new Date().toISOString()} Finding all by business_email and access_granted: ${JSON.stringify({ businessEmail, accessGranted })}`)
   return await db.customer.findAll({
@@ -66,6 +69,7 @@ const findAllByBusinessEmailAndAccessGranted = async (businessEmail, accessGrant
     }
   })
 }
+
 const updateWaitingUpdatedAt = async (sbi, crn) => {
   console.log(`${new Date().toISOString()} Updating waiting updated at: ${JSON.stringify({ sbi, crn })}`)
   const now = new Date()
@@ -88,12 +92,12 @@ const updateWaitingUpdatedAt = async (sbi, crn) => {
     }
   })
 }
+
 const updateAccessGranted = async (upperLimit) => {
   console.log(`${new Date().toISOString()} Updating access granted: ${JSON.stringify({ upperLimit })}`)
   if (typeof upperLimit === 'undefined') {
     throw new Error(`Invalid argument: ${JSON.stringify(upperLimit)}`)
   }
-
   return await db.sequelize.query(`
     UPDATE customer 
     SET access_granted = true, last_updated_at = now()
@@ -107,13 +111,19 @@ const updateAccessGranted = async (upperLimit) => {
     WHERE customer.sbi = c.sbi 
       AND customer.crn = c.crn 
       AND customer.business_email = c.business_email
-    RETURNING customer.sbi, customer.crn, customer.business_email as businessEmail`,
+    RETURNING
+      customer.sbi,
+      customer.crn,
+      customer.business_email as businessEmail
+      customer.waiting_updated_at as waitingUpdatedAt
+      customer.access_granted as accessGranted
+      customer.last_updated_at as lastUpdatedAt`,
   {
     replacements: { limit: upperLimit },
     type: QueryTypes.UPDATE
-  }
-  )
+  })
 }
+
 module.exports = {
   findByBusinessEmail,
   findAllBySbiOrBusinessEmail,

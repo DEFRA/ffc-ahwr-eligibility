@@ -11,10 +11,18 @@ const processWaitingList = async (upperLimit) => {
   for (const customer of customers) {
     await sendApplyGuidanceEmail(customer.businessEmail)
     await raiseTelemetryEvent(customer)(
-      telemetryEvent.ELIGIBLE_TO_APPLY_FOR_A_REVIEW,
-      'The customer is now eligible to apply for a review',
+      telemetryEvent.HAS_ACCESS_TO_THE_APPLY_JOURNEY,
+      'The user has access to the apply journey',
       {
-        ...customer
+        crn: customer.crn,
+        sbi: customer.sbi,
+        businessEmail: customer.businessEmail,
+        waitingUpdatedAt: customer.waitingUpdatedAt,
+        onWaitingList: false,
+        eligible: true,
+        ineligibleReason: 'n/a',
+        accessGranted: customer.accessGranted,
+        accessGrantedAt: customer.lastUpdatedAt
       }
     )
   }

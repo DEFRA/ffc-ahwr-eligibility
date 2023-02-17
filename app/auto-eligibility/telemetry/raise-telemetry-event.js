@@ -1,9 +1,11 @@
-const raiseEvent = require('../../event/raise-event')
+const { PublishEvent } = require('ffc-ahwr-event-publisher')
+const config = require('../../config')
 const appInsightsConfig = require('../../app-insights/app-insights.config')
 
 module.exports = (customer) => {
-  return async (type, message, data = customer) => {
-    await raiseEvent({
+  const eventPublisher = new PublishEvent(config.mqConfig.eventQueue)
+  return async (type, message, data) => {
+    await eventPublisher.sendEvent({
       name: 'send-session-event',
       properties: {
         id: `${customer.sbi}_${customer.crn}`,
@@ -11,7 +13,7 @@ module.exports = (customer) => {
         cph: 'n/a',
         checkpoint: appInsightsConfig.appInsightsCloudRole,
         action: {
-          type: type,
+          type,
           message,
           data,
           raisedOn: new Date(),

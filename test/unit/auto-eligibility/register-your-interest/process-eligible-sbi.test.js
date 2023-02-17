@@ -10,7 +10,7 @@ describe('Process eligible SBI', () => {
   let logSpy
   let db
   let processEligibleCustomer
-  let raiseEvent
+  const MOCK_SEND_EVENT = jest.fn()
 
   beforeAll(() => {
     jest.useFakeTimers('modern')
@@ -40,8 +40,15 @@ describe('Process eligible SBI', () => {
 
     logSpy = jest.spyOn(console, 'log')
 
-    jest.mock('../../../../app/event/raise-event')
-    raiseEvent = require('../../../../app/event/raise-event')
+    jest.mock('ffc-ahwr-event-publisher', () => {
+      return {
+        PublishEvent: jest.fn().mockImplementation(() => {
+          return {
+            sendEvent: MOCK_SEND_EVENT
+          }
+        })
+      }
+    })
 
     jest.mock('../../../../app/data')
     db = require('../../../../app/data')
@@ -120,8 +127,8 @@ describe('Process eligible SBI', () => {
         crn: testCase.given.customer.crn
       }
     })
-    expect(raiseEvent).toHaveBeenCalledTimes(1)
-    expect(raiseEvent).toHaveBeenCalledWith({
+    expect(MOCK_SEND_EVENT).toHaveBeenCalledTimes(1)
+    expect(MOCK_SEND_EVENT).toHaveBeenCalledWith({
       name: 'send-session-event',
       properties: {
         id: `${testCase.given.customer.sbi}_${testCase.given.customer.crn}`,

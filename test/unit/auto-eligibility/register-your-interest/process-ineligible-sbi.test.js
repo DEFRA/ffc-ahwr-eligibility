@@ -7,7 +7,7 @@ describe('Process ineligible SBI', () => {
   let logSpy
   let notifyClient
   let processIneligibleCustomer
-  let raiseEvent
+  const MOCK_SEND_EVENT = jest.fn()
 
   beforeAll(() => {
     jest.useFakeTimers('modern')
@@ -31,23 +31,29 @@ describe('Process ineligible SBI', () => {
         }
       }
     }))
+    jest.mock('ffc-ahwr-event-publisher', () => {
+      return {
+        PublishEvent: jest.fn().mockImplementation(() => {
+          return {
+            sendEvent: MOCK_SEND_EVENT
+          }
+        })
+      }
+    })
 
     processIneligibleCustomer = require('../../../../app/auto-eligibility/register-your-interest/process-ineligible-sbi')
 
     logSpy = jest.spyOn(console, 'log')
-
-    jest.mock('../../../../app/event/raise-event')
-    raiseEvent = require('../../../../app/event/raise-event')
   })
 
   afterEach(() => {
     jest.clearAllMocks()
-    jest.resetAllMocks()
   })
 
   afterAll(() => {
     jest.resetModules()
     jest.useRealTimers()
+    jest.resetAllMocks()
   })
 
   test.each([
@@ -124,8 +130,8 @@ describe('Process ineligible SBI', () => {
         }
       }
     )
-    expect(raiseEvent).toHaveBeenCalledTimes(1)
-    expect(raiseEvent).toHaveBeenCalledWith({
+    expect(MOCK_SEND_EVENT).toHaveBeenCalledTimes(1)
+    expect(MOCK_SEND_EVENT).toHaveBeenCalledWith({
       name: 'send-session-event',
       properties: {
         id: `${testCase.given.customer.sbi}_${testCase.given.customer.crn}`,

@@ -4,7 +4,7 @@ const MOCK_NOW = new Date()
 
 describe('Process waiting list function test.', () => {
   let db
-  let raiseEvent
+  const MOCK_SEND_EVENT = jest.fn()
 
   beforeAll(() => {
     jest.useFakeTimers('modern')
@@ -17,8 +17,15 @@ describe('Process waiting list function test.', () => {
     jest.mock('../../../../app/data')
     db = require('../../../../app/data')
 
-    jest.mock('../../../../app/event/raise-event')
-    raiseEvent = require('../../../../app/event/raise-event')
+    jest.mock('ffc-ahwr-event-publisher', () => {
+      return {
+        PublishEvent: jest.fn().mockImplementation(() => {
+          return {
+            sendEvent: MOCK_SEND_EVENT
+          }
+        })
+      }
+    })
   })
 
   afterAll(() => {
@@ -50,8 +57,8 @@ describe('Process waiting list function test.', () => {
     expect(spyConsole).toHaveBeenCalledWith(`${MOCK_NOW.toISOString()} auto-eligibility:waiting-list [3] new customers are now eligible to apply for a review`)
     expect(db.sequelize.query).toHaveBeenCalledTimes(1)
     expect(mockEmailNotifier.sendApplyGuidanceEmail).toHaveBeenCalledTimes(3)
-    expect(raiseEvent).toHaveBeenCalledTimes(3)
-    expect(raiseEvent).toHaveBeenNthCalledWith(1, {
+    expect(MOCK_SEND_EVENT).toHaveBeenCalledTimes(3)
+    expect(MOCK_SEND_EVENT).toHaveBeenNthCalledWith(1, {
       name: 'send-session-event',
       properties: {
         id: 'mock_sbi_mock_crn',
@@ -92,7 +99,7 @@ describe('Process waiting list function test.', () => {
     expect(spyConsole).toHaveBeenCalledWith(`${MOCK_NOW.toISOString()} auto-eligibility:waiting-list [0] new customers are now eligible to apply for a review`)
     expect(db.sequelize.query).toHaveBeenCalledTimes(1)
     expect(mockEmailNotifier.sendApplyGuidanceEmail).not.toHaveBeenCalled()
-    expect(raiseEvent).not.toHaveBeenCalled()
+    expect(MOCK_SEND_EVENT).not.toHaveBeenCalled()
   })
 
   test('test error handled', async () => {
@@ -111,6 +118,6 @@ describe('Process waiting list function test.', () => {
     ).rejects.toThrowError('Some DB error')
     expect(db.sequelize.query).toHaveBeenCalledTimes(1)
     expect(mockEmailNotifier.sendApplyGuidanceEmail).not.toHaveBeenCalled()
-    expect(raiseEvent).not.toHaveBeenCalled()
+    expect(MOCK_SEND_EVENT).not.toHaveBeenCalled()
   })
 })

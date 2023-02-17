@@ -11,7 +11,7 @@ describe('Process eligble sbi feature toggle on', () => {
   let logSpy
   let notifyClient
   let processEligibleCustomer
-  let raiseEvent
+  const MOCK_SEND_EVENT = jest.fn()
 
   beforeAll(() => {
     jest.useFakeTimers('modern')
@@ -29,8 +29,15 @@ describe('Process eligble sbi feature toggle on', () => {
 
     logSpy = jest.spyOn(console, 'log')
 
-    jest.mock('../../../../app/event/raise-event')
-    raiseEvent = require('../../../../app/event/raise-event')
+    jest.mock('ffc-ahwr-event-publisher', () => {
+      return {
+        PublishEvent: jest.fn().mockImplementation(() => {
+          return {
+            sendEvent: MOCK_SEND_EVENT
+          }
+        })
+      }
+    })
   })
 
   afterAll(() => {
@@ -112,8 +119,8 @@ describe('Process eligble sbi feature toggle on', () => {
       testCase.expect.emailNotifier.emailAddressTo,
       undefined
     )
-    expect(raiseEvent).toHaveBeenCalledTimes(1)
-    expect(raiseEvent).toHaveBeenCalledWith({
+    expect(MOCK_SEND_EVENT).toHaveBeenCalledTimes(1)
+    expect(MOCK_SEND_EVENT).toHaveBeenCalledWith({
       name: 'send-session-event',
       properties: {
         id: `${testCase.given.customer.sbi}_${testCase.given.customer.crn}`,

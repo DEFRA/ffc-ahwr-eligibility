@@ -12,7 +12,10 @@ const processWaitingList = async (upperLimit) => {
     await sendApplyGuidanceEmail(customer.businessEmail)
     await raiseTelemetryEvent(customer)(
       telemetryEvent.ELIGIBLE_TO_APPLY_FOR_A_REVIEW,
-      'The customer is now eligible to apply for a review'
+      'The customer is now eligible to apply for a review',
+      {
+        ...customer
+      }
     )
   }
   return customers

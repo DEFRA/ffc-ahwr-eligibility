@@ -1,11 +1,12 @@
 const { PublishEvent } = require('ffc-ahwr-event-publisher')
 const config = require('../../config')
 const appInsightsConfig = require('../../app-insights/app-insights.config')
+const eventSchema = require('../../event/event.schema')
 
 module.exports = (customer) => {
   const eventPublisher = new PublishEvent(config.mqConfig.eventQueue)
   return async (type, message, data) => {
-    await eventPublisher.sendEvent({
+    const event = {
       name: 'send-session-event',
       properties: {
         id: `${customer.sbi}_${customer.crn}`,
@@ -21,6 +22,12 @@ module.exports = (customer) => {
           raisedBy: customer.businessEmail
         }
       }
-    })
+    }
+    const value = eventSchema.validate(event)
+    if (value.error) {
+      console.error(new Error(value.error))
+      return
+    }
+    await eventPublisher.sendEvent(event)
   }
 }

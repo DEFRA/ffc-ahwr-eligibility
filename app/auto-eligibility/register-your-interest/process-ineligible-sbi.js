@@ -12,15 +12,20 @@ const processIneligibleSbi = async (customer) => {
     customer.businessEmail
   )
   await raiseTelemetryEvent(customer)(
-    telemetryEvent.RECOGNISED_AS_INELIGIBLE,
+    telemetryEvent.REGISTERED_THEIR_INTEREST,
     'The customer has been recognised as ineligible',
     {
-      sbi: customer.sbi,
       crn: customer.crn,
+      sbi: customer.sbi,
       businessEmail: customer.businessEmail,
-      reasonForIneligible: customer.sbiAlreadyRegistered
+      onWaitingList: false,
+      waitingUpdatedAt: 'n/a',
+      eligible: false,
+      ineligibleReason: customer.sbiAlreadyRegistered
         ? 'Duplicate submission'
-        : 'No match against data warehouse'
+        : 'No match against data warehouse',
+      accessGranted: false,
+      accessGrantedAt: 'n/a'
     }
   )
 }

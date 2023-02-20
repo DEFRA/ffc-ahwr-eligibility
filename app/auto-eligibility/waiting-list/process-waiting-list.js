@@ -11,7 +11,7 @@ const processWaitingList = async (upperLimit) => {
   for (const customer of customers) {
     await sendApplyGuidanceEmail(customer.businessEmail)
     await raiseTelemetryEvent(customer)(
-      telemetryEvent.HAS_ACCESS_TO_THE_APPLY_JOURNEY,
+      telemetryEvent.GAINED_ACCESS_TO_THE_APPLY_JOURNEY,
       'The user has access to the apply journey',
       {
         crn: customer.crn,

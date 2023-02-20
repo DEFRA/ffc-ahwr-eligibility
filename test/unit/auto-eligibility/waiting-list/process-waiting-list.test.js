@@ -76,7 +76,7 @@ describe('Process waiting list function test.', () => {
         checkpoint: 'mock_app_insights_cloud_role',
         status: 'success',
         action: {
-          type: 'has_access_to_the_apply_journey',
+          type: 'gained_access_to_the_apply_journey',
           message: 'The user has access to the apply journey',
           data: {
             crn: 'mock_crn',

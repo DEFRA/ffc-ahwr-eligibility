@@ -140,13 +140,18 @@ describe('Process ineligible SBI', () => {
         checkpoint: 'mock_app_insights_cloud_role',
         status: 'success',
         action: {
-          type: 'recognised_as_ineligible',
+          type: 'registered_their_interest',
           message: 'The customer has been recognised as ineligible',
           data: {
             sbi: testCase.given.customer.sbi,
             crn: testCase.given.customer.crn,
             businessEmail: testCase.given.customer.businessEmail,
-            reasonForIneligible: testCase.expect.reasonForIneligible
+            onWaitingList: false,
+            waitingUpdatedAt: 'n/a',
+            eligible: false,
+            ineligibleReason: testCase.expect.reasonForIneligible,
+            accessGranted: false,
+            accessGrantedAt: 'n/a'
           },
           raisedOn: MOCK_NOW,
           raisedBy: 'business@email.com'

@@ -98,7 +98,7 @@ const updateAccessGranted = async (upperLimit) => {
   if (typeof upperLimit === 'undefined') {
     throw new Error(`Invalid argument: ${JSON.stringify(upperLimit)}`)
   }
-  return await db.sequelize.query(`
+  const result = await db.sequelize.query(`
     UPDATE customer 
     SET access_granted = true, last_updated_at = now()
     FROM (
@@ -114,14 +114,22 @@ const updateAccessGranted = async (upperLimit) => {
     RETURNING
       customer.sbi,
       customer.crn,
-      customer.business_email as businessEmail,
-      customer.waiting_updated_at as waitingUpdatedAt,
-      customer.access_granted as accessGranted,
-      customer.last_updated_at as lastUpdatedAt`,
+      customer.business_email,
+      customer.waiting_updated_at,
+      customer.access_granted,
+      customer.last_updated_at`,
   {
     replacements: { limit: upperLimit },
     type: QueryTypes.UPDATE
   })
+  return result[0].map(customer => ({
+    sbi: customer.sbi,
+    crn: customer.crn,
+    businessEmail: customer.business_email,
+    waitingUpdatedAt: customer.waiting_updated_at,
+    accessGranted: customer.access_granted,
+    lastUpdatedAt: customer.last_updated_at
+  }))
 }
 
 module.exports = {

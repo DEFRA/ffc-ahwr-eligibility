@@ -114,9 +114,9 @@ const updateAccessGranted = async (upperLimit) => {
     RETURNING
       customer.sbi,
       customer.crn,
-      customer.business_email as businessEmail
-      customer.waiting_updated_at as waitingUpdatedAt
-      customer.access_granted as accessGranted
+      customer.business_email as businessEmail,
+      customer.waiting_updated_at as waitingUpdatedAt,
+      customer.access_granted as accessGranted,
       customer.last_updated_at as lastUpdatedAt`,
   {
     replacements: { limit: upperLimit },

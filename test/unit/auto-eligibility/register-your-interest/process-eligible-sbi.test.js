@@ -1,4 +1,6 @@
+const { when, resetAllWhenMocks } = require('jest-when')
 const { fn, col } = require('sequelize')
+const telemetryEvent = require('../../../../app/auto-eligibility/telemetry/telemetry-event')
 
 const MOCK_NOW = new Date()
 
@@ -59,6 +61,7 @@ describe('Process eligible SBI', () => {
   afterAll(() => {
     jest.useRealTimers()
     jest.resetModules()
+    resetAllWhenMocks()
   })
 
   afterEach(() => {
@@ -101,11 +104,39 @@ describe('Process eligible SBI', () => {
       }
     }
   ])('%s', async (testCase) => {
+    when(db.customer.update).calledWith({
+      last_updated_at: testCase.expect.db.now,
+      waiting_updated_at: testCase.expect.db.now
+    }, {
+      lock: true,
+      attributes: [
+        'sbi',
+        'crn',
+        'customer_name',
+        'business_name',
+        [fn('LOWER', col('business_email')), 'businessEmail'],
+        'business_address',
+        'last_updated_at',
+        ['waiting_updated_at', 'waitingUpdatedAt'],
+        'access_granted'
+      ],
+      where: {
+        sbi: testCase.given.customer.sbi,
+        crn: testCase.given.customer.crn
+      }
+    }).mockResolvedValue({
+      sbi: testCase.given.customer.sbi,
+      crn: testCase.given.customer.crn,
+      businessEmail: testCase.given.customer.businessEmail,
+      waitingUpdatedAt: MOCK_NOW
+    })
+
     await processEligibleCustomer(testCase.given.customer)
 
     testCase.expect.consoleLogs.forEach(
       (consoleLog, idx) => expect(logSpy).toHaveBeenNthCalledWith(idx + 1, consoleLog)
     )
+    expect(db.customer.update).toHaveBeenCalledTimes(1)
     expect(db.customer.update).toHaveBeenCalledWith({
       last_updated_at: testCase.expect.db.now,
       waiting_updated_at: testCase.expect.db.now
@@ -116,10 +147,10 @@ describe('Process eligible SBI', () => {
         'crn',
         'customer_name',
         'business_name',
-        [fn('LOWER', col('business_email')), 'business_email'],
+        [fn('LOWER', col('business_email')), 'businessEmail'],
         'business_address',
         'last_updated_at',
-        'waiting_updated_at',
+        ['waiting_updated_at', 'waitingUpdatedAt'],
         'access_granted'
       ],
       where: {
@@ -137,12 +168,18 @@ describe('Process eligible SBI', () => {
         checkpoint: 'mock_app_insights_cloud_role',
         status: 'success',
         action: {
-          type: 'put_on_the_waiting_list',
+          type: telemetryEvent.PUT_ON_THE_WAITING_LIST,
           message: 'The customer has been put on the waiting list',
           data: {
             sbi: testCase.given.customer.sbi,
             crn: testCase.given.customer.crn,
-            businessEmail: testCase.given.customer.businessEmail
+            businessEmail: testCase.given.customer.businessEmail,
+            eligible: true,
+            ineligibleReason: 'n/a',
+            onWaitingList: true,
+            waitingUpdatedAt: MOCK_NOW,
+            accessGranted: false,
+            accessGrantedAt: 'n/a'
           },
           raisedOn: MOCK_NOW,
           raisedBy: testCase.given.customer.businessEmail

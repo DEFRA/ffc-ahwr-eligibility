@@ -12,13 +12,13 @@ const processWaitingList = async (upperLimit) => {
     await sendApplyGuidanceEmail(customer.businessEmail)
     await raiseTelemetryEvent(customer)(
       telemetryEvent.GAINED_ACCESS_TO_THE_APPLY_JOURNEY,
-      'The user has access to the apply journey',
+      'The user has gained access to the apply journey',
       {
         crn: customer.crn,
         sbi: customer.sbi,
         businessEmail: customer.businessEmail,
-        waitingUpdatedAt: customer.waitingUpdatedAt,
         onWaitingList: false,
+        waitingUpdatedAt: customer.waitingUpdatedAt,
         eligible: true,
         ineligibleReason: 'n/a',
         accessGranted: customer.accessGranted,

@@ -1,4 +1,5 @@
 const { when, resetAllWhenMocks } = require('jest-when')
+const telemetryEvent = require('../../../../app/auto-eligibility/telemetry/telemetry-event')
 
 const MOCK_NOW = new Date()
 
@@ -76,14 +77,14 @@ describe('Process waiting list function test.', () => {
         checkpoint: 'mock_app_insights_cloud_role',
         status: 'success',
         action: {
-          type: 'gained_access_to_the_apply_journey',
-          message: 'The user has access to the apply journey',
+          type: telemetryEvent.GAINED_ACCESS_TO_THE_APPLY_JOURNEY,
+          message: 'The user has gained access to the apply journey',
           data: {
             crn: 'mock_crn',
             sbi: 'mock_sbi',
             businessEmail: 'test@email.com',
-            waitingUpdatedAt: MOCK_NOW,
             onWaitingList: false,
+            waitingUpdatedAt: MOCK_NOW,
             eligible: true,
             ineligibleReason: 'n/a',
             accessGranted: true,

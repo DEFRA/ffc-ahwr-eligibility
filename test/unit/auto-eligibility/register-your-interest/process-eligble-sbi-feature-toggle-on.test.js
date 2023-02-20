@@ -1,3 +1,7 @@
+const { when, resetAllWhenMocks } = require('jest-when')
+const { fn, col } = require('sequelize')
+const telemetryEvent = require('../../../../app/auto-eligibility/telemetry/telemetry-event')
+
 const MOCK_NOW = new Date()
 
 const MOCK_WAITING_LIST_EMAIL_TEMPLATE_ID = '9d9fb4dc-93f8-44b0-be28-a53524535db7'
@@ -8,6 +12,7 @@ const MOCK_CRN = '1234567890'
 const MOCK_BUSINESS_EMAIL = 'business@email.com'
 
 describe('Process eligble sbi feature toggle on', () => {
+  let db
   let logSpy
   let notifyClient
   let processEligibleCustomer
@@ -27,6 +32,9 @@ describe('Process eligble sbi feature toggle on', () => {
     }))
     notifyClient = require('../../../../app/notify/notify-client')
 
+    jest.mock('../../../../app/data')
+    db = require('../../../../app/data')
+
     logSpy = jest.spyOn(console, 'log')
 
     jest.mock('ffc-ahwr-event-publisher', () => {
@@ -43,6 +51,7 @@ describe('Process eligble sbi feature toggle on', () => {
   afterAll(() => {
     jest.useRealTimers()
     jest.resetModules()
+    resetAllWhenMocks()
   })
 
   afterEach(() => {
@@ -68,6 +77,9 @@ describe('Process eligble sbi feature toggle on', () => {
         }
       },
       expect: {
+        db: {
+          now: MOCK_NOW
+        },
         emailNotifier: {
           emailTemplateId: MOCK_WAITING_LIST_EMAIL_TEMPLATE_ID,
           emailAddressTo: MOCK_BUSINESS_EMAIL
@@ -106,6 +118,32 @@ describe('Process eligble sbi feature toggle on', () => {
         }
       }))
     })
+    when(db.customer.update).calledWith({
+      last_updated_at: testCase.expect.db.now,
+      waiting_updated_at: testCase.expect.db.now
+    }, {
+      lock: true,
+      attributes: [
+        'sbi',
+        'crn',
+        'customer_name',
+        'business_name',
+        [fn('LOWER', col('business_email')), 'businessEmail'],
+        'business_address',
+        'last_updated_at',
+        ['waiting_updated_at', 'waitingUpdatedAt'],
+        'access_granted'
+      ],
+      where: {
+        sbi: testCase.given.customer.sbi,
+        crn: testCase.given.customer.crn
+      }
+    }).mockResolvedValue({
+      sbi: testCase.given.customer.sbi,
+      crn: testCase.given.customer.crn,
+      businessEmail: testCase.given.customer.businessEmail,
+      waitingUpdatedAt: MOCK_NOW
+    })
 
     processEligibleCustomer = require('../../../../app/auto-eligibility/register-your-interest/process-eligible-sbi')
     await processEligibleCustomer(testCase.given.customer)
@@ -129,12 +167,18 @@ describe('Process eligble sbi feature toggle on', () => {
         checkpoint: 'mock_app_insights_cloud_role',
         status: 'success',
         action: {
-          type: 'put_on_the_waiting_list',
+          type: telemetryEvent.PUT_ON_THE_WAITING_LIST,
           message: 'The customer has been put on the waiting list',
           data: {
             sbi: testCase.given.customer.sbi,
             crn: testCase.given.customer.crn,
-            businessEmail: testCase.given.customer.businessEmail
+            businessEmail: testCase.given.customer.businessEmail,
+            eligible: true,
+            ineligibleReason: 'n/a',
+            onWaitingList: true,
+            waitingUpdatedAt: MOCK_NOW,
+            accessGranted: false,
+            accessGrantedAt: 'n/a'
           },
           raisedOn: MOCK_NOW,
           raisedBy: testCase.given.customer.businessEmail

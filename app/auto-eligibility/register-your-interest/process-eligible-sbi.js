@@ -10,7 +10,7 @@ const processEligibleSbi = async (customer) => {
      selectYourBusinessEnabled: selectYourBusiness.enabled
   })}`)
   if (selectYourBusiness.enabled) {
-    await customerDbTable.updateWaitingUpdatedAt(customer.sbi, customer.crn)
+    customer = await customerDbTable.updateWaitingUpdatedAt(customer.sbi, customer.crn)
     await emailNotifier.sendWaitingListEmail(customer.businessEmail)
     await raiseTelemetryEvent(customer)(
       telemetryEvent.PUT_ON_THE_WAITING_LIST,
@@ -18,7 +18,13 @@ const processEligibleSbi = async (customer) => {
       {
         sbi: customer.sbi,
         crn: customer.crn,
-        businessEmail: customer.businessEmail
+        businessEmail: customer.businessEmail,
+        eligible: true,
+        ineligibleReason: 'n/a',
+        onWaitingList: true,
+        waitingUpdatedAt: customer.waitingUpdatedAt,
+        accessGranted: false,
+        accessGrantedAt: 'n/a'
       }
     )
   } else {
@@ -30,7 +36,13 @@ const processEligibleSbi = async (customer) => {
         {
           sbi: customer.sbi,
           crn: customer.crn,
-          businessEmail: customer.businessEmail
+          businessEmail: customer.businessEmail,
+          eligible: false,
+          ineligibleReason: 'multiple SBI numbers',
+          onWaitingList: false,
+          waitingUpdatedAt: 'n/a',
+          accessGranted: false,
+          accessGrantedAt: 'n/a'
         }
       )
       return await emailNotifier.sendIneligibleApplicationEmail(
@@ -39,7 +51,7 @@ const processEligibleSbi = async (customer) => {
         customer.businessEmail
       )
     }
-    await customerDbTable.updateWaitingUpdatedAt(customer.sbi, customer.crn)
+    customer = await customerDbTable.updateWaitingUpdatedAt(customer.sbi, customer.crn)
     await emailNotifier.sendWaitingListEmail(customer.businessEmail)
     await raiseTelemetryEvent(customer)(
       telemetryEvent.PUT_ON_THE_WAITING_LIST,
@@ -47,7 +59,13 @@ const processEligibleSbi = async (customer) => {
       {
         sbi: customer.sbi,
         crn: customer.crn,
-        businessEmail: customer.businessEmail
+        businessEmail: customer.businessEmail,
+        eligible: true,
+        ineligibleReason: 'n/a',
+        onWaitingList: true,
+        waitingUpdatedAt: customer.waitingUpdatedAt,
+        accessGranted: false,
+        accessGrantedAt: 'n/a'
       }
     )
   }

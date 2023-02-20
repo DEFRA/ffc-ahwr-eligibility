@@ -73,17 +73,17 @@ const findAllByBusinessEmailAndAccessGranted = async (businessEmail, accessGrant
 const updateWaitingUpdatedAt = async (sbi, crn) => {
   console.log(`${new Date().toISOString()} Updating waiting updated at: ${JSON.stringify({ sbi, crn })}`)
   const now = new Date()
-  await db.customer.update({ waiting_updated_at: now, last_updated_at: now }, {
+  return await db.customer.update({ waiting_updated_at: now, last_updated_at: now }, {
     lock: true,
     attributes: [
       'sbi',
       'crn',
       'customer_name',
       'business_name',
-      [fn('LOWER', col('business_email')), 'business_email'],
+      [fn('LOWER', col('business_email')), 'businessEmail'],
       'business_address',
       'last_updated_at',
-      'waiting_updated_at',
+      ['waiting_updated_at', 'waitingUpdatedAt'],
       'access_granted'
     ],
     where: {

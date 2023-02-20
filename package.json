@@ -34,12 +34,6 @@
     "sequelize": "^6.28.0"
   },
   "overrides": {
-    "notifications-node-client": {
-      "jsonwebtoken": "9.0.0"
-    },
-    "@azure/identity": {
-      "jsonwebtoken": "9.0.0"
-    },
     "fast-xml-parser": "4.1.2"
   },
   "devDependencies": {

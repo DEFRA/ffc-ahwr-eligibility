@@ -179,6 +179,7 @@ describe('Process eligble sbi feature toggle off', () => {
             sbi: testCase.given.customer.sbi,
             crn: testCase.given.customer.crn,
             businessEmail: testCase.given.customer.businessEmail,
+            interestRegisteredAt: MOCK_NOW,
             eligible: false,
             ineligibleReason: 'multiple SBI numbers',
             onWaitingList: false,

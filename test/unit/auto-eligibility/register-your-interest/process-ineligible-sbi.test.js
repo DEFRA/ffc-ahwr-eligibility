@@ -146,6 +146,7 @@ describe('Process ineligible SBI', () => {
             sbi: testCase.given.customer.sbi,
             crn: testCase.given.customer.crn,
             businessEmail: testCase.given.customer.businessEmail,
+            interestRegisteredAt: MOCK_NOW,
             onWaitingList: false,
             waitingUpdatedAt: 'n/a',
             eligible: false,

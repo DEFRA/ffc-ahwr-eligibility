@@ -18,6 +18,7 @@ const processIneligibleSbi = async (customer) => {
       crn: customer.crn,
       sbi: customer.sbi,
       businessEmail: customer.businessEmail,
+      interestRegisteredAt: new Date(),
       onWaitingList: false,
       waitingUpdatedAt: 'n/a',
       eligible: false,

@@ -10,7 +10,7 @@ const processEligibleSbi = async (customer) => {
      selectYourBusinessEnabled: selectYourBusiness.enabled
   })}`)
   if (selectYourBusiness.enabled) {
-    customer = await customerDbTable.updateWaitingUpdatedAt(customer.sbi, customer.crn)
+    await customerDbTable.updateWaitingUpdatedAt(customer.sbi, customer.crn)
     await emailNotifier.sendWaitingListEmail(customer.businessEmail)
     await raiseTelemetryEvent(customer)(
       telemetryEvent.REGISTERED_THEIR_INTEREST,
@@ -23,7 +23,7 @@ const processEligibleSbi = async (customer) => {
         eligible: true,
         ineligibleReason: 'n/a',
         onWaitingList: true,
-        waitingUpdatedAt: customer.waitingUpdatedAt,
+        waitingUpdatedAt: new Date(),
         accessGranted: false,
         accessGrantedAt: 'n/a'
       }
@@ -53,7 +53,7 @@ const processEligibleSbi = async (customer) => {
         customer.businessEmail
       )
     }
-    customer = await customerDbTable.updateWaitingUpdatedAt(customer.sbi, customer.crn)
+    await customerDbTable.updateWaitingUpdatedAt(customer.sbi, customer.crn)
     await emailNotifier.sendWaitingListEmail(customer.businessEmail)
     await raiseTelemetryEvent(customer)(
       telemetryEvent.REGISTERED_THEIR_INTEREST,
@@ -66,7 +66,7 @@ const processEligibleSbi = async (customer) => {
         eligible: true,
         ineligibleReason: 'n/a',
         onWaitingList: true,
-        waitingUpdatedAt: customer.waitingUpdatedAt,
+        waitingUpdatedAt: new Date(),
         accessGranted: false,
         accessGrantedAt: 'n/a'
       }

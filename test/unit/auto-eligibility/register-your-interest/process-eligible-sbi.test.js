@@ -1,4 +1,3 @@
-const { when, resetAllWhenMocks } = require('jest-when')
 const { fn, col } = require('sequelize')
 const telemetryEvent = require('../../../../app/auto-eligibility/telemetry/telemetry-event')
 
@@ -61,7 +60,6 @@ describe('Process eligible SBI', () => {
   afterAll(() => {
     jest.useRealTimers()
     jest.resetModules()
-    resetAllWhenMocks()
   })
 
   afterEach(() => {
@@ -104,33 +102,6 @@ describe('Process eligible SBI', () => {
       }
     }
   ])('%s', async (testCase) => {
-    when(db.customer.update).calledWith({
-      last_updated_at: testCase.expect.db.now,
-      waiting_updated_at: testCase.expect.db.now
-    }, {
-      lock: true,
-      attributes: [
-        'sbi',
-        'crn',
-        'customer_name',
-        'business_name',
-        [fn('LOWER', col('business_email')), 'businessEmail'],
-        'business_address',
-        'last_updated_at',
-        ['waiting_updated_at', 'waitingUpdatedAt'],
-        'access_granted'
-      ],
-      where: {
-        sbi: testCase.given.customer.sbi,
-        crn: testCase.given.customer.crn
-      }
-    }).mockResolvedValue({
-      sbi: testCase.given.customer.sbi,
-      crn: testCase.given.customer.crn,
-      businessEmail: testCase.given.customer.businessEmail,
-      waitingUpdatedAt: MOCK_NOW
-    })
-
     await processEligibleCustomer(testCase.given.customer)
 
     testCase.expect.consoleLogs.forEach(
@@ -150,7 +121,7 @@ describe('Process eligible SBI', () => {
         [fn('LOWER', col('business_email')), 'businessEmail'],
         'business_address',
         'last_updated_at',
-        ['waiting_updated_at', 'waitingUpdatedAt'],
+        'waiting_updated_at',
         'access_granted'
       ],
       where: {

@@ -1,5 +1,3 @@
-const { when, resetAllWhenMocks } = require('jest-when')
-const { fn, col } = require('sequelize')
 const telemetryEvent = require('../../../../app/auto-eligibility/telemetry/telemetry-event')
 
 const MOCK_NOW = new Date()
@@ -12,7 +10,6 @@ const MOCK_CRN = '1234567890'
 const MOCK_BUSINESS_EMAIL = 'business@email.com'
 
 describe('Process eligble sbi feature toggle off', () => {
-  let db
   let logSpy
   let notifyClient
   let processEligibleCustomer
@@ -34,9 +31,6 @@ describe('Process eligble sbi feature toggle off', () => {
 
     logSpy = jest.spyOn(console, 'log')
 
-    jest.mock('../../../../app/data')
-    db = require('../../../../app/data')
-
     jest.mock('ffc-ahwr-event-publisher', () => {
       return {
         PublishEvent: jest.fn().mockImplementation(() => {
@@ -51,7 +45,6 @@ describe('Process eligble sbi feature toggle off', () => {
   afterAll(() => {
     jest.useRealTimers()
     jest.resetModules()
-    resetAllWhenMocks()
   })
 
   afterEach(() => {
@@ -117,32 +110,6 @@ describe('Process eligble sbi feature toggle off', () => {
           enabled: mockEnabled
         }
       }))
-    })
-    when(db.customer.update).calledWith({
-      last_updated_at: testCase.expect.db.now,
-      waiting_updated_at: testCase.expect.db.now
-    }, {
-      lock: true,
-      attributes: [
-        'sbi',
-        'crn',
-        'customer_name',
-        'business_name',
-        [fn('LOWER', col('business_email')), 'businessEmail'],
-        'business_address',
-        'last_updated_at',
-        ['waiting_updated_at', 'waitingUpdatedAt'],
-        'access_granted'
-      ],
-      where: {
-        sbi: testCase.given.customer.sbi,
-        crn: testCase.given.customer.crn
-      }
-    }).mockResolvedValue({
-      sbi: testCase.given.customer.sbi,
-      crn: testCase.given.customer.crn,
-      businessEmail: testCase.given.customer.businessEmail,
-      waitingUpdatedAt: MOCK_NOW
     })
 
     processEligibleCustomer = require('../../../../app/auto-eligibility/register-your-interest/process-eligible-sbi')

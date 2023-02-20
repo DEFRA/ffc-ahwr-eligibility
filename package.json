@@ -20,7 +20,7 @@
   ],
   "license": "OGL-UK-3.0",
   "dependencies": {
-    "@azure/identity": "^1.1.0",
+    "@azure/identity": "^1.5.2",
     "@hapi/boom": "^10.0.0",
     "@hapi/hapi": "^20.1.5",
     "applicationinsights": "^2.1.6",

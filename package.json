@@ -1,6 +1,6 @@
 {
   "name": "ffc-ahwr-eligibility",
-  "version": "0.18.11",
+  "version": "0.18.13",
   "description": "Eligibility microservice for AHWR",
   "homepage": "https://github.com/DEFRA/ffc-ahwr-eligibility",
   "main": "app/index.js",
@@ -20,26 +20,22 @@
   ],
   "license": "OGL-UK-3.0",
   "dependencies": {
-    "@azure/identity": "^1.1.0",
+    "@azure/identity": "^1.5.2",
     "@hapi/boom": "^10.0.0",
     "@hapi/hapi": "^20.1.5",
     "applicationinsights": "^2.1.6",
     "ffc-ahwr-event-publisher": "^1.0.0",
     "ffc-messaging": "^2.6.2",
-    "joi": "^17.7.0",
+    "joi": "17.6.4",
     "node-cron": "^3.0.2",
-    "notifications-node-client": "^5.1.1",
+    "notifications-node-client": "^7.0.0",
     "pg": "^8.7.3",
     "pg-hstore": "^2.3.4",
-    "sequelize": "^6.16.2"
+    "sequelize": "^6.28.0"
   },
   "overrides": {
-    "notifications-node-client": {
-      "jsonwebtoken": "9.0.0"
-    },
-    "@azure/identity": {
-      "jsonwebtoken": "9.0.0"
-    }
+    "jsonwebtoken": "9.0.0",
+    "fast-xml-parser": "4.1.2"
   },
   "devDependencies": {
     "dotenv": "^16.0.3",

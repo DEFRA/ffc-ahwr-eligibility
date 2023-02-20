@@ -1,4 +1,5 @@
 const { fn, col } = require('sequelize')
+const telemetryEvent = require('../../../../app/auto-eligibility/telemetry/telemetry-event')
 
 const MOCK_NOW = new Date()
 
@@ -10,14 +11,18 @@ describe('Process eligible SBI', () => {
   let logSpy
   let db
   let processEligibleCustomer
+  const MOCK_SEND_EVENT = jest.fn()
 
   beforeAll(() => {
     jest.useFakeTimers('modern')
     jest.setSystemTime(MOCK_NOW)
 
-    jest.mock('../../../../app/data')
-    db = require('../../../../app/data')
-    jest.mock('../../../../app/notify/notify-client')
+    jest.mock('../../../../app/config/notify', () => ({
+      apiKey: 'mockApiKey'
+    }))
+    jest.mock('../../../../app/app-insights/app-insights.config', () => ({
+      appInsightsCloudRole: 'mock_app_insights_cloud_role'
+    }))
     jest.mock('../../../../app/auto-eligibility/config', () => ({
       emailNotifier: {
         emailTemplateIds: {
@@ -32,9 +37,24 @@ describe('Process eligible SBI', () => {
         enabled: false
       }
     }))
-    processEligibleCustomer = require('../../../../app/auto-eligibility/register-your-interest/process-eligible-sbi')
+    jest.mock('../../../../app/notify/notify-client')
 
     logSpy = jest.spyOn(console, 'log')
+
+    jest.mock('ffc-ahwr-event-publisher', () => {
+      return {
+        PublishEvent: jest.fn().mockImplementation(() => {
+          return {
+            sendEvent: MOCK_SEND_EVENT
+          }
+        })
+      }
+    })
+
+    jest.mock('../../../../app/data')
+    db = require('../../../../app/data')
+
+    processEligibleCustomer = require('../../../../app/auto-eligibility/register-your-interest/process-eligible-sbi')
   })
 
   afterAll(() => {
@@ -52,7 +72,7 @@ describe('Process eligible SBI', () => {
       toString: () => 'given a customer ready to be moved to the waiting list',
       given: {
         customer: {
-          sbi: 123456789,
+          sbi: '123456789',
           crn: '1234567890',
           businessEmail: 'business@email.com',
           businessEmailHasMultipleDistinctSbi: false
@@ -65,7 +85,7 @@ describe('Process eligible SBI', () => {
         consoleLogs: [
           `${MOCK_NOW.toISOString()} Processing eligible SBI: ${JSON.stringify({
             customer: {
-              sbi: 123456789,
+              sbi: '123456789',
               crn: '1234567890',
               businessEmail: 'business@email.com',
               businessEmailHasMultipleDistinctSbi: false
@@ -73,7 +93,7 @@ describe('Process eligible SBI', () => {
             selectYourBusinessEnabled: false
           })}`,
           `${MOCK_NOW.toISOString()} Updating waiting updated at: ${JSON.stringify({
-            sbi: 123456789,
+            sbi: '123456789',
             crn: '1234567890'
           })}`,
           `${MOCK_NOW.toISOString()} Attempting to send email with template ID ${MOCK_WAITING_LIST_EMAIL_TEMPLATE_ID} to email business@email.com`,
@@ -87,6 +107,7 @@ describe('Process eligible SBI', () => {
     testCase.expect.consoleLogs.forEach(
       (consoleLog, idx) => expect(logSpy).toHaveBeenNthCalledWith(idx + 1, consoleLog)
     )
+    expect(db.customer.update).toHaveBeenCalledTimes(1)
     expect(db.customer.update).toHaveBeenCalledWith({
       last_updated_at: testCase.expect.db.now,
       waiting_updated_at: testCase.expect.db.now
@@ -97,7 +118,7 @@ describe('Process eligible SBI', () => {
         'crn',
         'customer_name',
         'business_name',
-        [fn('LOWER', col('business_email')), 'business_email'],
+        [fn('LOWER', col('business_email')), 'businessEmail'],
         'business_address',
         'last_updated_at',
         'waiting_updated_at',
@@ -106,6 +127,34 @@ describe('Process eligible SBI', () => {
       where: {
         sbi: testCase.given.customer.sbi,
         crn: testCase.given.customer.crn
+      }
+    })
+    expect(MOCK_SEND_EVENT).toHaveBeenCalledTimes(1)
+    expect(MOCK_SEND_EVENT).toHaveBeenCalledWith({
+      name: 'send-session-event',
+      properties: {
+        id: `${testCase.given.customer.sbi}_${testCase.given.customer.crn}`,
+        sbi: testCase.given.customer.sbi,
+        cph: 'n/a',
+        checkpoint: 'mock_app_insights_cloud_role',
+        status: 'success',
+        action: {
+          type: telemetryEvent.REGISTRATION_OF_INTEREST,
+          message: 'The customer has been put on the waiting list',
+          data: {
+            sbi: testCase.given.customer.sbi,
+            crn: testCase.given.customer.crn,
+            businessEmail: testCase.given.customer.businessEmail,
+            interestRegisteredAt: MOCK_NOW,
+            eligible: true,
+            ineligibleReason: 'n/a',
+            onWaitingList: true,
+            waitingUpdatedAt: MOCK_NOW,
+            accessGranted: false,
+            accessGrantedAt: 'n/a'
+          },
+          raisedBy: testCase.given.customer.businessEmail
+        }
       }
     })
   })

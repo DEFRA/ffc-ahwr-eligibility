@@ -1,9 +1,11 @@
+const telemetryEvent = require('../../../../app/auto-eligibility/telemetry/telemetry-event')
+
 const MOCK_NOW = new Date()
 
 const MOCK_WAITING_LIST_EMAIL_TEMPLATE_ID = '9d9fb4dc-93f8-44b0-be28-a53524535db7'
 const MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION = '7a0ce567-d908-4f35-a858-de9e8f5445ec'
 const MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS = 'eat@email.com'
-const MOCK_SBI = 123456789
+const MOCK_SBI = '123456789'
 const MOCK_CRN = '1234567890'
 const MOCK_BUSINESS_EMAIL = 'business@email.com'
 
@@ -11,11 +13,15 @@ describe('Process eligble sbi feature toggle on', () => {
   let logSpy
   let notifyClient
   let processEligibleCustomer
+  const MOCK_SEND_EVENT = jest.fn()
 
   beforeAll(() => {
     jest.useFakeTimers('modern')
     jest.setSystemTime(MOCK_NOW)
 
+    jest.mock('../../../../app/app-insights/app-insights.config', () => ({
+      appInsightsCloudRole: 'mock_app_insights_cloud_role'
+    }))
     jest.mock('../../../../app/data')
     jest.mock('../../../../app/notify/notify-client')
     jest.mock('../../../../app/config/notify', () => ({
@@ -24,6 +30,16 @@ describe('Process eligble sbi feature toggle on', () => {
     notifyClient = require('../../../../app/notify/notify-client')
 
     logSpy = jest.spyOn(console, 'log')
+
+    jest.mock('ffc-ahwr-event-publisher', () => {
+      return {
+        PublishEvent: jest.fn().mockImplementation(() => {
+          return {
+            sendEvent: MOCK_SEND_EVENT
+          }
+        })
+      }
+    })
   })
 
   afterAll(() => {
@@ -54,6 +70,9 @@ describe('Process eligble sbi feature toggle on', () => {
         }
       },
       expect: {
+        db: {
+          now: MOCK_NOW
+        },
         emailNotifier: {
           emailTemplateId: MOCK_WAITING_LIST_EMAIL_TEMPLATE_ID,
           emailAddressTo: MOCK_BUSINESS_EMAIL
@@ -105,5 +124,33 @@ describe('Process eligble sbi feature toggle on', () => {
       testCase.expect.emailNotifier.emailAddressTo,
       undefined
     )
+    expect(MOCK_SEND_EVENT).toHaveBeenCalledTimes(1)
+    expect(MOCK_SEND_EVENT).toHaveBeenCalledWith({
+      name: 'send-session-event',
+      properties: {
+        id: `${testCase.given.customer.sbi}_${testCase.given.customer.crn}`,
+        sbi: testCase.given.customer.sbi,
+        cph: 'n/a',
+        checkpoint: 'mock_app_insights_cloud_role',
+        status: 'success',
+        action: {
+          type: telemetryEvent.REGISTRATION_OF_INTEREST,
+          message: 'The customer has been put on the waiting list',
+          data: {
+            sbi: testCase.given.customer.sbi,
+            crn: testCase.given.customer.crn,
+            businessEmail: testCase.given.customer.businessEmail,
+            interestRegisteredAt: MOCK_NOW,
+            eligible: true,
+            ineligibleReason: 'n/a',
+            onWaitingList: true,
+            waitingUpdatedAt: MOCK_NOW,
+            accessGranted: false,
+            accessGrantedAt: 'n/a'
+          },
+          raisedBy: testCase.given.customer.businessEmail
+        }
+      }
+    })
   })
 })

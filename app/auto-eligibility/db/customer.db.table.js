@@ -1,5 +1,6 @@
 const { Op, fn, col, where, QueryTypes } = require('sequelize')
 const db = require('../../data')
+
 const findByBusinessEmail = async (businessEmail) => {
   console.log(`${new Date().toISOString()} Finding by business_email: ${JSON.stringify({ businessEmail })}`)
   return await db.customer.findOne({
@@ -20,6 +21,7 @@ const findByBusinessEmail = async (businessEmail) => {
     }
   })
 }
+
 const findAllBySbiOrBusinessEmail = async (sbi, businessEmail) => {
   console.log(`${new Date().toISOString()} Finding all by sbi or business_email: ${JSON.stringify({ sbi, businessEmail })}`)
   const result = await db.customer.findAll({
@@ -44,6 +46,7 @@ const findAllBySbiOrBusinessEmail = async (sbi, businessEmail) => {
   console.log(`${new Date().toISOString()} Found customers: ${JSON.stringify(result)}`)
   return result
 }
+
 const findAllByBusinessEmailAndAccessGranted = async (businessEmail, accessGranted) => {
   console.log(`${new Date().toISOString()} Finding all by business_email and access_granted: ${JSON.stringify({ businessEmail, accessGranted })}`)
   return await db.customer.findAll({
@@ -66,6 +69,7 @@ const findAllByBusinessEmailAndAccessGranted = async (businessEmail, accessGrant
     }
   })
 }
+
 const updateWaitingUpdatedAt = async (sbi, crn) => {
   console.log(`${new Date().toISOString()} Updating waiting updated at: ${JSON.stringify({ sbi, crn })}`)
   const now = new Date()
@@ -76,7 +80,7 @@ const updateWaitingUpdatedAt = async (sbi, crn) => {
       'crn',
       'customer_name',
       'business_name',
-      [fn('LOWER', col('business_email')), 'business_email'],
+      [fn('LOWER', col('business_email')), 'businessEmail'],
       'business_address',
       'last_updated_at',
       'waiting_updated_at',
@@ -88,26 +92,46 @@ const updateWaitingUpdatedAt = async (sbi, crn) => {
     }
   })
 }
+
 const updateAccessGranted = async (upperLimit) => {
   console.log(`${new Date().toISOString()} Updating access granted: ${JSON.stringify({ upperLimit })}`)
   if (typeof upperLimit === 'undefined') {
     throw new Error(`Invalid argument: ${JSON.stringify(upperLimit)}`)
   }
-
-  return await db.sequelize.query(
-    `UPDATE customer 
+  const result = await db.sequelize.query(`
+    UPDATE customer 
     SET access_granted = true, last_updated_at = now()
-    FROM (SELECT sbi, crn, business_email FROM customer WHERE waiting_updated_at IS NOT NULL AND access_granted = false ORDER BY waiting_updated_at ASC LIMIT :limit) c 
+    FROM (
+      SELECT sbi, crn, business_email
+      FROM customer
+      WHERE waiting_updated_at IS NOT NULL
+        AND access_granted = false
+      ORDER BY waiting_updated_at ASC LIMIT :limit
+    ) c 
     WHERE customer.sbi = c.sbi 
-    AND customer.crn = c.crn 
-    AND customer.business_email = c.business_email
-    RETURNING customer.business_email`,
-    {
-      replacements: { limit: upperLimit },
-      type: QueryTypes.UPDATE
-    }
-  )
+      AND customer.crn = c.crn 
+      AND customer.business_email = c.business_email
+    RETURNING
+      customer.sbi,
+      customer.crn,
+      customer.business_email,
+      customer.waiting_updated_at,
+      customer.access_granted,
+      customer.last_updated_at`,
+  {
+    replacements: { limit: upperLimit },
+    type: QueryTypes.UPDATE
+  })
+  return result[0].map(customer => ({
+    sbi: customer.sbi,
+    crn: customer.crn,
+    businessEmail: customer.business_email,
+    waitingUpdatedAt: customer.waiting_updated_at,
+    accessGranted: customer.access_granted,
+    lastUpdatedAt: customer.last_updated_at
+  }))
 }
+
 module.exports = {
   findByBusinessEmail,
   findAllBySbiOrBusinessEmail,

@@ -173,7 +173,7 @@ describe('Process eligble sbi feature toggle off', () => {
         checkpoint: 'mock_app_insights_cloud_role',
         status: 'success',
         action: {
-          type: telemetryEvent.REJECTED_DUE_TO_MULTIPLE_SBI,
+          type: telemetryEvent.REGISTERED_THEIR_INTEREST,
           message: 'Rejected due to multiple SBI numbers',
           data: {
             sbi: testCase.given.customer.sbi,

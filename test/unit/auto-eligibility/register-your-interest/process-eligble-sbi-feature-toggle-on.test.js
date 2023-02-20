@@ -134,7 +134,7 @@ describe('Process eligble sbi feature toggle on', () => {
         checkpoint: 'mock_app_insights_cloud_role',
         status: 'success',
         action: {
-          type: telemetryEvent.REGISTERED_THEIR_INTEREST,
+          type: telemetryEvent.REGISTRATION_OF_INTEREST,
           message: 'The customer has been put on the waiting list',
           data: {
             sbi: testCase.given.customer.sbi,

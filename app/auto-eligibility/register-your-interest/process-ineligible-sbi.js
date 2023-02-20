@@ -12,7 +12,7 @@ const processIneligibleSbi = async (customer) => {
     customer.businessEmail
   )
   await raiseTelemetryEvent(customer)(
-    telemetryEvent.REGISTERED_THEIR_INTEREST,
+    telemetryEvent.REGISTRATION_OF_INTEREST,
     'The customer has been recognised as ineligible',
     {
       crn: customer.crn,

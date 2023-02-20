@@ -1,3 +1,5 @@
+const telemetryEvent = require('../../../../app/auto-eligibility/telemetry/telemetry-event')
+
 const MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION = '7a0ce567-d908-4f35-a858-de9e8f5445ec'
 const MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS = 'eat@email.com'
 
@@ -140,7 +142,7 @@ describe('Process ineligible SBI', () => {
         checkpoint: 'mock_app_insights_cloud_role',
         status: 'success',
         action: {
-          type: 'registered_their_interest',
+          type: telemetryEvent.REGISTRATION_OF_INTEREST,
           message: 'The customer has been recognised as ineligible',
           data: {
             sbi: testCase.given.customer.sbi,

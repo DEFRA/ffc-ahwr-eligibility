@@ -28,18 +28,13 @@
     "ffc-messaging": "^2.6.2",
     "joi": "^17.7.0",
     "node-cron": "^3.0.2",
-    "notifications-node-client": "^5.2.3",
+    "notifications-node-client": "^7.0.0",
     "pg": "^8.7.3",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.28.0"
   },
   "overrides": {
-    "notifications-node-client": {
-      "jsonwebtoken": "9.0.0"
-    },
-    "@azure/identity": {
-      "jsonwebtoken": "9.0.0"
-    },
+    "jsonwebtoken": "9.0.0",
     "fast-xml-parser": "4.1.2"
   },
   "devDependencies": {

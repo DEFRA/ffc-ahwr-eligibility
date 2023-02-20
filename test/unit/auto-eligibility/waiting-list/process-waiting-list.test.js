@@ -54,12 +54,12 @@ describe('Process waiting list function test.', () => {
           {
             sbi: 'mock_sbi',
             crn: 'mock_crn',
-            businessEmail: 'test@email.com',
-            waitingUpdatedAt: MOCK_NOW,
-            accessGranted: true,
-            lastUpdatedAt: MOCK_NOW
+            business_email: 'test@email.com',
+            waiting_updated_at: MOCK_NOW,
+            access_granted: true,
+            last_updated_at: MOCK_NOW
           },
-          { businessEmail: 'test2@email.com' }, { businessEmail: 'test3@email.com' }], '3'
+          { business_email: 'test2@email.com' }, { business_email: 'test3@email.com' }], '3'
       ])
     const processWaitingList = require('../../../../app/auto-eligibility/waiting-list/process-waiting-list')
     await processWaitingList(50)
@@ -90,7 +90,6 @@ describe('Process waiting list function test.', () => {
             accessGranted: true,
             accessGrantedAt: MOCK_NOW
           },
-          raisedOn: MOCK_NOW,
           raisedBy: 'test@email.com'
         }
       }

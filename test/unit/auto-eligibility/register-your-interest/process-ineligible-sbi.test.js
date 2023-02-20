@@ -154,7 +154,6 @@ describe('Process ineligible SBI', () => {
             accessGranted: false,
             accessGrantedAt: 'n/a'
           },
-          raisedOn: MOCK_NOW,
           raisedBy: 'business@email.com'
         }
       }

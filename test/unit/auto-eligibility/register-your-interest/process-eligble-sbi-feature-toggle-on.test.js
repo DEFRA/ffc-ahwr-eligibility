@@ -181,7 +181,6 @@ describe('Process eligble sbi feature toggle on', () => {
             accessGranted: false,
             accessGrantedAt: 'n/a'
           },
-          raisedOn: MOCK_NOW,
           raisedBy: testCase.given.customer.businessEmail
         }
       }

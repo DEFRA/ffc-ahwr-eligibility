@@ -182,7 +182,6 @@ describe('Process eligible SBI', () => {
             accessGranted: false,
             accessGrantedAt: 'n/a'
           },
-          raisedOn: MOCK_NOW,
           raisedBy: testCase.given.customer.businessEmail
         }
       }

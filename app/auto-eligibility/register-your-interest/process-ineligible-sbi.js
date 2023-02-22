@@ -17,8 +17,8 @@ const processIneligibleSbi = async (customer) => {
       : telemetryEvent.NO_MATCH,
     'The customer has been recognised as ineligible',
     {
+      sbi: `${customer.sbi}`,
       crn: customer.crn,
-      sbi: customer.sbi,
       businessEmail: customer.businessEmail,
       interestRegisteredAt: new Date(),
       onWaitingList: false,

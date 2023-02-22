@@ -13,8 +13,8 @@ const processWaitingList = async (upperLimit) => {
       telemetryEvent.GAINED_ACCESS_TO_THE_APPLY_JOURNEY,
       'The user has gained access to the apply journey',
       {
+        sbi: `${customer.sbi}`,
         crn: customer.crn,
-        sbi: customer.sbi,
         businessEmail: customer.businessEmail,
         onWaitingList: false,
         waitingUpdatedAt: customer.waitingUpdatedAt,

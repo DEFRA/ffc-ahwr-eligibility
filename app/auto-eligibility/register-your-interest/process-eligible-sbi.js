@@ -16,7 +16,7 @@ const processEligibleSbi = async (customer) => {
       telemetryEvent.REGISTRATION_OF_INTEREST,
       'The customer has been put on the waiting list',
       {
-        sbi: customer.sbi,
+        sbi: `${customer.sbi}`,
         crn: customer.crn,
         businessEmail: customer.businessEmail,
         interestRegisteredAt: new Date(),
@@ -35,7 +35,7 @@ const processEligibleSbi = async (customer) => {
         telemetryEvent.REGISTRATION_OF_INTEREST,
         'Rejected due to multiple SBI numbers',
         {
-          sbi: customer.sbi,
+          sbi: `${customer.sbi}`,
           crn: customer.crn,
           businessEmail: customer.businessEmail,
           interestRegisteredAt: new Date(),
@@ -59,7 +59,7 @@ const processEligibleSbi = async (customer) => {
       telemetryEvent.REGISTRATION_OF_INTEREST,
       'The customer has been put on the waiting list',
       {
-        sbi: customer.sbi,
+        sbi: `${customer.sbi}`,
         crn: customer.crn,
         businessEmail: customer.businessEmail,
         interestRegisteredAt: new Date(),

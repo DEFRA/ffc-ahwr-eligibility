@@ -53,7 +53,7 @@ describe('Raise Telemetry Event', () => {
       },
       expect: {
         action: {
-          type: telemetryEvent.GAINED_ACCESS_TO_THE_APPLY_JOURNEY,
+          type: `auto-eligibility:${telemetryEvent.GAINED_ACCESS_TO_THE_APPLY_JOURNEY}`,
           message: 'message',
           data: {
             crn: 'mock_crn',

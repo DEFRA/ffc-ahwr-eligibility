@@ -14,7 +14,7 @@ module.exports = (customer) => {
         checkpoint: appInsightsConfig.appInsightsCloudRole,
         status: 'success',
         action: {
-          type,
+          type: `auto-eligibility:${type}`,
           message,
           data,
           raisedBy: customer.businessEmail

@@ -144,7 +144,7 @@ describe('Process ineligible SBI', () => {
         checkpoint: 'mock_app_insights_cloud_role',
         status: 'success',
         action: {
-          type: testCase.expect.telemetryEvent,
+          type: `auto-eligibility:${testCase.expect.telemetryEvent}`,
           message: 'The customer has been recognised as ineligible',
           data: {
             sbi: testCase.given.customer.sbi,

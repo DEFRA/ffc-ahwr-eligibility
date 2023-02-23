@@ -139,7 +139,7 @@ describe('Process eligible SBI', () => {
         checkpoint: 'mock_app_insights_cloud_role',
         status: 'success',
         action: {
-          type: telemetryEvent.REGISTRATION_OF_INTEREST,
+          type: `auto-eligibility:${telemetryEvent.REGISTRATION_OF_INTEREST}`,
           message: 'The customer has been put on the waiting list',
           data: {
             sbi: testCase.given.customer.sbi,

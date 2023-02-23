@@ -77,7 +77,7 @@ describe('Process waiting list function test.', () => {
         checkpoint: 'mock_app_insights_cloud_role',
         status: 'success',
         action: {
-          type: telemetryEvent.GAINED_ACCESS_TO_THE_APPLY_JOURNEY,
+          type: `auto-eligibility:${telemetryEvent.GAINED_ACCESS_TO_THE_APPLY_JOURNEY}`,
           message: 'The user has gained access to the apply journey',
           data: {
             crn: 'mock_crn',

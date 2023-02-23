@@ -12,11 +12,13 @@ const processIneligibleSbi = async (customer) => {
     customer.businessEmail
   )
   await raiseTelemetryEvent(customer)(
-    telemetryEvent.REGISTRATION_OF_INTEREST,
+    customer.sbiAlreadyRegistered
+      ? telemetryEvent.DUPLICATE_SUBMISSION
+      : telemetryEvent.NO_MATCH,
     'The customer has been recognised as ineligible',
     {
+      sbi: `${customer.sbi}`,
       crn: customer.crn,
-      sbi: customer.sbi,
       businessEmail: customer.businessEmail,
       interestRegisteredAt: new Date(),
       onWaitingList: false,

@@ -74,6 +74,7 @@ describe('Process ineligible SBI', () => {
           emailTemplateId: MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION,
           emailAddressTo: MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS
         },
+        telemetryEvent: telemetryEvent.NO_MATCH,
         reasonForIneligible: 'No match against data warehouse',
         consoleLogs: [
           `${MOCK_NOW.toISOString()} Processing ineligible SBI: ${JSON.stringify({
@@ -102,6 +103,7 @@ describe('Process ineligible SBI', () => {
           emailTemplateId: MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION,
           emailAddressTo: MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS
         },
+        telemetryEvent: telemetryEvent.DUPLICATE_SUBMISSION,
         reasonForIneligible: 'Duplicate submission',
         consoleLogs: [
           `${MOCK_NOW.toISOString()} Processing ineligible SBI: ${JSON.stringify({
@@ -142,7 +144,7 @@ describe('Process ineligible SBI', () => {
         checkpoint: 'mock_app_insights_cloud_role',
         status: 'success',
         action: {
-          type: telemetryEvent.REGISTRATION_OF_INTEREST,
+          type: `auto-eligibility:${testCase.expect.telemetryEvent}`,
           message: 'The customer has been recognised as ineligible',
           data: {
             sbi: testCase.given.customer.sbi,

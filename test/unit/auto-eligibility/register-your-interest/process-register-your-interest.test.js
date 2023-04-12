@@ -20,6 +20,12 @@ describe('Process register your interest request', () => {
       apiKey: 'mockApiKey'
     }))
 
+    jest.mock('../../../../app/auto-eligibility/config', () => ({
+      defraId: {
+        enabled: false
+      }
+    }))
+
     jest.mock('../../../../app/auto-eligibility/register-your-interest/check-eligibility')
     checkEligibility = require('../../../../app/auto-eligibility/register-your-interest/check-eligibility')
 

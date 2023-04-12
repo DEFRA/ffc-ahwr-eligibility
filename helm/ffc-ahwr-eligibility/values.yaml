@@ -52,6 +52,7 @@ container:
   requestCpu: 60m
   requestMemory: 100Mi
   eventQueueAddress: ffc-ahwr-event
+  defraIdEnabled:
 
 postgresService:
   postgresDb: ffc_ahwr_eligibility

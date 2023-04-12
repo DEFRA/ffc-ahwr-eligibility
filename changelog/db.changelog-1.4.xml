@@ -1,0 +1,20 @@
+<?xml version="1.1" encoding="utf-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.9.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+  <changeSet author="Jason Hamilton" id="1">
+    <tagDatabase tag="v1.4.0" />
+  </changeSet>
+  <changeSet author="Jason Hamilton" id="2">
+    <createTable tableName="waiting_list">
+      <column name="business_email" type="VARCHAR2(254)">
+        <constraints nullable="false" primaryKey="true" primaryKeyName="waiting_list_pk" />
+      </column>
+      <column name="created_at" type="TIMESTAMP">
+        <constraints nullable="false" />
+      </column>
+      <column name="access_granted" type="boolean" defaultValueBoolean="false" />
+      <column name="access_granted_at" type="TIMESTAMP">
+        <constraints nullable="true" />
+      </column>
+    </createTable>
+  </changeSet>
+</databaseChangeLog>

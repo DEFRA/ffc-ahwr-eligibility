@@ -21,4 +21,5 @@ data:
   WAITING_LIST_THRESHOLD_UPPER_LIMIT: {{ quote .Values.container.waitingListThresholdUpperLimit }}
   APPLY_SERVICE_URI: {{ quote .Values.container.applyServiceUri }}
   EVENT_QUEUE_ADDRESS: {{ quote .Values.container.eventQueueAddress }}
+  DEFRA_ID_ENABLED: {{ quote .Values.container.defraIdEnabled }}
 {{- end -}}

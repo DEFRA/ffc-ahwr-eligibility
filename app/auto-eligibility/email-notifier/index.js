@@ -15,6 +15,20 @@ const sendIneligibleApplicationEmail = async (sbi, crn, businessEmail) => {
   )
 }
 
+const sendIneligibleDefraIdRegistrationEmail = async (businessEmail) => {
+  await sendEmail(
+    config.emailNotifier.emailTemplateIds.ineligibleApplication,
+    config.emailNotifier.earlyAdoptionTeam.emailAddress,
+    {
+      personalisation: {
+        crn: 'n/a',
+        sbi: 'n/a',
+        businessEmail
+      }
+    }
+  )
+}
+
 const sendIneligibleEmail = async (email) => {
   await sendEmail(
     config.emailNotifier.emailTemplateIds.genericIneligible,
@@ -46,5 +60,6 @@ module.exports = {
   sendIneligibleApplicationEmail,
   sendIneligibleEmail,
   sendApplyGuidanceEmail,
-  sendWaitingListEmail
+  sendWaitingListEmail,
+  sendIneligibleDefraIdRegistrationEmail
 }

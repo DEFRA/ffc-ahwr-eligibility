@@ -38,7 +38,7 @@ const findAllBySbiOrBusinessEmail = async (sbi, businessEmail) => {
     ],
     where: {
       [Op.or]: [
-        { sbi: sbi },
+        { sbi },
         { business_email: where(fn('LOWER', col('business_email')), businessEmail) }
       ]
     }

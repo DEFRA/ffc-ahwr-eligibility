@@ -31,6 +31,9 @@ describe('Process ineligible SBI', () => {
         emailTemplateIds: {
           ineligibleApplication: MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION
         }
+      },
+      defraId: {
+        enabled: false
       }
     }))
     jest.mock('ffc-ahwr-event-publisher', () => {

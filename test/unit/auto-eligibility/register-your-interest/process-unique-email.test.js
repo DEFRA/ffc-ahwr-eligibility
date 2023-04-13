@@ -3,13 +3,11 @@ const MOCK_NOW = new Date()
 const MOCK_WAITING_LIST_EMAIL_TEMPLATE_ID = '9d9fb4dc-93f8-44b0-be28-a53524535db7'
 const MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION = '7a0ce567-d908-4f35-a858-de9e8f5445ec'
 const MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS = 'eat@email.com'
-const MOCK_BUSINESS_EMAIL = 'business@email.com'
 
 describe('Process eligible SBI', () => {
   let logSpy
   let db
   let processUniqueEmail
-  let notifyClient
 
   beforeEach(() => {
     jest.useFakeTimers('modern')
@@ -21,7 +19,6 @@ describe('Process eligible SBI', () => {
     jest.mock('../../../../app/app-insights/app-insights.config', () => ({
       appInsightsCloudRole: 'mock_app_insights_cloud_role'
     }))
-    notifyClient = require('../../../../app/notify/notify-client')
     jest.mock('../../../../app/auto-eligibility/config', () => ({
       emailNotifier: {
         emailTemplateIds: {
@@ -36,7 +33,6 @@ describe('Process eligible SBI', () => {
         enabled: true
       }
     }))
-    jest.mock('../../../../app/notify/notify-client')
 
     logSpy = jest.spyOn(console, 'log')
 
@@ -71,9 +67,7 @@ describe('Process eligible SBI', () => {
           `${MOCK_NOW.toISOString()} Registering interest for business email: ${JSON.stringify({
             businessEmail: 'business@email.com'
           })}`,
-          `${MOCK_NOW.toISOString()} Registered interest for business email: ${JSON.stringify('business@email.com')}`,
-          `${MOCK_NOW.toISOString()} Attempting to send email with template ID ${MOCK_WAITING_LIST_EMAIL_TEMPLATE_ID} to email ${MOCK_BUSINESS_EMAIL}`,
-          `${MOCK_NOW.toISOString()} Successfully sent email with template ID ${MOCK_WAITING_LIST_EMAIL_TEMPLATE_ID} to email ${MOCK_BUSINESS_EMAIL}`
+          `${MOCK_NOW.toISOString()} Registered interest for business email: ${JSON.stringify('business@email.com')}`
         ]
       }
     }
@@ -90,10 +84,5 @@ describe('Process eligible SBI', () => {
       access_granted: false,
       access_granted_at: null
     })
-    expect(notifyClient.sendEmail).toHaveBeenCalledWith(
-      MOCK_WAITING_LIST_EMAIL_TEMPLATE_ID,
-      testCase.given.businessEmail,
-      undefined
-    )
   })
 })

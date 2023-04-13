@@ -150,7 +150,6 @@ describe('Process register your interest request', () => {
     let logSpy
     let checkUniqueRegistrationOfInterest
     let processUniqueEmail
-    let processDuplicateEmail
     let processRegisterYourInterestRequest
 
     beforeAll(() => {
@@ -174,9 +173,6 @@ describe('Process register your interest request', () => {
 
       jest.mock('../../../../app/auto-eligibility/register-your-interest/process-unique-email')
       processUniqueEmail = require('../../../../app/auto-eligibility/register-your-interest/process-unique-email')
-
-      jest.mock('../../../../app/auto-eligibility/register-your-interest/process-duplicate-email')
-      processDuplicateEmail = require('../../../../app/auto-eligibility/register-your-interest/process-duplicate-email')
 
       processRegisterYourInterestRequest = require('../../../../app/auto-eligibility/register-your-interest/process-register-your-interest')
     })
@@ -238,7 +234,8 @@ describe('Process register your interest request', () => {
           consoleLogs: [
           `${MOCK_NOW.toISOString()} Processing register your interest: ${JSON.stringify({
             email: 'business@email.com'
-          })}`
+          })}`,
+          `${MOCK_NOW.toISOString()} Duplicate registration of interest: ${JSON.stringify({ businessEmail: 'business@email.com' })}`
           ]
         }
       }
@@ -256,7 +253,6 @@ describe('Process register your interest request', () => {
       testCase.expect.consoleLogs.forEach(
         (consoleLog, idx) => expect(logSpy).toHaveBeenNthCalledWith(idx + 1, consoleLog)
       )
-      expect(processDuplicateEmail).toHaveBeenCalledWith(testCase.given.businessEmail)
     })
 
     test.each([

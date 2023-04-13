@@ -1,4 +1,3 @@
-const emailNotifier = require('../email-notifier')
 const waitingListTable = require('../db/waiting-list.db.table')
 
 const processUniqueEmail = async (businessEmail) => {
@@ -6,7 +5,6 @@ const processUniqueEmail = async (businessEmail) => {
     businessEmail
   })}`)
   await waitingListTable.registerInterest(businessEmail)
-  await emailNotifier.sendWaitingListEmail(businessEmail)
 }
 
 module.exports = processUniqueEmail

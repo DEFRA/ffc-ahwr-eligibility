@@ -4,7 +4,6 @@ const checkEligibility = require('./check-eligibility')
 const processEligibleSbi = require('./process-eligible-sbi')
 const processIneligibleSbi = require('./process-ineligible-sbi')
 const processUniqueEmail = require('./process-unique-email')
-const processDuplicateEmail = require('./process-duplicate-email')
 const defraIdEnabled = require('../config').defraId.enabled
 const checkUniqueRegistrationOfInterest = require('./check-unique-registration-of-interest')
 
@@ -32,7 +31,7 @@ const processRegisterYourInterest = async (request) => {
     if (isUnique === true) {
       await processUniqueEmail(businessEmail)
     } else {
-      await processDuplicateEmail(businessEmail)
+      console.log(`${new Date().toISOString()} Duplicate registration of interest: ${JSON.stringify({ businessEmail })}`)
     }
   }
 }

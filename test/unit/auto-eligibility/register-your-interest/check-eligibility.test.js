@@ -1,5 +1,6 @@
 const { when, resetAllWhenMocks } = require('jest-when')
 const { Op, fn, col, where } = require('sequelize')
+const mockConfig = require('../../../../app/auto-eligibility/config')
 
 const MOCK_NOW = new Date()
 
@@ -14,6 +15,13 @@ describe('checkEligibility', () => {
 
     jest.mock('../../../../app/data')
     db = require('../../../../app/data')
+
+    jest.mock('../../../../app/auto-eligibility/config', () => ({
+      ...mockConfig,
+      defraId: {
+        enabled: false
+      }
+    }))
 
     checkEligibility = require('../../../../app/auto-eligibility/register-your-interest/check-eligibility')
 

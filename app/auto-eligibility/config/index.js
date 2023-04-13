@@ -20,7 +20,7 @@ const config = {
     upperLimit: process.env.WAITING_LIST_THRESHOLD_UPPER_LIMIT
   },
   defraId: {
-    enabled: process.env.DEFRA_ID_ENABLED || false
+    enabled: process.env.DEFRA_ID_ENABLED
   }
 }
 

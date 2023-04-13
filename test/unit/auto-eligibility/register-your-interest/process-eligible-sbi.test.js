@@ -37,6 +37,9 @@ describe('Process eligible SBI', () => {
         earlyAdoptionTeam: {
           emailAddress: MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS
         }
+      },
+      defraId: {
+        enabled: false
       }
     }))
     jest.mock('../../../../app/notify/notify-client')

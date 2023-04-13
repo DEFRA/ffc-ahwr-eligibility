@@ -17,7 +17,7 @@ module.exports = (customer) => {
           type: `auto-eligibility:${type}`,
           message,
           data,
-          raisedBy: customer.businessEmail || 'n/a' // TODO: remove this once we have a proper telemetry event
+          raisedBy: customer.businessEmail
         }
       }
     }

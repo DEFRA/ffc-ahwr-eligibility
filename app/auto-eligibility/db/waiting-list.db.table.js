@@ -43,7 +43,7 @@ const updateAccessGranted = async (upperLimit) => {
         FROM waiting_list
         WHERE access_granted_at IS NULL
           AND access_granted = false
-        ORDER BY access_granted_at ASC LIMIT :limit
+        ORDER BY created_at ASC LIMIT :limit
       ) c 
       WHERE waiting_list.business_email = c.business_email
       RETURNING

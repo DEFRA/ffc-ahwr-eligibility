@@ -17,6 +17,9 @@ describe('Send email test', () => {
         uri: 'http://localhost:3000/apply',
         vetGuidance: 'http://localhost:3000/apply/vet-guidance'
       }
+    },
+    defraId: {
+      enabled: false
     }
   }
 

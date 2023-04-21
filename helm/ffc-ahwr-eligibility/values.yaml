@@ -36,6 +36,7 @@ container:
   registerYourInterestRequestQueueAddress: ffc-ahwr-register-your-interest-request
   notifyApiKey:
   notifyTemplateIdFarmerApplyInvite:
+  notifyTemplateIdFarmerApplyInviteDefraId:
   notifyTemplateIdWaitingList:
   notifyTemplateIdGenericIneligible:
   notifyTemplateIdIneligibleApplication:

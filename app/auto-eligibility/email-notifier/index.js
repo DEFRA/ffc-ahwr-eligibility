@@ -31,7 +31,7 @@ const sendWaitingListEmail = async (email) => {
 
 const sendApplyGuidanceEmail = async (email) => {
   await sendEmail(
-    config.emailNotifier.emailTemplateIds.applyServiceInvite,
+    config.defraId.enabled ? config.emailNotifier.emailTemplateIds.applyServiceInviteV2 : config.emailNotifier.emailTemplateIds.applyServiceInvite,
     email,
     {
       personalisation: {

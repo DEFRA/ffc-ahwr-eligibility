@@ -8,6 +8,7 @@ const config = {
     waitingList: process.env.NOTIFY_TEMPLATE_ID_WAITING_LIST,
     genericIneligible: process.env.NOTIFY_TEMPLATE_ID_INELIGIBLE_GENERIC,
     applyServiceInvite: process.env.NOTIFY_TEMPLATE_ID_APPLY_INVITE,
+    applyServiceInviteV2: process.env.NOTIFY_TEMPLATE_ID_APPLY_INVITE_DEFRA_ID,
     ineligibleApplication: process.env.NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION
   },
   applyService: {

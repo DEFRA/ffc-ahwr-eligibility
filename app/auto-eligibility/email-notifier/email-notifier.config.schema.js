@@ -8,6 +8,7 @@ module.exports = Joi.object({
     waitingList: Joi.string().uuid(),
     genericIneligible: Joi.string().uuid(),
     applyServiceInvite: Joi.string().uuid(),
+    applyServiceInviteV2: Joi.string().uuid(),
     ineligibleApplication: Joi.string().uuid()
   },
   applyService: {

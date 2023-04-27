@@ -104,9 +104,12 @@ describe('Eligibility Api - /api/waiting-list', () => {
         .mockRejectedValue(testCase.error)
 
       const response = await server.inject(options)
+      const payload = JSON.parse(response.payload)
 
       expect(response.statusCode).toBe(500)
       expect(consoleError).toHaveBeenCalledWith(testCase.error)
+      expect(response.statusMessage).toEqual('Internal Server Error')
+      expect(payload.message).toEqual('An internal server error occurred')
     })
 
     test.each([

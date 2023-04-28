@@ -1,4 +1,3 @@
-const Boom = require('@hapi/boom')
 const { when, resetAllWhenMocks } = require('jest-when')
 const { fn, col, where } = require('sequelize')
 

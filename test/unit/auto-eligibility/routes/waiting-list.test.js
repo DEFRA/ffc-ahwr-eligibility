@@ -1,3 +1,4 @@
+const Boom = require('@hapi/boom')
 const { when, resetAllWhenMocks } = require('jest-when')
 const { fn, col, where } = require('sequelize')
 
@@ -87,7 +88,11 @@ describe('Eligibility Api - /api/waiting-list', () => {
     ])('Returns 500 if some internal error', async (testCase) => {
       const options = {
         method: 'GET',
-        url: `${API_URL}/check-duplicate-registration?emailAddress=${testCase.emailAddress}`
+        url: `${API_URL}/check-duplicate-registration?emailAddress=${testCase.emailAddress}`,
+        headers: {
+          'Content-Type': 'application/json',
+          'x-forwarded-for': 'asdfg,ghjkl'
+        }
       }
       when(db.waiting_list.findAll)
         .calledWith({

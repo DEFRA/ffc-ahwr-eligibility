@@ -34,6 +34,16 @@ const processWaitingList = async (upperLimit) => {
     console.log(`${new Date().toISOString()} auto-eligibility:waiting-list [${customers.length}] new customer${customers.length !== 1 ? 's' : ''} are now eligible to apply for a review`)
     for (const customer of customers) {
       await sendApplyGuidanceEmail(customer.businessEmail)
+      await raiseTelemetryEvent(customer)(
+        telemetryEvent.GAINED_ACCESS_TO_THE_APPLY_JOURNEY,
+        'The user has gained access to the apply journey',
+        {
+          businessEmail: customer.businessEmail,
+          createdAt: customer.createdAt,
+          accessGranted: customer.accessGranted,
+          accessGrantedAt: customer.accessGrantedAt
+        }
+      )
     }
   }
 }

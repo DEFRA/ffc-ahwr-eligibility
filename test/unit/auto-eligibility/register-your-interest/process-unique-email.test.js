@@ -1,10 +1,13 @@
+const telemetryEvent = require('../../../../app/auto-eligibility/telemetry/telemetry-event')
+
+const MOCK_SEND_EVENT = jest.fn()
 const MOCK_NOW = new Date()
 
 const MOCK_WAITING_LIST_EMAIL_TEMPLATE_ID = '9d9fb4dc-93f8-44b0-be28-a53524535db7'
 const MOCK_NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION = '7a0ce567-d908-4f35-a858-de9e8f5445ec'
 const MOCK_NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS = 'eat@email.com'
 
-describe('Process eligible SBI', () => {
+describe('processUniqueEmail', () => {
   let logSpy
   let db
   let processUniqueEmail
@@ -33,6 +36,16 @@ describe('Process eligible SBI', () => {
         enabled: true
       }
     }))
+
+    jest.mock('ffc-ahwr-event-publisher', () => {
+      return {
+        PublishEvent: jest.fn().mockImplementation(() => {
+          return {
+            sendEvent: MOCK_SEND_EVENT
+          }
+        })
+      }
+    })
 
     logSpy = jest.spyOn(console, 'log')
 
@@ -83,6 +96,28 @@ describe('Process eligible SBI', () => {
       created_at: MOCK_NOW,
       access_granted: false,
       access_granted_at: null
+    })
+    expect(MOCK_SEND_EVENT).toHaveBeenCalledTimes(1)
+    expect(MOCK_SEND_EVENT).toHaveBeenCalledWith({
+      name: 'register-your-interest-event',
+      properties: {
+        id: testCase.given.businessEmail,
+        sbi: 'n/a',
+        cph: 'n/a',
+        checkpoint: 'mock_app_insights_cloud_role',
+        status: 'success',
+        action: {
+          type: telemetryEvent.REGISTRATION_OF_INTEREST,
+          message: 'The customer has been put on the waiting list',
+          data: {
+            businessEmail: testCase.given.businessEmail,
+            accessGranted: false,
+            accessGrantedAt: 'n/a',
+            createdAt: MOCK_NOW
+          },
+          raisedBy: testCase.given.businessEmail
+        }
+      }
     })
   })
 })

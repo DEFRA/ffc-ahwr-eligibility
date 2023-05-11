@@ -144,6 +144,7 @@ describe('Process waiting list function test.', () => {
       expect(MOCK_SEND_EVENT).not.toHaveBeenCalled()
     })
   })
+
   describe('When defraId is enabled', () => {
     let db
     const MOCK_SEND_EVENT = jest.fn()
@@ -183,7 +184,7 @@ describe('Process waiting list function test.', () => {
 
     afterEach(() => {
       resetAllWhenMocks()
-      jest.resetAllMocks()
+      jest.clearAllMocks()
     })
 
     test('test mulitple records updated', async () => {
@@ -212,6 +213,28 @@ describe('Process waiting list function test.', () => {
       expect(spyConsole).toHaveBeenCalledWith(`${MOCK_NOW.toISOString()} auto-eligibility:waiting-list [3] new customers are now eligible to apply for a review`)
       expect(db.sequelize.query).toHaveBeenCalledTimes(1)
       expect(mockEmailNotifier.sendApplyGuidanceEmail).toHaveBeenCalledTimes(3)
+      expect(MOCK_SEND_EVENT).toHaveBeenCalledTimes(3)
+      expect(MOCK_SEND_EVENT).toHaveBeenNthCalledWith(1, {
+        name: 'register-your-interest-event',
+        properties: {
+          id: 'test@email.com',
+          sbi: 'n/a',
+          cph: 'n/a',
+          checkpoint: 'mock_app_insights_cloud_role',
+          status: 'success',
+          action: {
+            type: telemetryEvent.GAINED_ACCESS_TO_THE_APPLY_JOURNEY,
+            message: 'The user has gained access to the apply journey',
+            data: {
+              businessEmail: 'test@email.com',
+              accessGranted: true,
+              accessGrantedAt: MOCK_NOW,
+              createdAt: MOCK_NOW
+            },
+            raisedBy: 'test@email.com'
+          }
+        }
+      })
     })
 
     test('test one record updated', async () => {
@@ -239,6 +262,28 @@ describe('Process waiting list function test.', () => {
       expect(spyConsole).toHaveBeenCalledWith(`${MOCK_NOW.toISOString()} auto-eligibility:waiting-list [1] new customer are now eligible to apply for a review`)
       expect(db.sequelize.query).toHaveBeenCalledTimes(1)
       expect(mockEmailNotifier.sendApplyGuidanceEmail).toHaveBeenCalledTimes(1)
+      expect(MOCK_SEND_EVENT).toHaveBeenCalledTimes(1)
+      expect(MOCK_SEND_EVENT).toHaveBeenNthCalledWith(1, {
+        name: 'register-your-interest-event',
+        properties: {
+          id: 'test@email.com',
+          sbi: 'n/a',
+          cph: 'n/a',
+          checkpoint: 'mock_app_insights_cloud_role',
+          status: 'success',
+          action: {
+            type: telemetryEvent.GAINED_ACCESS_TO_THE_APPLY_JOURNEY,
+            message: 'The user has gained access to the apply journey',
+            data: {
+              businessEmail: 'test@email.com',
+              accessGranted: true,
+              accessGrantedAt: MOCK_NOW,
+              createdAt: MOCK_NOW
+            },
+            raisedBy: 'test@email.com'
+          }
+        }
+      })
     })
 
     test('test no records updated', async () => {
@@ -260,6 +305,7 @@ describe('Process waiting list function test.', () => {
       expect(spyConsole).toHaveBeenCalledWith(`${MOCK_NOW.toISOString()} auto-eligibility:waiting-list [0] new customers are now eligible to apply for a review`)
       expect(db.sequelize.query).toHaveBeenCalledTimes(1)
       expect(mockEmailNotifier.sendApplyGuidanceEmail).not.toHaveBeenCalled()
+      expect(MOCK_SEND_EVENT).toHaveBeenCalledTimes(0)
     })
 
     test('test upper limit not defined', async () => {

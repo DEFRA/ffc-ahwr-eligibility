@@ -25,7 +25,7 @@
     "@hapi/hapi": "^20.1.5",
     "applicationinsights": "^2.1.6",
     "ffc-ahwr-event-publisher": "^1.0.0",
-    "ffc-messaging": "^2.6.2",
+    "ffc-messaging": "^2.7.0",
     "joi": "17.6.4",
     "node-cron": "^3.0.2",
     "notifications-node-client": "^7.0.0",

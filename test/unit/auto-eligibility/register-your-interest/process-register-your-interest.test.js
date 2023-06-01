@@ -44,6 +44,10 @@ describe('Process register your interest request', () => {
       jest.useRealTimers()
     })
 
+    beforeEach(() => {
+      jest.clearAllMocks()
+    })
+
     test.each([
       {
         toString: () => 'when a customer is eligible',
@@ -59,6 +63,24 @@ describe('Process register your interest request', () => {
             sbi: 105000000,
             crn: '1100000000',
             email: 'business@email.com'
+          })}`
+          ]
+        }
+      },
+      {
+        toString: () => 'when a customer is eligible with custom top level domain email',
+        given: {
+          sbi: 105000000,
+          crn: '1100000000',
+          businessEmail: 'business@email.com.test',
+          isRegisteringForEligibleSbi: true
+        },
+        expect: {
+          consoleLogs: [
+          `${MOCK_NOW.toISOString()} Processing register your interest: ${JSON.stringify({
+            sbi: 105000000,
+            crn: '1100000000',
+            email: 'business@email.com.test'
           })}`
           ]
         }
@@ -200,6 +222,22 @@ describe('Process register your interest request', () => {
           consoleLogs: [
           `${MOCK_NOW.toISOString()} Processing register your interest: ${JSON.stringify({
             email: 'business@email.com'
+          })}`
+          ]
+        }
+      },
+      {
+        toString: () => 'when a email is unique and has a top level domain',
+        given: {
+          businessEmail: 'business@email.com.test'
+        },
+        when: {
+          unique: true
+        },
+        expect: {
+          consoleLogs: [
+          `${MOCK_NOW.toISOString()} Processing register your interest: ${JSON.stringify({
+            email: 'business@email.com.test'
           })}`
           ]
         }

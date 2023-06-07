@@ -3,14 +3,9 @@ const Boom = require('@hapi/boom')
 const waitingListTable = require('../db/waiting-list.db.table')
 const { sendMonitoringEvent } = require('../../event')
 
-const getIp = (request) => {
-  const xForwardedForHeader = request.headers['x-forwarded-for']
-  return xForwardedForHeader ? xForwardedForHeader.split(',')[0] : request.info.remoteAddress
-}
-
 module.exports = {
   method: 'GET',
-  path: '/api/waiting-list/check-duplicate-registration',
+  path: '/api/waiting-list',
   options: {
     validate: {
       query: Joi.object({
@@ -29,12 +24,12 @@ module.exports = {
     }
   },
   handler: async (request, h) => {
-    console.log(`Checking if email address ${request.query.emailAddress} is already registered`)
+    console.log(`Checking if email address ${request.query.emailAddress} is on the waiting list.`)
     try {
       const farmer = await waitingListTable.findAllByBusinessEmail(
         request.query.emailAddress
       )
-      if (!farmer) {
+      if (!farmer || !farmer.length) {
         return h
           .response({
             alreadyRegistered: false,
@@ -50,7 +45,7 @@ module.exports = {
         .code(200)
     } catch (error) {
       console.error(error)
-      await sendMonitoringEvent(request.yar.id, error.message, request.query.emailAddress, getIp(request))
+      await sendMonitoringEvent(request.yar.id, error.message, request.query.emailAddress)
       throw Boom.internal(error)
     }
   }

@@ -53,7 +53,7 @@ describe('Eligibility Api - /api/waiting-list', () => {
     ])('Returns a farmer\'s register status', async (testCase) => {
       const options = {
         method: 'GET',
-        url: `${API_URL}/check-duplicate-registration?emailAddress=${testCase.emailAddress}`
+        url: `${API_URL}?emailAddress=${testCase.emailAddress}`
       }
       when(db.waiting_list.findAll)
         .calledWith({
@@ -87,7 +87,7 @@ describe('Eligibility Api - /api/waiting-list', () => {
     ])('Returns 500 if some internal error', async (testCase) => {
       const options = {
         method: 'GET',
-        url: `${API_URL}/check-duplicate-registration?emailAddress=${testCase.emailAddress}`,
+        url: `${API_URL}?emailAddress=${testCase.emailAddress}`,
         headers: {
           'Content-Type': 'application/json',
           'x-forwarded-for': 'asdfg,ghjkl'
@@ -129,7 +129,7 @@ describe('Eligibility Api - /api/waiting-list', () => {
     ])('Bad request. A valid email address must be specified. ($queryString)', async (testCase) => {
       const options = {
         method: 'GET',
-        url: `${API_URL}/check-duplicate-registration${testCase.queryString}`
+        url: `${API_URL}${testCase.queryString}`
       }
 
       const response = await server.inject(options)

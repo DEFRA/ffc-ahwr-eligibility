@@ -28,7 +28,7 @@ const processRegisterYourInterest = async (request) => {
     }
     const businessEmail = req.value
     const isUnique = await checkUniqueRegistrationOfInterest(businessEmail)
-    if (isUnique === true) {
+    if (isUnique) {
       await processUniqueEmail(businessEmail)
     } else {
       console.log(`${new Date().toISOString()} Duplicate registration of interest: ${JSON.stringify({ businessEmail })}`)

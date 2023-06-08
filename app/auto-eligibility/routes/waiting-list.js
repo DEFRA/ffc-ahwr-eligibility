@@ -1,16 +1,11 @@
 const Joi = require('joi')
 const Boom = require('@hapi/boom')
-const customerDbTable = require('../db/customer.db.table')
+const waitingListTable = require('../db/waiting-list.db.table')
 const { sendMonitoringEvent } = require('../../event')
-
-const getIp = (request) => {
-  const xForwardedForHeader = request.headers['x-forwarded-for']
-  return xForwardedForHeader ? xForwardedForHeader.split(',')[0] : request.info.remoteAddress
-}
 
 module.exports = {
   method: 'GET',
-  path: '/api/eligibility',
+  path: '/api/waiting-list',
   options: {
     validate: {
       query: Joi.object({
@@ -29,26 +24,28 @@ module.exports = {
     }
   },
   handler: async (request, h) => {
+    console.log(`Checking if email address ${request.query.emailAddress} is on the waiting list.`)
     try {
-      const farmer = await customerDbTable.findByBusinessEmail(
+      const farmer = await waitingListTable.findAllByBusinessEmail(
         request.query.emailAddress
       )
-      if (!farmer) {
-        return Boom.notFound('Farmer not found')
+      if (!farmer || !farmer.length) {
+        return h
+          .response({
+            alreadyRegistered: false,
+            accessGranted: false
+          })
+          .code(200)
       }
       return h
         .response({
-          farmerName: farmer.customer_name,
-          name: farmer.business_name,
-          sbi: farmer.sbi,
-          crn: farmer.crn,
-          address: farmer.business_address,
-          email: farmer.business_email
+          alreadyRegistered: true,
+          accessGranted: farmer[0].access_granted
         })
         .code(200)
     } catch (error) {
       console.error(error)
-      await sendMonitoringEvent(request.yar.id, error.message, request.query.emailAddress, getIp(request))
+      await sendMonitoringEvent(request.yar.id, error.message, request.query.emailAddress)
       throw Boom.internal(error)
     }
   }

@@ -13,7 +13,7 @@ module.exports = {
           .trim()
           .lowercase()
           .required()
-          .email()
+          .email({ tlds: false })
       }).options({
         stripUnknown: true
       }),

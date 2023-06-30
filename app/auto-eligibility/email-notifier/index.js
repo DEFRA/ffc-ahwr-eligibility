@@ -1,27 +1,6 @@
 const sendEmail = require('../../notify/send-email')
 const config = require('../config')
 
-const sendIneligibleApplicationEmail = async (sbi, crn, businessEmail) => {
-  await sendEmail(
-    config.emailNotifier.emailTemplateIds.ineligibleApplication,
-    config.emailNotifier.earlyAdoptionTeam.emailAddress,
-    {
-      personalisation: {
-        sbi,
-        crn,
-        businessEmail
-      }
-    }
-  )
-}
-
-const sendIneligibleEmail = async (email) => {
-  await sendEmail(
-    config.emailNotifier.emailTemplateIds.genericIneligible,
-    email
-  )
-}
-
 const sendWaitingListEmail = async (email) => {
   await sendEmail(
     config.emailNotifier.emailTemplateIds.waitingList,
@@ -31,7 +10,7 @@ const sendWaitingListEmail = async (email) => {
 
 const sendApplyGuidanceEmail = async (email) => {
   await sendEmail(
-    config.defraId.enabled ? config.emailNotifier.emailTemplateIds.applyServiceInviteV2 : config.emailNotifier.emailTemplateIds.applyServiceInvite,
+    config.emailNotifier.emailTemplateIds.applyServiceInviteV2,
     email,
     {
       personalisation: {
@@ -43,8 +22,6 @@ const sendApplyGuidanceEmail = async (email) => {
 }
 
 module.exports = {
-  sendIneligibleApplicationEmail,
-  sendIneligibleEmail,
   sendApplyGuidanceEmail,
   sendWaitingListEmail
 }

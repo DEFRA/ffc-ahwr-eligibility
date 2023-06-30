@@ -1,4 +1,3 @@
-
 const telemetryEvent = require('../../../../app/auto-eligibility/telemetry/telemetry-event')
 
 const MOCK_SEND_EVENT = jest.fn()

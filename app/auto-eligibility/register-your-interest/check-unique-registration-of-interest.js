@@ -16,7 +16,7 @@ const checkUniqueRegistrationOfInterest = async (businessEmail) => {
       telemetryEvent.DUPLICATE_SUBMISSION,
       'The email address has already been submitted',
       {
-        businessEmail: businessEmail,
+        businessEmail,
         createdAt: new Date(),
         accessGranted: customers[0].access_granted,
         accessGrantedAt: customers[0].access_granted ? customers[0].access_granted_at : 'n/a'

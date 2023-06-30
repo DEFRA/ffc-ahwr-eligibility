@@ -6,11 +6,9 @@
   <changeSet author="Liam Wilson" id="2">
     <dropTable  
             cascadeConstraints="true"  
-            schemaName="public"  
             tableName="customer"/> 
     <dropTable  
             cascadeConstraints="true"  
-            schemaName="public"  
             tableName="vet_visits_data"/>             
   </changeSet>
 </databaseChangeLog>

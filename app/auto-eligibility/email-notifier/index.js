@@ -10,7 +10,7 @@ const sendWaitingListEmail = async (email) => {
 
 const sendApplyGuidanceEmail = async (email) => {
   await sendEmail(
-    config.emailNotifier.emailTemplateIds.applyServiceInviteV2,
+    config.emailNotifier.emailTemplateIds.applyServiceInvite,
     email,
     {
       personalisation: {

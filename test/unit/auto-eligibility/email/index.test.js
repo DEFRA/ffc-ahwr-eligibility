@@ -6,7 +6,7 @@ describe('Send email test', () => {
     emailNotifier: {
       emailTemplateIds: {
         waitingList: 'waitingListTemplateId',
-        applyServiceInviteV2: 'applyServiceInviteTemplateId'
+        applyServiceInvite: 'applyServiceInviteTemplateId'
       },
       applyService: {
         uri: 'http://localhost:3000/apply',

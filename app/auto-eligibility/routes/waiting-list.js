@@ -1,7 +1,6 @@
 const Joi = require('joi')
 const Boom = require('@hapi/boom')
 const waitingListTable = require('../db/waiting-list.db.table')
-const { sendMonitoringEvent } = require('../../event')
 
 module.exports = {
   method: 'GET',
@@ -44,8 +43,7 @@ module.exports = {
         })
         .code(200)
     } catch (error) {
-      console.error(error)
-      await sendMonitoringEvent(request.yar.id, error.message, request.query.emailAddress)
+      console.error(`Error returned when retreiving waiting list status for ${request.query.emailAddress}`, error)
       throw Boom.internal(error)
     }
   }

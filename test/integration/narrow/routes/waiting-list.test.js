@@ -1,18 +1,15 @@
-const { when, resetAllWhenMocks } = require('jest-when')
-const { fn, col, where } = require('sequelize')
-
 const API_URL = '/api/waiting-list'
 
 describe('Eligibility Api - /api/waiting-list', () => {
-  let db
+  let waitingListTable
   let server
   let consoleError
 
   beforeAll(async () => {
     jest.resetAllMocks()
 
-    jest.mock('../../../../app/data')
-    db = require('../../../../app/data')
+    jest.mock('../../../../app/auto-eligibility/db/waiting-list.db.table')
+    waitingListTable = require('../../../../app/auto-eligibility/db/waiting-list.db.table')
 
     server = require('../../../../app/server/server')
     await server.start()
@@ -22,96 +19,75 @@ describe('Eligibility Api - /api/waiting-list', () => {
 
   afterAll(async () => {
     await server.stop()
-    jest.resetModules()
-    resetAllWhenMocks()
+    jest.resetAllMocks()
   })
 
   describe('GET', () => {
     test.each([
       {
-        emailAddress: 'business@email.com',
+        emailAddress: 'business1@email.com',
         farmer: [{
           business_email: 'business@email.com',
           created_at: new Date(),
           access_granted: true,
           access_granted_at: new Date()
-        }]
+        }],
+        alreadyRegistered: true
       },
       {
-        emailAddress: 'business@email.com',
+        emailAddress: 'business2@email.com',
         farmer: [{
           business_email: 'business@email.com',
           created_at: new Date(),
           access_granted: false,
-          access_granted_at: new Date()
-        }]
+          access_granted_at: null
+        }],
+        alreadyRegistered: true
       },
       {
-        emailAddress: 'business@email.com',
-        farmer: null
+        emailAddress: 'business3@email.com',
+        farmer: null,
+        alreadyRegistered: false
       }
     ])('Returns a farmer\'s register status', async (testCase) => {
       const options = {
         method: 'GET',
         url: `${API_URL}?emailAddress=${testCase.emailAddress}`
       }
-      when(db.waiting_list.findAll)
-        .calledWith({
-          attributes: [
-            [fn('LOWER', col('business_email')), 'business_email'],
-            'created_at',
-            'access_granted',
-            'access_granted_at'
-          ],
-          where: {
-            business_email: where(fn('LOWER', col('business_email')), testCase.emailAddress)
-          }
-        })
-        .mockResolvedValue(testCase.farmer)
+      waitingListTable.findAllByBusinessEmail.mockResolvedValueOnce(testCase.farmer)
 
       const response = await server.inject(options)
       const payload = JSON.parse(response.payload)
 
       expect(response.statusCode).toBe(200)
       expect(payload).toEqual({
-        alreadyRegistered: testCase.farmer !== null,
+        alreadyRegistered: testCase.alreadyRegistered,
         accessGranted: testCase.farmer !== null ? testCase.farmer[0].access_granted : false
       })
     })
 
     test.each([
       {
-        emailAddress: 'business@email.com',
-        error: new Error('ECONNREFUSED')
+        emailAddress: 'business@email.com'
       }
     ])('Returns 500 if some internal error', async (testCase) => {
       const options = {
         method: 'GET',
         url: `${API_URL}?emailAddress=${testCase.emailAddress}`,
         headers: {
-          'Content-Type': 'application/json',
-          'x-forwarded-for': 'asdfg,ghjkl'
+          'Content-Type': 'application/json'
         }
       }
-      when(db.waiting_list.findAll)
-        .calledWith({
-          attributes: [
-            [fn('LOWER', col('business_email')), 'business_email'],
-            'created_at',
-            'access_granted',
-            'access_granted_at'
-          ],
-          where: {
-            business_email: where(fn('LOWER', col('business_email')), testCase.emailAddress)
-          }
-        })
-        .mockRejectedValue(testCase.error)
+
+      waitingListTable.findAllByBusinessEmail.mockImplementation(() => {
+        throw new Error('Some error')
+      })
 
       const response = await server.inject(options)
       const payload = JSON.parse(response.payload)
 
       expect(response.statusCode).toBe(500)
-      expect(consoleError).toHaveBeenCalledWith(testCase.error)
+      expect(consoleError).toHaveBeenCalledWith('Error returned when retreiving waiting list status for business@email.com', expect.anything())
       expect(response.statusMessage).toEqual('Internal Server Error')
       expect(payload.message).toEqual('An internal server error occurred')
     })

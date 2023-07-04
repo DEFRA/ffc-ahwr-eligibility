@@ -5,16 +5,16 @@ info:
     Eligibility API for Animal Health and Welfare Review
   version: 0.1.0
 tags:
-  - name: eligibility
-    description: Everything about eligibility.
+  - name: waiting list
+    description: Annual Health and Welfare Review waiting list
 paths:
-  /eligibility:
+  /api/waiting-list:
     get:
       tags:
-        - eligibility
-      summary: Check eligibility by farmer's business email address.
-      description: Check whether a given farmer's business email address has been flagged as eligible.
-      operationId: checkEligibility
+        - waiting-list
+      summary: Check whether a farmer's or agents business email address is on the service waiting list.
+      description: Check whether a farmer's or agents business email address is on the service waiting list
+      operationId: waitingList
       parameters:
         - name: emailAddress
           in: query
@@ -29,61 +29,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Business'
-        '400':
-          description: Bad request. A valid email address must be specified.
-        '404':
-          description: The farmer's business email address is ineligible or was not found.
-        '5XX':
-          description: Unexpected error.
-  /businesses:
-    get:
-      tags:
-        - eligibility
-      summary: Returns eligible businesses by business email.
-      description: Returns a list of eligible farmer businesses.
-      operationId: businesses
-      parameters:
-        - name: businessEmail
-          in: query
-          description: Farmer's business email address.
-          required: true
-          schema:
-            type: string
-            format: email
-      responses:
-        '200':
-          description: The list of eligible farmer businesses.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Business' 
+                $ref: '#/components/schemas/WaitingList'
         '400':
           description: Bad request. A valid email address must be specified.
         '5XX':
           description: Unexpected error.
 components:
   schemas:
-    Business:
+    WaitingList:
       type: object
       properties:
-        farmerName:
-          type: string
-          example: "David Smith"
-        name:
-          type: string
-          example: "David's Farm"
-        sbi:
-          type: string
-          example: "123456789"
-        crn:
-          type: string
-          example: "1234567890"
-        address:
-          type: string
-          example: "Some Road, London, MK55 7ES"
-        email:
-          type: string
-          example: "business@email.com"
+        alreadyRegistered:
+          type: boolean
+          example: true
+        accessGranted:
+          type: boolean
+          example: true

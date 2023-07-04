@@ -11,16 +11,11 @@ data:
   POSTGRES_PORT: {{ quote .Values.postgresService.postgresPort }}
   POSTGRES_SCHEMA_NAME: {{ quote .Values.postgresService.postgresSchema }}
   DEBUG: sequelize*
-  NOTIFY_EARLY_ADOPTION_TEAM_EMAIL_ADDRESS: {{ quote .Values.container.notifyEarlyAdoptionTeamEmailAddress }}
   NOTIFY_TEMPLATE_ID_WAITING_LIST: {{ quote .Values.container.notifyTemplateIdWaitingList }}
-  NOTIFY_TEMPLATE_ID_INELIGIBLE_GENERIC: {{ quote .Values.container.notifyTemplateIdGenericIneligible }}
-  NOTIFY_TEMPLATE_ID_APPLY_INVITE: {{ quote .Values.container.notifyTemplateIdFarmerApplyInvite }}
   NOTIFY_TEMPLATE_ID_APPLY_INVITE_DEFRA_ID: {{ quote .Values.container.notifyTemplateIdFarmerApplyInviteDefraId }}
-  NOTIFY_TEMPLATE_ID_INELIGIBLE_APPLICATION: {{ quote .Values.container.notifyTemplateIdIneligibleApplication }}
   WAITING_LIST_SCHEDULE: {{ quote .Values.container.waitingListSchedule }}
   WAITING_LIST_SCHEDULER_ENABLED: {{ quote .Values.container.waitingListSchedulerEnabled }}
   WAITING_LIST_THRESHOLD_UPPER_LIMIT: {{ quote .Values.container.waitingListThresholdUpperLimit }}
   APPLY_SERVICE_URI: {{ quote .Values.container.applyServiceUri }}
   EVENT_QUEUE_ADDRESS: {{ quote .Values.container.eventQueueAddress }}
-  DEFRA_ID_ENABLED: {{ quote .Values.container.defraIdEnabled }}
 {{- end -}}

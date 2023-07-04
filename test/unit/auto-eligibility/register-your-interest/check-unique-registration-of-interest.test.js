@@ -1,7 +1,6 @@
 const { when, resetAllWhenMocks } = require('jest-when')
 const { fn, col, where } = require('sequelize')
 const telemetryEvent = require('../../../../app/auto-eligibility/telemetry/telemetry-event')
-const mockConfig = require('../../../../app/auto-eligibility/config')
 
 const MOCK_SEND_EVENT = jest.fn()
 const MOCK_NOW = new Date()
@@ -17,13 +16,6 @@ describe('check unique registration', () => {
 
     jest.mock('../../../../app/data')
     db = require('../../../../app/data')
-
-    jest.mock('../../../../app/auto-eligibility/config', () => ({
-      ...mockConfig,
-      defraId: {
-        enabled: true
-      }
-    }))
 
     jest.mock('../../../../app/app-insights/app-insights.config', () => ({
       appInsightsCloudRole: 'mock_app_insights_cloud_role'

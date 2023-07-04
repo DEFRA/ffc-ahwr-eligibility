@@ -4,22 +4,14 @@ describe('Send email test', () => {
   const mockNotifyConfig = { apiKey: 'someKey' }
   const mockAutoEligibilityConfig = {
     emailNotifier: {
-      earlyAdoptionTeam: {
-        emailAddress: 'eat@email.com'
-      },
       emailTemplateIds: {
-        ineligibleApplication: 'ineligibleApplication',
         waitingList: 'waitingListTemplateId',
-        genericIneligible: 'ineligbleTemplateId',
         applyServiceInvite: 'applyServiceInviteTemplateId'
       },
       applyService: {
         uri: 'http://localhost:3000/apply',
         vetGuidance: 'http://localhost:3000/apply/vet-guidance'
       }
-    },
-    defraId: {
-      enabled: false
     }
   }
 
@@ -33,42 +25,10 @@ describe('Send email test', () => {
     require('../../../../app/auto-eligibility/config')
   })
 
-  test('Send ineligibility application email', async () => {
-    const sbi = 123456789
-    const crn = '1234567890'
-    const businessEmail = 'business@email.com'
-
-    await autoEligibilityEmail.sendIneligibleApplicationEmail(
-      sbi,
-      crn,
-      businessEmail
-    )
-
-    expect(mockSendEmail).toHaveBeenCalledWith(
-      'ineligibleApplication',
-      'eat@email.com',
-      {
-        personalisation: {
-          sbi,
-          crn,
-          businessEmail
-        }
-      }
-    )
-  })
-
   test('Send waiting list email', async () => {
     await autoEligibilityEmail.sendWaitingListEmail('email@email.com')
     expect(mockSendEmail).toHaveBeenCalledWith(
       'waitingListTemplateId',
-      'email@email.com'
-    )
-  })
-
-  test('Send ineligible email', async () => {
-    await autoEligibilityEmail.sendIneligibleEmail('email@email.com')
-    expect(mockSendEmail).toHaveBeenCalledWith(
-      'ineligbleTemplateId',
       'email@email.com'
     )
   })

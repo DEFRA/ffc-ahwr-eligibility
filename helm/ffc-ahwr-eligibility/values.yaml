@@ -35,12 +35,8 @@ deployment:
 container:
   registerYourInterestRequestQueueAddress: ffc-ahwr-register-your-interest-request
   notifyApiKey:
-  notifyTemplateIdFarmerApplyInvite:
   notifyTemplateIdFarmerApplyInviteDefraId:
   notifyTemplateIdWaitingList:
-  notifyTemplateIdGenericIneligible:
-  notifyTemplateIdIneligibleApplication:
-  notifyEarlyAdoptionTeamEmailAddress:
   waitingListSchedule:
   waitingListSchedulerEnabled:
   waitingListThresholdUpperLimit:
@@ -53,7 +49,6 @@ container:
   requestCpu: 60m
   requestMemory: 100Mi
   eventQueueAddress: ffc-ahwr-event
-  defraIdEnabled:
 
 postgresService:
   postgresDb: ffc_ahwr_eligibility

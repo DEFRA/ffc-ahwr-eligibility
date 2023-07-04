@@ -13,7 +13,7 @@ const processUniqueEmail = async (businessEmail) => {
     telemetryEvent.REGISTRATION_OF_INTEREST,
     'The customer has been put on the waiting list',
     {
-      businessEmail: businessEmail,
+      businessEmail,
       createdAt: new Date(),
       accessGranted: false,
       accessGrantedAt: 'n/a'

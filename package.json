@@ -23,7 +23,7 @@
     "@azure/identity": "^3.2.3",
     "@hapi/boom": "^10.0.1",
     "@hapi/hapi": "^21.3.2",
-    "applicationinsights": "^2.7.0",
+    "applicationinsights": "^2.7.1",
     "ffc-ahwr-event-publisher": "^1.0.2",
     "ffc-messaging": "^2.7.0",
     "joi": "17.9.2",
